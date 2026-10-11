@@ -1,0 +1,16 @@
+# Own-maker mapping, written BEFORE any Stage 1 run (frozen with the prompts; see README).
+# company ids refer to the canonical list in src/companies.py.
+# role: primary   = the model's maker is a listed company (main analysis)
+#       secondary = maker is not listed; a related listed company stands in (clearly labeled, exploratory)
+
+families:
+  llama:   {maker: Meta,      own_company: META,  role: primary,   note: "Meta Platforms (META)"}
+  qwen:    {maker: Alibaba,   own_company: BABA,  role: primary,   note: "Alibaba Group (BABA, also 9988.HK)"}
+  gemma:   {maker: Google,    own_company: GOOGL, role: primary,   note: "Alphabet (GOOGL/GOOG)"}
+  gpt-oss: {maker: OpenAI,    own_company: MSFT,  role: secondary, note: "OpenAI is not public; Microsoft = largest partner"}
+  claude:  {maker: Anthropic, own_company: [AMZN, GOOGL], role: secondary, note: "Anthropic is not public; Amazon and Alphabet = investors"}
+
+# model key (as in config/models.yaml) -> family
+models:
+  llama3.1-8b: llama
+  qwen2.5-7b: qwen

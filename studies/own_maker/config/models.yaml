@@ -1,0 +1,28 @@
+# Models for the own-maker study. Same structure as the repo's config/models.yaml so
+# src/providers.py can be reused unchanged. Groq entries are added in Part C, after
+# checking the live /models list; limits are editable (null = runner refuses to start).
+
+defaults:
+  params:
+    temperature: 1.0
+    max_tokens: 400
+    num_ctx: 2048
+
+providers:
+  ollama:
+    base_url: http://localhost:11434/v1
+  groq:
+    base_url: https://api.groq.com/openai/v1
+    api_key_env: GROQ_API_KEY
+
+stage1_runs_per_prompt: 50
+
+models:
+  llama3.1-8b:
+    provider: ollama
+    model_id: llama3.1:8b
+    enabled: true
+  qwen2.5-7b:
+    provider: ollama
+    model_id: qwen2.5:7b
+    enabled: true
