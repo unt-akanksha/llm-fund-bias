@@ -1,0 +1,3 @@
+model_key,condition_id,F1_n,F2_n,F3_n,F4_n,F5_n,F6_n,F7_n,F8_n,F1_share,F2_share,F3_share,F4_share,F5_share,F6_share,F7_share,F8_share
+llama3.1-8b,baseline,44,1,0,0,0,3,1,1,0.88,0.02,0.0,0.0,0.0,0.06,0.02,0.02
+qwen2.5-7b,baseline,15,2,1,0,0,0,0,2,0.75,0.1,0.05,0.0,0.0,0.0,0.0,0.1

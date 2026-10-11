@@ -71,14 +71,27 @@ cp .env.example .env         # then paste your GROQ_API_KEY into .env
 Fill in the free-tier limits in `config/models.yaml` from https://console.groq.com/settings/limits.
 
 ## Usage
-_To be filled in as scripts are written._
 ```bash
-python src/run_experiment.py --dry-run
-python src/run_experiment.py --pilot
-python src/build_clean.py
+# 1. Collect (append-only logs in runs/raw/<phase>_<model>.jsonl; re-run the same command to resume)
+python src/run_experiment.py --dry-run                     # calls, tokens, time estimate; no calls
+python src/run_experiment.py --pilot                       # llama3.1:8b, baseline, 50 runs
+python src/run_experiment.py --models llama3.1-8b,qwen2.5-7b   # core conditions, 100 runs each
+python src/run_experiment.py --conditions ord_RAF,ord_FRA,ord_AFR   # optional order test
+python src/run_experiment.py --grid grid_realistic         # optional robustness grid
+
+# 2. Clean: re-parse raw responses, drop and count no-choice runs per model
+python src/build_clean.py                  # -> runs/clean.csv, results/tables/dropped_runs.csv
+python src/build_clean.py --phase pilot    # -> runs/clean_pilot.csv
+
+# 3. Analyze: rates + Wilson CIs, choice distribution, Gini, shifts vs baseline (LPM HC3 + chi-square/Fisher),
+#    position bias, order tests -> results/tables/*.csv, results/figures/*.png
 python src/analyze.py
-pytest
+python src/analyze.py --phase pilot        # -> results/pilot/
+
+pytest                                     # unit tests
 ```
+Other flags: `--runs-per-condition N`, `--max-calls-per-day N` (stops cleanly, prints resume time),
+`--yes` (skip the >300-call confirmation).
 
 ## Repo layout
 ```

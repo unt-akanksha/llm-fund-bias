@@ -1,0 +1,5 @@
+model_key,scope,n,p_chi2_picks_uniform,share_first_row,share_last_row,f1_rate_slope_per_row_pp,p_slope_hc3
+llama3.1-8b,baseline,50,0.807,0.18,0.1,-1.6909,0.4207
+qwen2.5-7b,baseline,20,0.5872,0.0,0.05,5.2941,0.4292
+llama3.1-8b,all_conditions,50,0.807,0.18,0.1,-1.6909,0.4207
+qwen2.5-7b,all_conditions,20,0.5872,0.0,0.05,5.2941,0.4292

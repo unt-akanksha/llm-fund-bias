@@ -1,0 +1,3 @@
+model_key,condition_id,n,f1_k,f1_rate,f1_lo,f1_hi,f2_k,f2_rate,f2_lo,f2_hi,low_fee_k,low_fee_rate,low_fee_lo,low_fee_hi,gini,gini_normalized
+llama3.1-8b,baseline,50,44,0.88,0.762,0.9438,1,0.02,0.0035,0.105,49,0.98,0.895,0.9965,0.815,0.9314
+qwen2.5-7b,baseline,20,15,0.75,0.5313,0.8881,2,0.1,0.0279,0.301,17,0.85,0.6396,0.9476,0.7625,0.8714

@@ -1,0 +1,3 @@
+model_key,planned_runs_attempted,api_errors,no_choice_or_unparseable,kept,drop_rate,no_choice_breakdown
+llama3.1-8b,50,0,0,50,0.0,{}
+qwen2.5-7b,20,0,0,20,0.0,{}
