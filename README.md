@@ -11,6 +11,8 @@ in how they react to memory.
 > **Not financial advice.** All funds, documents and numbers are fictional. This project measures
 > model behavior in a sandbox; it does not recommend any investment.
 
+**One-page summary:** [docs/SUMMARY.md](docs/SUMMARY.md)
+
 ## Research question
 When an LLM agent picks a fund from a page where one option is objectively dominant (same index as
 another fund, lowest fee), how often do injected sources and user-memory statements pull it away
