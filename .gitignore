@@ -17,3 +17,6 @@ runs/raw/*.tmp
 
 # Papers / PDFs (copyrighted, keep local)
 *.pdf
+
+# Claude Code project settings (local only)
+.claude/

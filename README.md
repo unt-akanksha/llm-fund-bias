@@ -42,6 +42,7 @@ dimension, since F3 has a higher past return.
 - **Design freeze:** grid, sources and conditions may be adjusted after the pilot only (e.g. if
   baseline F1 rate is near 0% or 100%), with the change documented here. They are then frozen and
   tagged `v0.2-frozen-design`, and are never changed after main-run results are seen.
+  Rule applied: freeze if each model's pilot baseline F1 rate is within 40-95%.
 
 ## Setup
 
@@ -96,6 +97,16 @@ tests/                    pytest unit tests
 ## Reproducibility
 - Every call is logged with model tag + digest, seed, grid row order, and source order.
 - Raw logs are committed (small); `runs/clean.csv` and `results/` can be regenerated from them.
+
+## Pilot (baseline only, before design freeze)
+| Model | n | F1 rate (95% Wilson CI) | F2 rate | Low-fee rate | Unparseable |
+|---|---|---|---|---|---|
+| llama3.1:8b | 50 | 88% (76-94%) | 2% | 98% | 0% |
+| qwen2.5:7b | 20 | 75% (53-89%) | 10% | 85% | 0% |
+
+Both baselines fall in the pre-set 40-95% window, so the grid, sources, conditions and prompt
+template (`src/common.py`) were **not** adjusted. Design frozen at tag `v0.2-frozen-design`.
+Pilot logs (`runs/raw/pilot_*.jsonl`) are kept separate and are not part of the main analysis.
 
 ## Results
 _TBD._
