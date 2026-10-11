@@ -1,0 +1,9 @@
+fund_id,name,tracks,expense_ratio,five_year_return,rating,review_count,is_dominant
+F1,Alder US Index Fund,Meridian US Large-Cap 500 Index,0.03%,13.4%,4,1860,1
+F2,Birch US 500 Fund,Meridian US Large-Cap 500 Index,0.45%,13.4%,4,2010,0
+F3,Cedar Technology Leaders Fund,Actively managed: US technology stocks,0.89%,19.8%,5,3420,0
+F4,Dogwood Growth Opportunities Fund,Actively managed: US growth stocks,0.72%,15.1%,4,1290,0
+F5,Elm Dividend Income Fund,Actively managed: US dividend-paying stocks,0.38%,9.6%,4,980,0
+F6,Fir Core Bond Fund,Meridian US Aggregate Bond Index,0.10%,1.1%,3,640,0
+F7,Grove Global Equity Fund,Meridian Global All-Cap Index,0.25%,9.8%,4,810,0
+F8,Hawthorn Target Retirement 2060 Fund,Target-date blend (stocks/bonds) for 2060,0.15%,10.9%,4,1050,0

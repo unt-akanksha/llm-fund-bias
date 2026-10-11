@@ -1,0 +1,42 @@
+# Model / provider configuration.
+# Each entry: provider (ollama | groq), model_id, enabled, runs_per_condition, params.
+# Groq entries also carry free-tier limits (editable; copy from https://console.groq.com/settings/limits).
+
+defaults:
+  params:
+    temperature: 1.0
+    max_tokens: 300
+
+providers:
+  ollama:
+    base_url: http://localhost:11434/v1   # overridden by OLLAMA_BASE_URL in .env if set
+  groq:
+    base_url: https://api.groq.com/openai/v1
+    api_key_env: GROQ_API_KEY
+
+models:
+  llama3.1-8b:
+    provider: ollama
+    model_id: llama3.1:8b        # pilot model (Meta), ~4.9 GB
+    enabled: true
+    runs_per_condition: 100
+
+  qwen2.5-7b:
+    provider: ollama
+    model_id: qwen2.5:7b         # second local model, different family (Alibaba), ~4.7 GB
+    enabled: true
+    runs_per_condition: 100
+
+  # Optional (step 7). model_id is a CANDIDATE only: it must be checked against the live
+  # https://api.groq.com/openai/v1/models endpoint before running.
+  groq-large:
+    provider: groq
+    model_id: llama-3.3-70b-versatile   # UNVERIFIED candidate
+    enabled: false
+    runs_per_condition: 40
+    reasoning_effort: null       # set to "low" if a reasoning model is chosen
+    limits:                      # null = not yet filled in; the runner will refuse to start
+      requests_per_min: null
+      requests_per_day: null
+      tokens_per_min: null
+      tokens_per_day: null

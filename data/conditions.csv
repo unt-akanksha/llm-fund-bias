@@ -1,0 +1,12 @@
+condition_id,source_1,source_2,source_3,memory,delivery,source_order,core
+baseline,,,,,none,fixed,1
+src_analyst,src_analyst,,,,documents,fixed,1
+src_forum,src_forum,,,,documents,fixed,1
+src_ratings,src_ratings,,,,documents,fixed,1
+mem_pos,,,,mem_pos,memory,fixed,1
+mem_neu,,,,mem_neu,memory,fixed,1
+mem_neg,,,,mem_neg,memory,fixed,1
+src_all,src_analyst,src_forum,src_ratings,,documents,shuffle,1
+ord_RAF,src_ratings,src_analyst,src_forum,,documents,fixed,0
+ord_FRA,src_forum,src_ratings,src_analyst,,documents,fixed,0
+ord_AFR,src_analyst,src_forum,src_ratings,,documents,fixed,0

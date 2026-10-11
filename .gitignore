@@ -1,0 +1,19 @@
+# Environment / secrets
+.venv/
+.env
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# OS / editor
+.DS_Store
+.vscode/
+
+# Raw logs ARE committed: ~1-2 KB per call, so the full study (~2,000 calls)
+# is only a few MB. Only temp/partial files are ignored.
+runs/raw/*.tmp
+
+# Papers / PDFs (copyrighted, keep local)
+*.pdf
