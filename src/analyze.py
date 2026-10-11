@@ -191,8 +191,11 @@ def fig_f1_rates(rates, cond_order, path):
         ax.errorbar(x, r.f1_rate * 100, yerr=err, fmt="none", ecolor=INK2, elinewidth=1, capsize=3)
         if "baseline" in r.index and len(r) > 1:
             ax.axhline(r.loc["baseline", "f1_rate"] * 100, color=MUTED, linestyle="--", linewidth=1)
-        for xi, v, n in zip(x, r.f1_rate * 100, r.n):
-            ax.text(xi, 2, f"{v:.0f}%", ha="center", va="bottom", color=SURFACE, fontsize=8, fontweight="bold")
+        for xi, v, hi in zip(x, r.f1_rate * 100, r.f1_hi * 100):
+            if v >= 12:  # inside the bar
+                ax.text(xi, 2, f"{v:.0f}%", ha="center", va="bottom", color=SURFACE, fontsize=8, fontweight="bold")
+            else:        # bar too short: label sits above the CI whisker
+                ax.text(xi, hi + 2, f"{v:.0f}%", ha="center", va="bottom", color=INK2, fontsize=8, fontweight="bold")
         ax.set_xticks(x, r.index, rotation=35, ha="right")
         ax.set_xlim(-0.7, max(len(r), 4) - 0.3)  # keep bars thin even with few conditions
         ax.set_ylim(0, 100)

@@ -20,3 +20,6 @@ runs/raw/*.tmp
 
 # Claude Code project settings (local only)
 .claude/
+
+# Live progress log of the main run
+runs/progress.log
