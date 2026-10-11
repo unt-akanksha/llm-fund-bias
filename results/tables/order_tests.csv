@@ -1,3 +1,5 @@
-model_key,test,n,groups,p_wald_joint_hc3,linear_slope_pp
-llama3.1-8b,src_all_ratings_position,100,pos1=0.978;pos2=0.640;pos3=0.862,0.0022,-7.4608
-qwen2.5-7b,src_all_ratings_position,100,pos1=0.957;pos2=0.400;pos3=0.759,0.0,-12.5919
+model_key,test,n,groups,p_chi2_f1,p_wald_joint_hc3,linear_slope_pp
+llama3.1-8b,fixed_order_conditions,300,ord_AFR=0.730;ord_FRA=0.970;ord_RAF=0.990,0.0,,
+llama3.1-8b,src_all_ratings_position,100,pos1=0.978;pos2=0.640;pos3=0.862,,0.0022,-7.4608
+qwen2.5-7b,fixed_order_conditions,300,ord_AFR=0.650;ord_FRA=0.410;ord_RAF=0.980,0.0,,
+qwen2.5-7b,src_all_ratings_position,100,pos1=0.957;pos2=0.400;pos3=0.759,,0.0,-12.5919

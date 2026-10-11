@@ -1,7 +1,11 @@
-# Project: Do injected context and user memory pull LLM agents away from an objectively best fund?
+# Project brief: Do injected context and user memory pull LLM agents away from an objectively best fund?
+
+> This is the original planning brief, written before implementation. It is kept for transparency
+> about what was planned. See the [README](../README.md) for what was built, the decisions made along
+> the way (e.g. the design freeze and outcome measures), and the results.
 
 ## Background
-I'm a student building a resume project with my professor. It adapts the design of Wharton's "Agentic Shopping is Complicated and Contingent" study (a fixed product grid, with context layers added one at a time) to fund selection. I'm borrowing the Gini concentration metric from Zhi et al. ("Exposing Product Bias in LLM Investment Recommendation") and the decision flip rate from Lee et al. ("Your AI, Not Your View"). This is a behavioral measurement in a sandbox. It must not produce or imply real financial advice.
+This project adapts the design of Wharton's "Agentic Shopping is Complicated and Contingent" study (a fixed product grid, with context layers added one at a time) to fund selection. It borrows the Gini concentration metric from Zhi et al. ("Exposing Product Bias in LLM Investment Recommendation") and the decision flip rate from Lee et al. ("Your AI, Not Your View"). This is a behavioral measurement in a sandbox. It must not produce or imply real financial advice.
 
 ## Research question
 When an LLM agent picks a fund from a page where one option is objectively dominant (same index, lowest fee), how often do injected sources and user-memory statements pull it away from that option, and does this vary by model?
@@ -11,8 +15,8 @@ Secondary questions:
 - Does the order of the same sources change the pick?
 - (Optional) Once a model has picked, does counter-evidence flip it?
 
-## My environment and constraints
-- MacBook Air 15-inch, Apple M4, 24 GB RAM, macOS. VS Code + Claude Code.
+## Environment and constraints
+- Developed on an Apple M4 laptop with 24 GB RAM, macOS. VS Code + Claude Code.
 - NO paid API budget. Everything must run free:
   - Primary: local models via Ollama (no rate limits).
   - Optional add-on: Groq free tier for one larger model.
@@ -27,7 +31,7 @@ One `call_model(provider, model, messages, ...)` function behind a small interfa
    - Pilot model: llama3.1:8b
    - Second local model (different family): e.g. qwen2.5:7b or gemma2 (9B). Verify that it fits comfortably in 24 GB.
 2. **Groq (optional)** via https://api.groq.com/openai/v1.
-   - Verify model IDs against the live /models endpoint before running; tell me if any are unavailable or deprecated.
+   - Verify model IDs against the live /models endpoint before running; report any that are unavailable or deprecated.
    - Do NOT assume rate limits. Store editable limits in config (requests_per_min, requests_per_day, tokens_per_min, tokens_per_day).
    - Handle 429 with the retry-after header + exponential backoff; token-aware per-minute throttle; --max-calls-per-day flag that stops cleanly, saves progress, and prints when to resume.
    - Use JSON mode where supported; if a reasoning model is used, keep reasoning effort low and record it.
@@ -90,7 +94,7 @@ Mirror the Wharton prompt: "You are a personal shopping assistant helping someon
 
 ## Repo layout
 ```
-README.md  PROJECT_BRIEF.md  requirements.txt  .env.example  .gitignore
+README.md  docs/PROJECT_BRIEF.md  requirements.txt  .env.example  .gitignore
 config/models.yaml
 data/grid.csv  data/conditions.csv  data/sources/*.txt
 runs/raw/*.jsonl  runs/clean.csv
@@ -99,9 +103,9 @@ src/run_experiment.py  src/build_clean.py  src/analyze.py  src/flip_test.py
 tests/
 ```
 
-## Order of work (stop at each CHECKPOINT and wait for me)
+## Order of work (each CHECKPOINT is a review point before continuing)
 1. Create repo layout, README skeleton, requirements.txt, .gitignore, .env.example. Explain how to install Ollama and pull the models.
-2. Write grid.csv, source texts, conditions.csv, config/models.yaml. CHECKPOINT: show me the grid and sources for review.
+2. Write grid.csv, source texts, conditions.csv, config/models.yaml. CHECKPOINT: review the grid and sources.
 3. Write run_experiment.py; test with --dry-run, then a 3-call smoke test on llama3.1:8b.
 4. Run the pilot (baseline, llama3.1:8b, 50 runs). Report dominant-pick rate, choice distribution, unparseable rate, position bias. CHECKPOINT: show results.
 5. Write build_clean.py and analyze.py; run on pilot data. Write tests.
@@ -112,15 +116,11 @@ tests/
 
 ## Deliverables
 - Working, reproducible repo with the layout above
-- Pilot result (dominant-pick rate + choice distribution) early, so I can email my professor
+- Pilot result (dominant-pick rate + choice distribution) early
 - results/ tables and figures
 - One-page project summary (question, design, dataset, metrics, headline numbers)
 - A 3-5 page report draft (intro, design, results, limitations)
-- A short email to my professor with the pilot number, noting the study runs on free/local models and asking whether the lab has API credits
 - README "Limitations": small open models and free-tier hosted models only, so results describe those models and may differ for frontier models; fictional funds; single product category; sandbox measurement, not financial advice
 
-## Timeline (5 weeks)
-Week 1: pilot + email. Week 2: harness and final grid. Week 3: main runs. Week 4: analysis, figures, optional order/flip tests. Week 5: write-up and clean repo.
-
-## Working style
-Explain briefly what you're doing at each step. Keep code simple and commented. Don't over-engineer. If something I specified is wrong or unavailable (model IDs, endpoints, limits), tell me and propose a fix rather than guessing.
+## Implementation principles
+Keep code simple and commented; avoid over-engineering. If a specified item (model IDs, endpoints, limits) is wrong or unavailable, flag it and propose a fix rather than guessing.
