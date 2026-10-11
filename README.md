@@ -6,7 +6,14 @@ dominant. Context is added one layer at a time: a single recommending document, 
 user-memory sentence, or several documents together. With no context, both models mostly pick the
 dominant low-cost index fund. **A single recommending document or a single sentence of user memory
 moves almost every pick to whatever fund that context favors**, and the two models differ sharply
-in how they react to memory.
+in how they react to memory. The memory results show context-responsive behavior, which may be
+reasonable personalization rather than bias (see finding 4).
+
+> **Post-hoc correction (fund name vs. fund ID).** After the main analysis, a review by my professor
+> found qwen runs whose reasoning recommends the Alder fund (F1) while the output ID is "F2". A
+> name/ID check over all 2,200 runs ([below](#post-hoc-robustness-check-fund-name-vs-fund-id)) found
+> 24 such mismatches, all from qwen (llama: 0). The ID-based numbers below are the pre-specified
+> reading and are unchanged; where the name-based reading differs, both are shown.
 
 > **Not financial advice.** All funds, documents and numbers are fictional. This project measures
 > model behavior in a sandbox; it does not recommend any investment.
@@ -48,19 +55,29 @@ Source: `results/tables/rates.csv`, `shifts_vs_baseline.csv`, `choice_distributi
 2. **Single sources decide the pick.** One ~200-word document moves 93–100% of picks to the fund it
    recommends, for both models. The analyst and forum effects hit the floor (F1 at 0–3%).
 3. **Ratings control.** A document recommending F1 raises the F1 rate to 100% for both models.
-4. **Memory.** One sentence ("I love tech companies!") is as strong as a full analyst report
-   (98–100% to the tech fund F3). The models differ sharply on the other memories: an anxious user
-   moves qwen almost entirely to bond and target-date funds (F1 5%) but llama only partly (F1 63%).
-   An irrelevant campus-library memory leaves llama unchanged (−3 pp, p = 0.56) but moves qwen
-   −27 pp, mostly to the 2060 target-date fund.
+4. **Memory: context-responsive behavior, not necessarily bias.** A saved memory is information
+   about the user, so moving away from F1 can be reasonable personalization (a nervous user steered
+   to bonds, a tech enthusiast to a tech fund), not an error. The quantity measured here is how
+   strongly one sentence overrides the lowest-cost option, not whether that override is wrong.
+   One sentence ("I love tech companies!") moves 98–100% of picks to the tech fund F3, the same
+   size of shift as a full analyst report. The models differ sharply on the other memories: an
+   anxious user moves qwen almost entirely to bond and target-date funds (F1 5%) but llama only
+   partly (F1 63%). A campus-library memory, intended as irrelevant, leaves llama unchanged
+   (−3 pp, p = 0.56) but moves qwen −27 pp, mostly to the 2060 target-date fund (qwen reads it as a
+   sign of a young student; see Limitations). These shifts are not corrected by the name/ID check
+   (no mismatches in any memory condition).
 5. **Competing sources.** With all three documents present, F1 rates match baseline (llama 86%, qwen
    76%); the ratings document largely offsets the two others, but the order of the documents
    matters (see the order test below).
 6. **Strictly dominated fund (F2).** F2 has the same index and return as F1 at 15× the fee, so any
-   F2 pick is an error. F2 was picked 6% (llama) and 9% (qwen) of the time at baseline, and 0–2% in
-   every core condition that included a document. Under mem_neg, llama's F2 rate was 11% (+5 pp,
-   p = 0.21, not significant). The exception is the order test: qwen picked F2 11% of the time when
-   the ratings document was in the middle (`ord_FRA`).
+   F2 pick is an error. By output ID, F2 was picked 6% (llama) and 9% (qwen) of the time at
+   baseline, 0–2% in every core condition that included a document, and 11% by llama under mem_neg
+   (+5 pp, p = 0.21, not significant). The name/ID check leaves all of these unchanged except qwen
+   `src_all` (2% by ID, 0% by name). F2 picks by ID are not all real F2 choices: for qwen, 17 of
+   33 F2 picks by ID recommend Alder (F1) by name. The earlier "exception" (qwen F2 at 11% in
+   `ord_FRA`) does not hold up: all 11 of those reasonings recommend Alder, so the name-based F2
+   rate there is 0% [0, 4]. Under the name-based reading, qwen never picks F2 in any condition with
+   a document except `src_analyst` (2%).
 
 **Confirmatory order test (fixed source orders, 100 runs per model × order).** The same three
 documents in three fixed orders form a Latin square, so each document appears once in each position
@@ -69,19 +86,21 @@ documents in three fixed orders form a Latin square, so each document appears on
 | Order (1st, 2nd, 3rd) | Ratings position | llama3.1:8b F1 rate (95% CI) | qwen2.5:7b F1 rate (95% CI) | Where the other picks went |
 |---|---|---|---|---|
 | `ord_RAF` (R, A, F) | 1st | 99% [95, 100] | 98% [93, 100] | — |
-| `ord_FRA` (F, R, A) | 2nd | 97% [92, 99] | **41%** [32, 51] | qwen: F3 31%, F4 16%, F2 11% |
-| `ord_AFR` (A, F, R) | 3rd | **73%** [64, 81] | 65% [55, 74] | llama: F3 26%; qwen: F3 16%, F4 14% |
-| χ² test, F1 vs. not-F1 across the 3 orders | | p < 0.001 | p < 0.001 | |
+| `ord_FRA` (F, R, A) | 2nd | 97% [92, 99] | **41%** [32, 51]; name-based 53% [43, 62] | qwen: F3 31%, F4 16%, F2 11% by ID (all 11 name Alder/F1) |
+| `ord_AFR` (A, F, R) | 3rd | **73%** [64, 81] | 65% [55, 74]; name-based 70% [60, 78] | llama: F3 26%; qwen: F3 16%, F4 14% |
+| χ² test, F1 vs. not-F1 across the 3 orders | | p < 0.001 | p < 0.001 (name-based: p < 0.001) | |
 
-Source: `results/tables/order_tests.csv`, `rates.csv`, `choice_distribution.csv`.
+Source: `results/tables/order_tests.csv`, `rates.csv`, `choice_distribution.csv`; name-based values
+from `name_id_sensitivity.csv` and `name_id_order_test.csv`.
 
 - **The order of the same three documents changes the pick, for both models.**
 - **With the ratings document first, both models pick F1 almost every time (98–99%).**
 - **The models differ in which order hurts.**
   - *llama* stays at 97% with the ratings document in the middle. It drops only in `ord_AFR`
     (73%), where the analyst note comes first; the lost picks go to the analyst's fund F3.
-  - *qwen* is weakest with the ratings document in the middle (41%). It is also lower when the
-    ratings document is last (65%).
+  - *qwen* is weakest with the ratings document in the middle (41% by ID, 53% by name). It is
+    also lower when the ratings document is last (65% by ID, 70% by name). The order effect holds
+    under both readings; part of the `ord_FRA` drop is mislabeled F1 picks.
 - **The design cannot say why.** In a 3-order Latin square, the position of the ratings document is
   tied to which other document leads, so "analyst first" (llama) and "ratings in the middle" (qwen)
   are hypotheses rather than established mechanisms.
@@ -98,6 +117,64 @@ Source: `results/tables/order_tests.csv`, `rates.csv`, `choice_distribution.csv`
   appears in the table (p = 0.001); picks are not uniform across rows (χ² p = 0.020). qwen shows no
   evidence of position bias (slope +0.8 pp per row, p = 0.71; χ² p = 0.92).
   (`results/tables/position_tests.csv`, `position_f1_rate.csv`)
+
+## Post-hoc robustness check: fund name vs. fund ID
+
+**Not pre-specified.** Found by my professor's review *after* the main analysis: in qwen's
+`ord_FRA` runs, the "F2" picks name the Alder fund (F1) in the reasoning. The pre-specified
+outcome is the output fund ID, and every table above uses it. This check asks how much the
+results depend on that choice. Code: `src/name_id_check.py`; tests: `tests/test_name_id.py`.
+
+**Method.** For every run (2 models × 11 conditions × 100), a rule-based detector finds the fund
+the reasoning *recommends*, as opposed to funds it only mentions or rejects:
+- one fund named → that fund (2,062 runs);
+- a selection verb naming one fund ("I chose the F2 …", "we recommend the Alder …") → that fund (6);
+- several funds named → drop mentions that are only compared ("same index as the Birch …"),
+  conceded ("While the Cedar … has high returns, …"), criticized ("…, but its fee …") or hedged
+  ("could also consider …"), then take the remaining fund, or the one after a "However" pivot (52);
+- no fund named (78, all llama) or still unresolved (2, llama) → not classifiable, excluded.
+
+The rejection cues are used only to choose among several named funds. On single-name runs they
+mostly fire on endorsements ("X stands out, despite a higher fee"), so they never overrule a lone
+name. **Hand check:** all 24 mismatches and 20 random matches (seed 1, 8 of them multi-fund) were
+read by hand. The detector agreed on 43 of 44: 23/24 mismatches and 20/20 matches. The
+disagreement (qwen `src_all` 0007) is a hedged answer offering Dogwood for growth and Alder for a
+conservative investor, which is better called ambiguous. Labels: `name_id_hand_check.csv` (made
+with the AI coding assistant; author spot-check pending).
+
+**Mismatches.** llama: 0 of 1,020 classifiable runs. qwen: 24 of 1,100, all in conditions with a
+document. 20 of the 24 output F2 or F5 while recommending Alder (F1); one more outputs F4.
+
+| qwen2.5:7b condition | Mismatches | Pattern (output ID → recommended name) |
+|---|---|---|
+| `ord_FRA` | 12 / 100 | 11× F2 → F1, 1× F5 → F1 |
+| `ord_AFR` | 5 / 100 | 3× F2 → F1, 2× F5 → F1 |
+| `src_all` | 3 / 100 | 2× F2 → F1, 1× F4 → F1 (the ambiguous one) |
+| `src_forum` | 2 / 100 | F5 → F4, F8 → F4 |
+| `src_analyst`, `ord_RAF` | 1 / 100 each | F8 → F3; F2 → F1 |
+| all other conditions | 0 | |
+
+**Both readings side by side** (name-based = the recommended name when it conflicts with the ID;
+otherwise the ID). Only rows where the readings differ are shown; every other model × condition
+cell is identical. 95% Wilson CIs.
+
+| qwen2.5:7b condition | F1 rate: ID | F1 rate: name | F2 rate: ID | F2 rate: name | Low-fee rate: ID | Low-fee rate: name |
+|---|---|---|---|---|---|---|
+| `src_analyst` | 3% [1, 8] | 3% [1, 8] | 2% [1, 7] | 2% [1, 7] | 4% [2, 10] | 3% [1, 8] |
+| `src_forum` | 0% [0, 4] | 0% [0, 4] | 0% [0, 4] | 0% [0, 4] | 1% [0, 5] | 0% [0, 4] |
+| `src_all` | 76% [67, 83] | 79% [70, 86] | 2% [1, 7] | 0% [0, 4] | 76% [67, 83] | 79% [70, 86] |
+| `ord_RAF` | 98% [93, 99] | 99% [95, 100] | 1% [0, 5] | 0% [0, 4] | 98% [93, 99] | 99% [95, 100] |
+| `ord_FRA` | **41%** [32, 51] | **53%** [43, 62] | **11%** [6, 19] | **0%** [0, 4] | 41% [32, 51] | 53% [43, 62] |
+| `ord_AFR` | 65% [55, 74] | 70% [60, 78] | 3% [1, 8] | 0% [0, 4] | 65% [55, 74] | 70% [60, 78] |
+
+Source: `results/tables/name_id_mismatch.csv`, `name_id_sensitivity.csv`, `name_id_order_test.csv`,
+`name_id_hand_check.csv`.
+
+**What changes.** The F2 error rate for qwen in the order test was mostly mislabeled F1 picks, and
+qwen's `ord_FRA` F1 rate is 12 pp higher by name. **What does not change.** Every llama result;
+every baseline and memory result; the single-source effects (still at the floor); the order effect
+(χ² p < 0.001 for both models under both readings); and the gap between ratings-first and the other
+orders for qwen.
 
 ## Design
 
@@ -148,7 +225,7 @@ The optional larger hosted model (Groq free tier) was not run.
 | Measure | Definition | Role |
 |---|---|---|
 | F1 rate | share of picks = F1 | Primary |
-| F2 rate | share of picks = F2 (strictly dominated) | Assumption-free error rate |
+| F2 rate | share of picks = F2 (strictly dominated) | Assumption-free error rate (see the post-hoc name/ID check) |
 | Low-fee rate | share of picks with fee ≤ 0.25% (F1, F6, F7, F8) | Descriptive |
 
 **Analysis** (`src/analyze.py`):
@@ -190,6 +267,7 @@ python src/run_experiment.py --conditions ord_RAF,ord_FRA,ord_AFR --yes   # orde
 # 4. Clean, analyze, test
 python src/build_clean.py        # -> runs/clean.csv, results/tables/dropped_runs.csv
 python src/analyze.py            # -> results/tables/*.csv, results/figures/*.png
+python src/name_id_check.py      # post-hoc name/ID check -> results/tables/name_id_*.csv
 pytest
 ```
 
@@ -222,6 +300,15 @@ docs/PROJECT_BRIEF.md     original planning brief
 - **Saturation.** The analyst, forum and positive-memory effects hit the floor (F1 at 0–3%), so this
   design cannot rank those manipulations against each other or detect differences between models
   there. The ratings control also hits the ceiling (100%).
+- **The models sometimes mislabel the fund ID.** qwen's reasoning sometimes recommends one fund
+  while the output ID names another (24 of 2,200 runs; 21 of them name Alder/F1). So the ID-based
+  F1 rate may understate the true F1 rate, and the ID-based F2 rate overstates real F2 choices
+  (most clearly qwen `ord_FRA`: F1 41% by ID vs. 53% by name). The detector is rule-based and only
+  covers runs that name a fund; 80 llama runs could not be classified. This check was added after
+  the main analysis.
+- **Memory shifts are not errors by themselves.** A memory is legitimate information about the
+  user, so the memory conditions measure how strongly one sentence overrides the lowest-cost option,
+  not whether the override is wrong.
 - **Sandbox measurement, not financial advice.** Text-only prompts and a single choice, with no real
   agent, browsing, or money involved.
 

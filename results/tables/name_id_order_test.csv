@@ -1,0 +1,5 @@
+model_key,reading,n,groups,p_chi2_f1
+llama3.1-8b,id,300,ord_AFR=0.730;ord_FRA=0.970;ord_RAF=0.990,1.5422060989324905e-10
+llama3.1-8b,name,300,ord_AFR=0.730;ord_FRA=0.970;ord_RAF=0.990,1.5422060989324905e-10
+qwen2.5-7b,id,300,ord_AFR=0.650;ord_FRA=0.410;ord_RAF=0.980,4.509015936642276e-17
+qwen2.5-7b,name,300,ord_AFR=0.700;ord_FRA=0.530;ord_RAF=0.990,6.141709296197779e-13
