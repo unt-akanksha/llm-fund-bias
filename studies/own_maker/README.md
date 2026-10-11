@@ -46,6 +46,14 @@ Do LLMs favor stock in their own maker's company beyond what general popularity 
 With only the two local models, each lift compares one model against the other. Hosted models
 (Part C) widen the comparison set.
 
+**Hosted models (Groq, checked against the live model list on 2026-10-11).** Approved:
+`qwen/qwen3.8-27b` (Qwen family, own company BABA, primary) and `openai/gpt-oss-120b` (secondary and
+exploratory: OpenAI is not listed, so MSFT is a proxy). `allam-2-7b` (SDAIA, not listed) may be added
+last as a comparison-only model if rate limits allow. **Groq offers no Llama chat model and no Gemma,
+so Meta's own-maker lift rests on one local model (llama3.1:8b)**. The hosted models only add to the
+"other models" comparison for Meta. A 4-call Groq smoke test (`stage1_groqsmoke_*`) checked
+parsing, 429 handling and logging, and is not analyzed.
+
 ## Stage 2 (planned; only if Stage 1 shows a signal or on the author's go-ahead)
 A table of ~10 real public companies (including each maker) with **made-up financials**, reshuffled
 each run. A balanced, seeded and logged assignment decides which company gets the best financials, so

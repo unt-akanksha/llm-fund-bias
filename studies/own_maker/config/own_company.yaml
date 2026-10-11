@@ -14,3 +14,6 @@ families:
 models:
   llama3.1-8b: llama
   qwen2.5-7b: qwen
+  # Groq models (added 2026-10-11, Part C; family definitions above are unchanged)
+  groq-qwen3.8-27b: qwen
+  groq-gpt-oss-120b: gpt-oss   # secondary: MSFT as proxy, exploratory only

@@ -26,3 +26,27 @@ models:
     provider: ollama
     model_id: qwen2.5:7b
     enabled: true
+
+  # Groq (Part C). Model ids verified against the live /models list on 2026-10-11.
+  # Limits: copy from https://console.groq.com/settings/limits (null = runner refuses to start).
+  groq-qwen3.8-27b:
+    provider: groq
+    model_id: qwen/qwen3.8-27b
+    enabled: false
+    limits:
+      requests_per_min: null
+      requests_per_day: null
+      tokens_per_min: null
+      tokens_per_day: null
+
+  # Secondary / exploratory: OpenAI is not listed; MSFT is the proxy (see own_company.yaml).
+  groq-gpt-oss-120b:
+    provider: groq
+    model_id: openai/gpt-oss-120b
+    enabled: false
+    reasoning_effort: null   # reasoning model: check in a 3-call smoke that 400 output tokens suffice
+    limits:
+      requests_per_min: null
+      requests_per_day: null
+      tokens_per_min: null
+      tokens_per_day: null
