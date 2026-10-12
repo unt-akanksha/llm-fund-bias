@@ -28,25 +28,29 @@ models:
     enabled: true
 
   # Groq (Part C). Model ids verified against the live /models list on 2026-10-11.
-  # Limits: copy from https://console.groq.com/settings/limits (null = runner refuses to start).
   groq-qwen3.8-27b:
     provider: groq
     model_id: qwen/qwen3.8-27b
-    enabled: false
-    limits:
-      requests_per_min: null
-      requests_per_day: null
-      tokens_per_min: null
-      tokens_per_day: null
+    enabled: true
+    limits:                  # from the author's Groq console, 2026-10-11
+      requests_per_min: 30
+      requests_per_day: 1000
+      tokens_per_min: 8000
+      tokens_per_day: 200000
 
   # Secondary / exploratory: OpenAI is not listed; MSFT is the proxy (see own_company.yaml).
   groq-gpt-oss-120b:
     provider: groq
     model_id: openai/gpt-oss-120b
-    enabled: false
-    reasoning_effort: null   # reasoning model: check in a 3-call smoke that 400 output tokens suffice
-    limits:
-      requests_per_min: null
-      requests_per_day: null
-      tokens_per_min: null
-      tokens_per_day: null
+    enabled: true
+    reasoning_effort: null   # Groq default
+    params:
+      # Raised from the 400 default for this model only: in a 3-call smoke (2026-10-11, phase
+      # groqsmoke) hidden reasoning used 218-325 tokens and 2 of 3 answers were cut off
+      # (finish_reason=length; one HTTP 400 json_validate_failed). Smoke calls are not analyzed.
+      max_tokens: 1200
+    limits:                  # from the author's Groq console, 2026-10-11
+      requests_per_min: 30
+      requests_per_day: 1000
+      tokens_per_min: 8000
+      tokens_per_day: 200000

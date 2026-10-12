@@ -26,6 +26,7 @@ STUDY = Path(__file__).resolve().parent.parent
 REPO = STUDY.parent.parent
 sys.path.insert(0, str(REPO / "src"))
 from common import read_jsonl, stable_seed  # noqa: E402  (repo src/, unchanged)
+import providers  # noqa: E402
 from providers import MinuteThrottle, call_model, check_groq, check_ollama  # noqa: E402
 
 from companies import companies_in  # noqa: E402
@@ -39,6 +40,31 @@ DEFAULT_TOKENS_OUT = 250      # replaced by measured output tokens once logs exi
 MAX_CONSECUTIVE_ERRORS = 3    # e.g. Ollama not responding (each call already retries with backoff)
 MAX_FAIL_RATE = 0.05          # auto-stop: (API errors + responses with no parsed stock) / calls this session
 MIN_CALLS_FOR_RATE = 40       # ...checked once at least this many calls have been made for the model
+
+
+# Keep the last HTTP response so Groq-only fields (finish_reason, reasoning tokens) can be logged
+# without changing the shared src/providers.py.
+_LAST = {}
+_post = providers.requests.post
+
+
+def _recording_post(*args, **kwargs):
+    _LAST["r"] = _post(*args, **kwargs)
+    return _LAST["r"]
+
+
+providers.requests.post = _recording_post
+
+
+def groq_extras():
+    """finish_reason and reasoning-token count from the last Groq response (None if not reported)."""
+    try:
+        body = _LAST["r"].json()
+    except Exception:  # noqa: BLE001  (no response / not JSON)
+        return {"finish_reason": None, "reasoning_tokens": None}
+    choice = (body.get("choices") or [{}])[0]
+    details = (body.get("usage") or {}).get("completion_tokens_details") or {}
+    return {"finish_reason": choice.get("finish_reason"), "reasoning_tokens": details.get("reasoning_tokens")}
 
 
 def load_yaml(p):
@@ -154,9 +180,13 @@ def main():
                 print(f"{mk}: daily token cap reached ({tok24}); stopping. Re-run later to resume.")
                 break
             seed = stable_seed("own_maker_stage1", pid, i)
+            max_tokens = {**cfg["defaults"]["params"], **mcfg.get("params", {})}["max_tokens"]
             if throttle:
-                throttle.wait(cfg["defaults"]["params"]["max_tokens"] + 100)
+                throttle.wait(max_tokens + 100)
+            _LAST.clear()
             res = call_model(cfg, mcfg, msgs, seed)
+            if mcfg["provider"] == "groq":
+                res.update(groq_extras())
             if throttle:
                 throttle.record((res["tokens_in"] or 0) + (res["tokens_out"] or 0))
             now = datetime.now(timezone.utc)
@@ -164,7 +194,7 @@ def main():
                    "provider": mcfg["provider"], "model_id": mcfg["model_id"], "model_digest": digest,
                    "prompt_id": pid, "prompts_sha256": sha, "run_index": i, "seed": seed,
                    "temperature": cfg["defaults"]["params"]["temperature"],
-                   "max_tokens": cfg["defaults"]["params"]["max_tokens"],
+                   "max_tokens": max_tokens,
                    "timestamp": now.isoformat(), "date_utc": now.date().isoformat(), **res}
             with open(path, "a") as f:
                 f.write(json.dumps(rec) + "\n")
@@ -172,7 +202,9 @@ def main():
             parsed = 0 if res["error"] else len(companies_in(res["raw_response"]))
             n_calls += 1
             n_fail += int(bool(res["error"]) or parsed == 0)
-            print(f"{run_id}  {res['latency_ms']} ms  parsed={parsed}  "
+            extra = f"finish={res.get('finish_reason')} reasoning_tok={res.get('reasoning_tokens')}  " \
+                if mcfg["provider"] == "groq" else ""
+            print(f"{run_id}  {res['latency_ms']} ms  parsed={parsed}  {extra}"
                   f"{'ERR ' + res['error'] if res['error'] else ''}", flush=True)
             if errors >= MAX_CONSECUTIVE_ERRORS:
                 sys.exit(f"AUTO-STOP {mk}: {errors} consecutive errors (provider not responding?), "
