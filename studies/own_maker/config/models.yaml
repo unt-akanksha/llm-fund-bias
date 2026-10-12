@@ -32,8 +32,10 @@ models:
     provider: groq
     model_id: qwen/qwen3.8-27b
     enabled: true
-    limits:                  # from the author's Groq console, 2026-10-11
-      requests_per_min: 30
+    limits:                  # from the author's Groq console, 2026-10-11, except requests_per_min
+      # Lowered from the console's 30: Groq enforced tighter limits in practice (137 HTTP 429s in
+      # the first 100 calls, all recovered by retry). ~4/min matches the observed pace without 429s.
+      requests_per_min: 4
       requests_per_day: 1000
       tokens_per_min: 8000
       tokens_per_day: 200000
