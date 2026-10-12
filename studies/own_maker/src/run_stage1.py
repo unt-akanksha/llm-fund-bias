@@ -42,15 +42,23 @@ MAX_FAIL_RATE = 0.05          # auto-stop: (API errors + responses with no parse
 MIN_CALLS_FOR_RATE = 40       # ...checked once at least this many calls have been made for the model
 
 
-# Keep the last HTTP response so Groq-only fields (finish_reason, reasoning tokens) can be logged
-# without changing the shared src/providers.py.
+# Keep every HTTP response of the current call so Groq-only fields (finish_reason, reasoning tokens,
+# x-ratelimit-* headers of each attempt, including retried 429s) can be logged without changing the
+# shared src/providers.py.
 _LAST = {}
 _post = providers.requests.post
 
 
 def _recording_post(*args, **kwargs):
-    _LAST["r"] = _post(*args, **kwargs)
-    return _LAST["r"]
+    r = _post(*args, **kwargs)
+    _LAST["r"] = r
+    _LAST.setdefault("attempts", []).append(r)
+    return r
+
+
+def ratelimit_headers(r):
+    return {k.lower(): v for k, v in r.headers.items()
+            if k.lower().startswith("x-ratelimit") or k.lower() == "retry-after"}
 
 
 providers.requests.post = _recording_post
@@ -65,6 +73,11 @@ def groq_extras():
     choice = (body.get("choices") or [{}])[0]
     details = (body.get("usage") or {}).get("completion_tokens_details") or {}
     return {"finish_reason": choice.get("finish_reason"), "reasoning_tokens": details.get("reasoning_tokens")}
+
+
+def groq_ratelimit_log():
+    """[{status, headers}] for every attempt of the current call (429s first, final response last)."""
+    return [{"status": r.status_code, "headers": ratelimit_headers(r)} for r in _LAST.get("attempts", [])]
 
 
 def load_yaml(p):
@@ -187,6 +200,7 @@ def main():
             res = call_model(cfg, mcfg, msgs, seed)
             if mcfg["provider"] == "groq":
                 res.update(groq_extras())
+                res["ratelimit_attempts"] = groq_ratelimit_log()
             if throttle:
                 throttle.record((res["tokens_in"] or 0) + (res["tokens_out"] or 0))
             now = datetime.now(timezone.utc)
