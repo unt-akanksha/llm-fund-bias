@@ -166,11 +166,17 @@ def parse_quality(df):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--phase", default="main")
-    phase = ap.parse_args().phase
+    ap.add_argument("--models", help="comma-separated model keys to include (default: all in the logs)")
+    ap.add_argument("--out", help="subfolder of results/tables for this analysis (e.g. local)")
+    a = ap.parse_args()
+    phase = a.phase
     df = load_runs(phase)
+    if a.models:
+        df = df[df.model_key.isin(a.models.split(","))].reset_index(drop=True)
     M = mention_matrix(df)
     pairs = own_pairs(sorted(df.model_key.unique()))
     out = TABLES if phase == "main" else TABLES / phase
+    out = out / a.out if a.out else out
     out.mkdir(parents=True, exist_ok=True)
 
     lifts, joint = lift_table(df, M, pairs)
