@@ -46,6 +46,10 @@ models:
     model_id: openai/gpt-oss-120b
     enabled: true
     reasoning_effort: null   # Groq default
+    # HTTP 400 json_validate_failed (output not valid JSON, e.g. a refusal in prose) is a FINAL outcome for
+    # this model: logged with the full rejected text, never re-asked on resume, counted as a refusal/failure
+    # separately from errors (does not trip the 5% auto-stop; real errors still do). Added 2026-10-15.
+    json_failed_is_outcome: true
     params:
       # Raised from the 400 default for this model only: in a 3-call smoke (2026-10-11, phase
       # groqsmoke) hidden reasoning used 218-325 tokens and 2 of 3 answers were cut off

@@ -72,7 +72,9 @@ def groq_extras():
         return {"finish_reason": None, "reasoning_tokens": None}
     choice = (body.get("choices") or [{}])[0]
     details = (body.get("usage") or {}).get("completion_tokens_details") or {}
-    return {"finish_reason": choice.get("finish_reason"), "reasoning_tokens": details.get("reasoning_tokens")}
+    err = body.get("error") if isinstance(body.get("error"), dict) else {}
+    return {"finish_reason": choice.get("finish_reason"), "reasoning_tokens": details.get("reasoning_tokens"),
+            "failed_generation": err.get("failed_generation")}  # full rejected text (src/providers.py keeps 200 chars)
 
 
 def groq_ratelimit_log():
@@ -97,8 +99,19 @@ def log_path(phase, mk):
     return RAW / f"stage1_{phase}_{mk}.jsonl"
 
 
-def done_ids(path):
-    return {r["run_id"] for r in read_jsonl(path) if not r.get("error")}
+JSON_FAILED = "json_validate_failed"
+
+
+def is_json_failed(rec):
+    """Groq rejected the output as invalid JSON (HTTP 400 json_validate_failed), e.g. a refusal in prose."""
+    return JSON_FAILED in (rec.get("error") or "")
+
+
+def done_ids(path, json_failed_final=False):
+    """run_ids that will not be re-run: successful calls, plus json_validate_failed calls when that is
+    treated as a final outcome for the model (gpt-oss: counted as refusals/failures, never re-asked)."""
+    return {r["run_id"] for r in read_jsonl(path)
+            if not r.get("error") or (json_failed_final and is_json_failed(r))}
 
 
 def measured(mk, field):
@@ -148,7 +161,7 @@ def main():
     plan, total = [], 0
     for mk, js in jobs.items():
         path = log_path(phase, mk)
-        done = done_ids(path)
+        done = done_ids(path, bool(cfg["models"][mk].get("json_failed_is_outcome")))
         todo = [j for j in js if f"{phase}|{mk}|{j[0]}|{j[1]:04d}" not in done]
         tin = statistics.mean(sum(len(m["content"]) for m in j[2]) / 4 + 10 for j in js)  # ~4 chars/token
         tout = measured(mk, "tokens_out") or DEFAULT_TOKENS_OUT
@@ -178,8 +191,9 @@ def main():
         lim = mcfg.get("limits") or {}
         throttle = MinuteThrottle(lim["requests_per_min"], lim["tokens_per_min"]) if mcfg["provider"] == "groq" else None
         path = log_path(phase, mk)
-        done = done_ids(path)
-        errors = n_calls = n_fail = 0
+        jf_final = bool(mcfg.get("json_failed_is_outcome"))
+        done = done_ids(path, jf_final)
+        errors = n_calls = n_fail = n_json_failed = 0
         for pid, i, msgs in js:
             run_id = f"{phase}|{mk}|{pid}|{i:04d}"
             if run_id in done:
@@ -209,21 +223,25 @@ def main():
                    "prompt_id": pid, "prompts_sha256": sha, "run_index": i, "seed": seed,
                    "temperature": cfg["defaults"]["params"]["temperature"],
                    "max_tokens": max_tokens,
-                   "timestamp": now.isoformat(), "date_utc": now.date().isoformat(), **res}
+                   "timestamp": now.isoformat(), "date_utc": now.date().isoformat(), **res,
+                   "outcome": "json_validate_failed" if is_json_failed(res) else ("error" if res["error"] else "ok")}
             with open(path, "a") as f:
                 f.write(json.dumps(rec) + "\n")
-            errors = errors + 1 if res["error"] else 0
+            json_failed = jf_final and is_json_failed(res)
+            errors = errors + 1 if (res["error"] and not json_failed) else 0
             parsed = 0 if res["error"] else len(companies_in(res["raw_response"]))
             n_calls += 1
-            n_fail += int(bool(res["error"]) or parsed == 0)
+            n_json_failed += int(json_failed)
+            n_fail += int(not json_failed and (bool(res["error"]) or parsed == 0))
             extra = f"finish={res.get('finish_reason')} reasoning_tok={res.get('reasoning_tokens')}  " \
                 if mcfg["provider"] == "groq" else ""
-            print(f"{run_id}  {res['latency_ms']} ms  parsed={parsed}  {extra}"
-                  f"{'ERR ' + res['error'] if res['error'] else ''}", flush=True)
+            status = "JSON_FAILED (final, counted separately)" if json_failed else (
+                "ERR " + res["error"] if res["error"] else "")
+            print(f"{run_id}  {res['latency_ms']} ms  parsed={parsed}  {extra}{status}", flush=True)
             if errors >= MAX_CONSECUTIVE_ERRORS:
                 sys.exit(f"AUTO-STOP {mk}: {errors} consecutive errors (provider not responding?), "
                          f"last: {res['error']}")
-            if n_calls >= MIN_CALLS_FOR_RATE and n_fail / n_calls > MAX_FAIL_RATE:
+            if n_calls >= MIN_CALLS_FOR_RATE and n_fail / n_calls > MAX_FAIL_RATE:  # json-failed excluded
                 sys.exit(f"AUTO-STOP {mk}: {n_fail}/{n_calls} calls failed or parsed no stock "
                          f"(> {MAX_FAIL_RATE:.0%}). Inspect the log before resuming.")
 

@@ -49,7 +49,10 @@ def load_raw(stage, phase, models=None):
         raise SystemExit(f"No {stage} logs for phase '{phase}'.")
     if models:
         df = df[df.model_key.isin(models)]
-    return df[df.error.isna()].drop_duplicates("run_id", keep="last").reset_index(drop=True)
+    ok = df[df.error.isna()].drop_duplicates("run_id", keep="last")
+    # final json_validate_failed calls (refusals; not re-asked) count as completed, reported separately
+    jf = df[df.error.fillna("").str.contains("json_validate_failed") & ~df.run_id.isin(ok.run_id)]
+    return ok.reset_index(drop=True), jf.drop_duplicates("run_id", keep="last").reset_index(drop=True)
 
 
 def reasoning_of(raw):
@@ -186,11 +189,14 @@ def run(stage, phase="main", models=None, clean=None, out=print):
                 f"{r.model_key}/{r.condition_id} ({r.mismatch_rate:.1%})" for r in ni[ni.over_threshold].itertuples()))
     else:
         tag = "stage1" if stage == "stage1" else "stage2"
-        df = load_raw(tag, phase, models)
+        df, jf = load_raw(tag, phase, models)
         planned, cond_col = planned_counts(tag, df)
-        cnt = counts_vs_planned(df, planned, cond_col)
-        out("2. Completed vs. planned runs:\n" + cnt.groupby("model_key")[["planned", "completed", "short"]].sum()
-            .to_string())
+        cnt = counts_vs_planned(pd.concat([df, jf]), planned, cond_col)
+        out("2. Completed vs. planned runs (completed includes final json_validate_failed refusals):\n"
+            + cnt.groupby("model_key")[["planned", "completed", "short"]].sum().to_string())
+        if not jf.empty:
+            out("   json_validate_failed (refusals, final): " + ", ".join(
+                f"{mk} {n}" for mk, n in jf.groupby("model_key").size().items()))
         if (cnt.short > 0).any():
             failures.append("missing runs in: " + ", ".join(
                 f"{r.model_key}/{getattr(r, cond_col)} ({r.short})" for r in cnt[cnt.short > 0].itertuples()))

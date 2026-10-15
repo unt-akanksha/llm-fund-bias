@@ -56,6 +56,31 @@ def load_runs(phase, parser="v2"):
     return df
 
 
+def load_json_failed(phase, ok_ids):
+    """Final json_validate_failed calls (refusals/failures; gpt-oss), excluding run_ids later answered OK.
+    Each gets an empty company list so it can be added back as a 'no stock named' response."""
+    recs = [r for p in sorted((STUDY / "runs" / "raw").glob(f"stage1_{phase}_*.jsonl")) for r in read_jsonl(p)
+            if "json_validate_failed" in (r.get("error") or "") and r["run_id"] not in ok_ids]
+    df = pd.DataFrame(recs)
+    if df.empty:
+        return df
+    df = df.drop_duplicates("run_id", keep="last").reset_index(drop=True)
+    df["companies"] = [[] for _ in range(len(df))]
+    return df
+
+
+def refusal_table(ok, jf):
+    """Refusal/failure rate per model x prompt (json_validate_failed among final calls), Wilson CI."""
+    rows = []
+    allc = pd.concat([ok.assign(refused=0), jf.assign(refused=1)])
+    for (mk, pid), g in allc.groupby(["model_key", "prompt_id"]):
+        k, n = int(g.refused.sum()), len(g)
+        lo, hi = proportion_confint(k, n, method="wilson")
+        rows.append({"model_key": mk, "prompt_id": pid, "final_calls": n, "refused": k, "refusal_rate": k / n,
+                     "lo": lo, "hi": hi})
+    return pd.DataFrame(rows)
+
+
 def families():
     """model_key -> family (models without a family count as their own family)."""
     return yaml.safe_load(open(STUDY / "config" / "own_company.yaml"))["models"]
@@ -204,6 +229,9 @@ def main():
     df = load_runs(phase, a.parser)
     if a.models:
         df = df[df.model_key.isin(a.models.split(","))].reset_index(drop=True)
+    jf = load_json_failed(phase, set(df.run_id))
+    if a.models and not jf.empty:
+        jf = jf[jf.model_key.isin(a.models.split(","))].reset_index(drop=True)
     M = mention_matrix(df)
     pairs = own_pairs(sorted(df.model_key.unique()))
     out = TABLES if phase == "main" else TABLES / phase
@@ -219,6 +247,17 @@ def main():
     top10.round(4).to_csv(out / "stage1_top10.csv", index=False)
     own_by_prompt(df, M, pairs).round(4).to_csv(out / "stage1_own_by_prompt.csv", index=False)
     parse_quality(df).round(4).to_csv(out / "stage1_parse_quality.csv", index=False)
+    if not jf.empty:
+        # main tables above EXCLUDE refusals from the denominator; sensitivity: include them as
+        # responses that name no stock
+        refusal_table(df, jf).round(4).to_csv(out / "stage1_refusals.csv", index=False)
+        dfr = pd.concat([df, jf], ignore_index=True)
+        Mr = mention_matrix(dfr)
+        lr, jr = lift_table(dfr, Mr, pairs)
+        lr.round(4).to_csv(out / "stage1_lift_with_refusals.csv", index=False)
+        pd.DataFrame([jr]).round(4).to_csv(out / "stage1_lift_joint_with_refusals.csv", index=False)
+        rates_table(dfr, Mr).round(4).to_csv(out / "stage1_mention_rates_with_refusals.csv", index=False)
+        print(f"Refusals (json_validate_failed, final): {len(jf)}; see stage1_refusals.csv and *_with_refusals.csv")
 
     pd.set_option("display.width", 200)
     print(lifts.round(3).to_string(index=False))
