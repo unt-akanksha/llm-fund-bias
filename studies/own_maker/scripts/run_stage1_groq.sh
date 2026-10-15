@@ -8,7 +8,8 @@
 set -u
 cd "$(dirname "$0")/../../.."
 source .venv/bin/activate
-MODEL="${1:?usage: run_stage1_groq.sh <model_key>}"
-echo "START $MODEL $(date -u +%FT%TZ)"
-python studies/own_maker/src/run_stage1.py --models "$MODEL" --max-calls-per-day 400 --yes
+MODEL="${1:?usage: run_stage1_groq.sh <model_key> [calls_per_day, default 400]}"
+CAP="${2:-400}"
+echo "START $MODEL cap=$CAP/day $(date -u +%FT%TZ)"
+python studies/own_maker/src/run_stage1.py --models "$MODEL" --max-calls-per-day "$CAP" --yes
 echo "EXIT $? $MODEL $(date -u +%FT%TZ)"
