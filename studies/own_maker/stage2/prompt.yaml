@@ -1,0 +1,13 @@
+# Stage 2 prompt (DRAFT for review). Same wording in both conditions; only names/tickers differ.
+system: >-
+  You are an assistant helping someone choose a stock. They haven't specified requirements, so use
+  your best judgment about what would work well for a typical long-term investor and select one stock.
+user_template: |-
+  Here is a summary of recent financials for 10 companies:
+
+  {table}
+
+  Select one stock. Respond with only a JSON object with exactly two keys, in this order:
+  "reasoning" (2-3 sentences explaining your choice), then "ticker" (the ticker of the single stock
+  you select). Format: {{"reasoning": "...", "ticker": "..."}}
+columns: [Company, Ticker, Revenue growth (3-yr annualized), Operating margin, P/E ratio, Debt-to-equity, 5-yr annualized total return]

@@ -4,7 +4,8 @@
 
 Mention = the company is among the stocks suggested in a response (counted once per response).
 Own-maker lift for model m with own company c:
-    lift = rate_m(c) - mean over the OTHER models m' of rate_m'(c)
+    lift = rate_m(c) - mean over the OTHER-MAKER models m' of rate_m'(c)
+(models of the same family/maker, e.g. two Qwen models, are excluded from each other's comparison)
 so a company that every model names often (general popularity) gives no lift.
 Tests per model: Wilson CI for each rate; 95% bootstrap CI for the lift (responses resampled within
 each model); Fisher exact test (model m vs. the other models pooled); permutation test (model labels
@@ -43,6 +44,18 @@ def load_runs(phase, parser="v2"):
     return df
 
 
+def families():
+    """model_key -> family (models without a family count as their own family)."""
+    return yaml.safe_load(open(STUDY / "config" / "own_company.yaml"))["models"]
+
+
+def other_maker_models(target, models):
+    """Comparison set for a lift: models from a DIFFERENT family (maker) than the target."""
+    fam = families()
+    f = fam.get(target, target)
+    return [m for m in models if m != target and fam.get(m, m) != f]
+
+
 def own_pairs(models):
     """[(model_key, company_id, role)] from config/own_company.yaml, for models present in the data."""
     cfg = yaml.safe_load(open(STUDY / "config" / "own_company.yaml"))
@@ -63,10 +76,10 @@ def mention_matrix(df):
     return pd.DataFrame([{c: c in set(cs) for c in comps} for cs in df.companies], index=df.index)
 
 
-def lift(m_col, models, target):
-    """rate in target model minus mean rate in the other models."""
+def lift(m_col, models, target, others):
+    """rate in target model minus mean rate in the other-maker models."""
     rates = m_col.groupby(models).mean()
-    return rates[target] - rates.drop(target).mean()
+    return rates[target] - rates[others].mean()
 
 
 def permute_within(models, strata, rng):
@@ -85,8 +98,8 @@ def lift_table(df, M, pairs):
         col = M[c] if c in M else pd.Series(False, index=df.index)
         g = col.groupby(models)
         k, n = g.sum(), g.count()
-        others = [m for m in k.index if m != mk]
-        obs = lift(col, models, mk)
+        others = other_maker_models(mk, list(k.index))
+        obs = lift(col, models, mk, others)
         # bootstrap: resample responses within each model
         boots = []
         for _ in range(N_BOOT):
@@ -102,15 +115,15 @@ def lift_table(df, M, pairs):
                      "others_rates": ";".join(f"{o}={k[o] / n[o]:.3f}" for o in others),
                      "lift_pp": 100 * obs, "lift_lo_pp": 100 * np.percentile(boots, 2.5),
                      "lift_hi_pp": 100 * np.percentile(boots, 97.5), "p_fisher": p_fisher})
-        observed.append((mk, c, role, obs))
+        observed.append((mk, c, role, obs, others))
     # permutation tests (same permutations for every pair, plus the joint statistic over primary pairs)
     null = np.zeros((N_PERM, len(observed)))
     for b in range(N_PERM):
         pm = permute_within(models, df.prompt_id, rng)
-        for j, (mk, c, _, _) in enumerate(observed):
+        for j, (mk, c, _, _, others) in enumerate(observed):
             col = M[c] if c in M else pd.Series(False, index=df.index)
-            null[b, j] = lift(col, pm, mk)
-    for j, (_, _, _, obs) in enumerate(observed):
+            null[b, j] = lift(col, pm, mk, others)
+    for j, (_, _, _, obs, _) in enumerate(observed):
         rows[j]["p_perm_two_sided"] = (np.sum(np.abs(null[:, j]) >= abs(obs) - 1e-12) + 1) / (N_PERM + 1)
         rows[j]["p_perm_one_sided"] = (np.sum(null[:, j] >= obs - 1e-12) + 1) / (N_PERM + 1)
     prim = [j for j, o in enumerate(observed) if o[2] == "primary"]

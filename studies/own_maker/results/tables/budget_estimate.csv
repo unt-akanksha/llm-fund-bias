@@ -1,0 +1,7 @@
+model,stage,calls,tokens_in_low,tokens_out_low,usd_low,tokens_in_likely,tokens_out_likely,usd_likely,tokens_in_high,tokens_out_high,usd_high
+claude-opus-5.5,stage1,500,75000,79000,1.88,75000,140000,3.1,75000,600000,12.3
+claude-opus-5.5,stage2,100,33912,8000,0.3,33912,15000,0.44,33912,120000,2.54
+gpt-6-astra,stage1,500,75000,79000,4.7,75000,140000,7.75,75000,600000,30.75
+gpt-6-astra,stage2,100,33912,8000,0.74,33912,15000,1.09,33912,120000,6.34
+gpt-6.1-sol,stage1,500,75000,79000,0.94,75000,140000,1.55,75000,600000,6.15
+gpt-6.1-sol,stage2,100,33912,8000,0.15,33912,15000,0.22,33912,120000,1.27

@@ -1,0 +1,4 @@
+model_key,own_company,role,n_model,own_rate,own_lo,own_hi,others,others_rate_mean,others_rates,lift_pp,lift_lo_pp,lift_hi_pp,p_fisher,p_perm_two_sided,p_perm_one_sided
+groq-qwen3.8-27b,BABA,primary,500,0.0,0.0,0.0076,llama3.1-8b,0.0,llama3.1-8b=0.000,0.0,0.0,0.0,1.0,1.0,0.5429
+llama3.1-8b,META,primary,500,0.0,0.0,0.0076,groq-qwen3.8-27b;qwen2.5-7b,0.005,groq-qwen3.8-27b=0.000;qwen2.5-7b=0.010,-0.5,-1.0,-0.1,0.1762,0.1778,1.0
+qwen2.5-7b,BABA,primary,500,0.048,0.0325,0.0704,llama3.1-8b,0.0,llama3.1-8b=0.000,4.8,3.0,6.6,0.0,0.0001,0.0001

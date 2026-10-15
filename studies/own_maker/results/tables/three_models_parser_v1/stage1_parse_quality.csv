@@ -1,0 +1,4 @@
+model_key,responses,responses_with_0_parsed,mean_entries,share_unknown,share_etf,top_unknown
+groq-qwen3.8-27b,500,0,4.998,0.0356,0.0412,UNKNOWN:elevance health;UNKNOWN:bristol myers squibb;UNKNOWN:brighthouse financial;UNKNOWN:crispr therapeutics;UNKNOWN:coinbase global;UNKNOWN:micron technology;UNKNOWN:rivian automotive;UNKNOWN:arm;UNKNOWN:spacex;UNKNOWN:applied materials
+llama3.1-8b,500,0,4.998,0.0076,0.0008,UNKNOWN:docusign;UNKNOWN:peloton interactive;UNKNOWN:teladoc health;UNKNOWN:micron technology;UNKNOWN:uipath;UNKNOWN:twilio;UNKNOWN:datadog;UNKNOWN:booking
+qwen2.5-7b,500,0,4.994,0.0284,0.0076,UNKNOWN:bristol myers squibb;UNKNOWN:bytedance;UNKNOWN:roblox;UNKNOWN:irobot;UNKNOWN:rivian automotive;UNKNOWN:novartis;UNKNOWN:automatic data processing;UNKNOWN:byrd global;UNKNOWN:beyond meat;UNKNOWN:motley fool

@@ -1,0 +1,2 @@
+pairs,sum_lift_pp,p_perm_one_sided,p_perm_two_sided,n_perm
+groq-qwen3.8-27b:BABA;llama3.1-8b:META;qwen2.5-7b:BABA,4.3,0.0004,0.0021,10000

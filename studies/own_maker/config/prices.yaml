@@ -1,0 +1,14 @@
+# API prices in USD per 1M tokens (standard, non-batch). Looked up 2026-10-15 on the providers'
+# official pricing pages. Re-check before spending: prices change.
+accessed: "2026-10-15"
+sources:
+  anthropic: https://platform.claude.com/docs/en/about-claude/pricing
+  openai: https://developers.openai.com/api/docs/pricing   # openai.com/api/pricing returned HTTP 403
+batch_discount: 0.5          # both providers list Batch API at 50% of standard (not used in the default estimate)
+models:
+  claude-opus-5.5:   {provider: anthropic, input: 4.00,  output: 20.00}
+  gpt-6-astra:       {provider: openai,    input: 10.00, output: 50.00, note: "short-context price (<=272K input)"}
+  gpt-6.1-sol:       {provider: openai,    input: 2.00,  output: 10.00, note: "short-context price; Claude Sonnet 5.5 has the same $2/$10"}
+unverified:
+  - "OpenAI's pricing page does not state how hidden reasoning tokens are billed; the high scenario assumes they are billed as output."
+  - "Exact model ids for API calls were not checked against the providers' live model lists."

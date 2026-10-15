@@ -1,0 +1,3 @@
+model_key,responses,responses_with_0_parsed,mean_entries,share_unknown,share_etf,top_unknown
+llama3.1-8b,500,0,4.998,0.0,0.0008,
+qwen2.5-7b,500,0,4.994,0.01,0.0076,UNKNOWN:bytedance;UNKNOWN:byrd global;UNKNOWN:motley fool;UNKNOWN:spacex;UNKNOWN:merrill lynch;UNKNOWN:bytedance subsidiary;UNKNOWN:activision blizzard;UNKNOWN:amara repsol;UNKNOWN:zhilu com;UNKNOWN:bumble bumble

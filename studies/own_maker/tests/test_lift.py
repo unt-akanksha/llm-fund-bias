@@ -41,3 +41,10 @@ def test_permutation_keeps_labels_within_prompt():
 def test_mention_matrix_excludes_etf_and_unknown():
     df = pd.DataFrame({"companies": [["META", "ETF:VOO"], ["UNKNOWN:x", "BABA"]]})
     assert list(A.mention_matrix(df).columns) == ["BABA", "META"]
+
+
+def test_same_maker_models_excluded_from_comparison(monkeypatch):
+    monkeypatch.setattr(A, "families", lambda: {"q1": "qwen", "q2": "qwen", "l1": "llama"})
+    assert A.other_maker_models("q1", ["l1", "q1", "q2"]) == ["l1"]
+    assert A.other_maker_models("l1", ["l1", "q1", "q2"]) == ["q1", "q2"]
+    assert A.other_maker_models("x", ["l1", "x"]) == ["l1"]      # unmapped model = its own maker
