@@ -1,4 +1,4 @@
-# Own-maker study, Stage 2 design (DRAFT for review; frozen + tagged before any run).
+# Own-maker study, Stage 2 design. FROZEN at tag own-maker-stage2-v1 (before any Stage 2 run).
 # ALL FINANCIAL FIGURES ARE HYPOTHETICAL / MADE UP. They describe no real company and are
 # sandbox stimuli only. Not financial advice.
 
@@ -53,5 +53,10 @@ profiles:   # rank: [revenue growth 3y, operating margin, P/E, debt/equity, 5y t
 # Latin square (shuffled rows, columns and rank labels), so every company gets every rank exactly
 # once per block (5 times over 50 runs) and no two companies keep a fixed rank relation. Row order
 # is shuffled per run (seeded) independently of the assignment. Both are logged on every call.
+# Analysis (pre-specified): per model and condition, logistic regression on one row per company
+# per run: pick ~ is_own_maker + financial_rank + row_position, SEs clustered by run. In the
+# fictional condition, is_own_maker marks the slot that holds the own company in the real condition
+# (placebo; expected ~0). No pooled fixed-effects model.
+
 assignment_seed: own_maker_stage2_v1
 row_order_seed: own_maker_stage2_rows_v1
