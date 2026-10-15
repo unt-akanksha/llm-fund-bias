@@ -81,3 +81,37 @@ def test_no_ticker_collisions():
         for t in tickers:
             assert t not in seen, f"{t} used by {seen.get(t)} and {cid}"
             seen[t] = cid
+
+
+# ---- parser v2 additions (v1 behaviour must be unchanged for everything v1 already matched)
+import companies_v1  # noqa: E402
+
+
+@pytest.mark.parametrize("company, ticker, expected", [
+    ("Bristol Myers Squibb Company", "BMY", "BMY"),
+    ("L'Oréal S.A.", "LRCYF", "LRLCY"),
+    ("TotalEnergies SE", "TTE", "TTE"),
+    ("Rivain Automotive", "RIVN", "RIVN"),          # misspelled name, correct ticker
+    ("Robinhood Markets, Inc.", "RHOBW", "HOOD"),   # correct name, wrong ticker
+    ("MSTR MicroStrategy", "MSTR", "MSTR"),
+    ("Becton, Dickinson and Company", "BDX", "BDX"),
+])
+def test_v2_additions(company, ticker, expected):
+    assert classify_entry(company, ticker) == expected
+    assert companies_v1.classify_entry(company, ticker).startswith("UNKNOWN:")
+
+
+@pytest.mark.parametrize("company, ticker", [
+    ("Byrd Global Holding, Ltd.", "YUMO"), ("The Motley Fool Inc.", "MF"), ("Llyell Pharmaceuticals", "LYLL"),
+    ("SpaceX", "N/A"), ("Bytedance Ltd.", "BITA"), ("Activision Blizzard, Inc.", "ATVI"),
+])
+def test_v2_leaves_private_delisted_and_hallucinated_unmatched(company, ticker):
+    assert classify_entry(company, ticker).startswith("UNKNOWN:")
+
+
+def test_v1_and_v2_agree_on_v1_matches():
+    for cid, (tickers, aliases) in companies_v1.COMPANIES.items():
+        for a in aliases:
+            assert classify_entry(a, "") == companies_v1.classify_entry(a, "")
+        for t in tickers:
+            assert classify_entry("", t) == companies_v1.classify_entry("", t)

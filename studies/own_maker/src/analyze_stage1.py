@@ -26,17 +26,20 @@ STUDY = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(STUDY.parent.parent / "src"))
 from common import read_jsonl  # noqa: E402
 
-from companies import companies_in  # noqa: E402
+import companies  # noqa: E402  (parser v2)
+import companies_v1  # noqa: E402  (parser v1, frozen at own-maker-v0.1-frozen)
+
+PARSERS = {"v1": companies_v1.companies_in, "v2": companies.companies_in}
 
 TABLES = STUDY / "results" / "tables"
 N_BOOT, N_PERM, SEED = 2000, 10000, 20261011
 
 
-def load_runs(phase):
+def load_runs(phase, parser="v2"):
     recs = [r for p in sorted((STUDY / "runs" / "raw").glob(f"stage1_{phase}_*.jsonl")) for r in read_jsonl(p)]
     df = pd.DataFrame(recs)
     df = df[df.error.isna()].drop_duplicates("run_id", keep="last").reset_index(drop=True)
-    df["companies"] = df.raw_response.map(companies_in)
+    df["companies"] = df.raw_response.map(PARSERS[parser])
     return df
 
 
@@ -168,9 +171,10 @@ def main():
     ap.add_argument("--phase", default="main")
     ap.add_argument("--models", help="comma-separated model keys to include (default: all in the logs)")
     ap.add_argument("--out", help="subfolder of results/tables for this analysis (e.g. local)")
+    ap.add_argument("--parser", choices=sorted(PARSERS), default="v2")
     a = ap.parse_args()
     phase = a.phase
-    df = load_runs(phase)
+    df = load_runs(phase, a.parser)
     if a.models:
         df = df[df.model_key.isin(a.models.split(","))].reset_index(drop=True)
     M = mention_matrix(df)

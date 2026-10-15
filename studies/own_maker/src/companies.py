@@ -1,4 +1,6 @@
-"""Canonical company list and parser: map suggested stocks (name and/or ticker) to company ids.
+"""PARSER v2 (tag own-maker-parser-v2). v1 = companies_v1.py (frozen at own-maker-v0.1-frozen).
+
+Canonical company list and parser: map suggested stocks (name and/or ticker) to company ids.
 
 Each company: id -> (tickers, name aliases). Share classes and listings of one company map to one id
 (GOOG/GOOGL -> GOOGL; BABA/9988.HK -> BABA; Facebook/Meta -> META). ETFs/funds map to "ETF:<ticker>"
@@ -8,6 +10,8 @@ the unmatched rate can be reported and the list extended.
 
 import json
 import re
+
+PARSER_VERSION = "v2"
 
 COMPANIES = {
     # US mega-cap tech / communication
@@ -132,6 +136,67 @@ COMPANIES = {
     "ENPH": (["ENPH"], ["enphase", "enphase energy"]),
     "F": (["F"], ["ford", "ford motor"]),
     "GM": (["GM"], ["general motors"]),
+    # ---- added in parser v2 (2026-10-15): every real, currently listed company that was unmatched
+    # in the Stage 1 main logs under v1, decided before re-parsing (see results/tables/parser_v2_unmatched_review.csv)
+    "BMY": (["BMY"], ["bristol myers squibb", "bristol myers"]),
+    "DOCU": (["DOCU"], ["docusign"]),
+    "PTON": (["PTON"], ["peloton", "peloton interactive"]),
+    "MU": (["MU"], ["micron", "micron technology"]),
+    "RIVN": (["RIVN"], ["rivian", "rivian automotive"]),
+    "RBLX": (["RBLX"], ["roblox"]),
+    "COIN": (["COIN"], ["coinbase", "coinbase global"]),
+    "CRSP": (["CRSP"], ["crispr therapeutics"]),
+    "IRBT": (["IRBT"], ["irobot"]),
+    "AMAT": (["AMAT"], ["applied materials"]),
+    "ARM": (["ARM"], ["arm holdings"]),
+    "ADP": (["ADP"], ["automatic data processing"]),
+    "BYND": (["BYND"], ["beyond meat"]),
+    "BHF": (["BHF"], ["brighthouse financial"]),
+    "ELV": (["ELV"], ["elevance health", "elevance"]),
+    "NVS": (["NVS"], ["novartis"]),
+    "HOOD": (["HOOD"], ["robinhood", "robinhood markets"]),
+    "TDOC": (["TDOC"], ["teladoc", "teladoc health"]),
+    "ALL": (["ALL"], ["allstate"]),
+    "ASTS": (["ASTS"], ["ast spacemobile"]),
+    "ARBE": (["ARBE"], ["arbe robotics"]),
+    "BTRW": (["BTRW.L", "BDEV.L"], ["barratt developments", "barratt redrow"]),
+    "BDX": (["BDX"], ["becton dickinson", "becton dickinson and"]),
+    "BKNG": (["BKNG"], ["booking", "booking holdings"]),
+    "CLX": (["CLX"], ["clorox"]),
+    "CRWV": (["CRWV"], ["coreweave"]),
+    "CVAC": (["CVAC"], ["curevac"]),
+    "DDOG": (["DDOG"], ["datadog"]),
+    "DASH": (["DASH"], ["doordash"]),
+    "ECL": (["ECL"], ["ecolab"]),
+    "FSLR": (["FSLR"], ["first solar"]),
+    "FTNT": (["FTNT"], ["fortinet"]),
+    "GILD": (["GILD"], ["gilead", "gilead sciences"]),
+    "GFS": (["GFS"], ["globalfoundries"]),
+    "IIPR": (["IIPR"], ["innovative industrial properties"]),
+    "IONS": (["IONS"], ["ionis", "ionis pharmaceuticals"]),
+    "IONQ": (["IONQ"], ["ionq"]),
+    "JBL": (["JBL"], ["jabil"]),
+    "KINGSOFT_OFFICE": (["688111.SS"], ["kingsoft office", "kingsoft office software"]),
+    "KHC": (["KHC"], ["kraft heinz"]),
+    "LRLCY": (["LRLCY", "OR.PA"], ["l or al", "l oreal", "loreal"]),
+    "LSCC": (["LSCC"], ["lattice semiconductor"]),
+    "LEN": (["LEN"], ["lennar"]),
+    "MELI": (["MELI"], ["mercadolibre"]),
+    "MCHP": (["MCHP"], ["microchip technology", "microchip"]),
+    "MSTR": (["MSTR"], ["microstrategy", "mstr microstrategy", "strategy inc"]),
+    "NU": (["NU"], ["nu holdings"]),
+    "QUBT": (["QUBT"], ["quantum computing"]),
+    "RKLB": (["RKLB"], ["rocket lab"]),
+    "ROKU": (["ROKU"], ["roku"]),
+    "SHW": (["SHW"], ["sherwin williams"]),
+    "STT": (["STT"], ["state street"]),
+    "TTE": (["TTE"], ["totalenergies", "total energies"]),
+    "TWLO": (["TWLO"], ["twilio"]),
+    "PATH": (["PATH"], ["uipath"]),
+    "U": (["U"], ["unity software"]),
+    "VEEV": (["VEEV"], ["veeva", "veeva systems"]),
+    "VRTX": (["VRTX"], ["vertex pharmaceuticals"]),
+    "WDAY": (["WDAY"], ["workday"]),
 }
 
 ETF_TICKERS = {"VOO", "SPY", "IVV", "VTI", "QQQ", "VT", "VXUS", "BND", "AGG", "SCHD", "VIG", "VYM",
