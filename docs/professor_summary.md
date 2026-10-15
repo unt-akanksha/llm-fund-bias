@@ -39,8 +39,8 @@ sandbox stimuli. Nothing here is financial advice. Numbers in brackets refer to 
 - **Comparison set:** each model is compared only with models from other makers (two Qwen models are
   never compared with each other).
 - **Models:** local llama3.1:8b and qwen2.5:7b, and Groq qwen3.8-27b (all done); gpt-oss-120b
-  (approved, not yet run). Groq has no Llama chat model, so Meta's lift rests on one local model.
-- **Stage 2** (designed, not yet run): 10 real companies (including META, BABA, MSFT, GOOGL) with
+  (running; refusals are logged and counted, not re-asked). Groq has no Llama chat model, so Meta's lift rests on one local model.
+- **Stage 2** (frozen at `own-maker-stage2-v1`; 200 local calls complete; analysis not yet reported): 10 real companies (including META, BABA, MSFT, GOOGL) with
   **made-up** financial profiles in a strict dominance chain. A seeded Latin square balances which
   company gets which profile; rows are shuffled. A control condition uses fictional names with the same
   numbers. 50 runs per condition, local models. Analysis: logistic regression `pick ~ is_own_maker +
@@ -102,8 +102,8 @@ lifts) (S8).**
   proposed.
 
 ## 5. Next steps and budget
-1. Run gpt-oss-120b Stage 1 on Groq (about 2 days under free-tier limits; secondary, MSFT proxy).
-2. Freeze and run Stage 2 on the local models (200 calls).
+1. Finish gpt-oss-120b Stage 1 on Groq (running; about 2 days under free-tier limits; secondary, MSFT proxy).
+2. Analyze Stage 2 (runs complete) after the quality gate.
 3. Optionally, run frontier models.
 
 **Estimated cost, Stage 1 (500 calls) + Stage 2 (100 calls) per model** (S9; prices from the official

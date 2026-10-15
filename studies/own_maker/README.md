@@ -5,8 +5,15 @@ A separate study from the fund-choice experiment in the repo root. Its files liv
 
 > **Not financial advice.** This study measures which companies language models *mention* when
 > asked for stock suggestions. Model outputs are recorded as data and are not recommendations. Stage 2
-> (planned) uses **hypothetical, made-up financials** for real company names; those numbers are
-> sandbox stimuli and describe no real company.
+> uses **hypothetical, made-up financials** for real company names; those numbers are sandbox stimuli
+> and describe no real company.
+
+> **Status: work in progress (2026-10-15). Results here are exploratory and not final.**
+> - Stage 1: llama3.1:8b, qwen2.5:7b (local) and qwen3.8-27b (Groq) complete, 500 responses each.
+>   gpt-oss-120b (Groq) is **running** (secondary, MSFT proxy).
+> - Stage 2: design frozen (tag `own-maker-stage2-v1`) and the 200 local calls are complete.
+>   **Analysis not yet run or reported.**
+> - Sections marked *(draft)* describe planned or unfinished work.
 
 ## Research question
 Do LLMs favor stock in their own maker's company beyond what general popularity explains?
@@ -30,11 +37,23 @@ Do LLMs favor stock in their own maker's company beyond what general popularity 
 - **Parsing** (`src/companies.py`): names and tickers map to one canonical company, covering share
   classes and listings (GOOG/GOOGL, BABA/9988.HK, BRK.A/BRK.B) and old names (Facebook → META). ETFs
   are counted separately, and unrecognized entries are kept as `UNKNOWN:` and reported.
+  - Parser v1 is frozen as `src/companies_v1.py` (tag `own-maker-v0.1-frozen`).
+  - Parser v2 (tag `own-maker-parser-v2`) adds every real, currently listed company found unmatched,
+    decided before re-parsing (`results/tables/parser_v2_unmatched_review.csv`, which also lists
+    private, delisted, non-stock and hallucinated names). Lifts are reported under both versions.
+- **Refusals (gpt-oss-120b):** Groq rejects a prose refusal ("I’m sorry, but I can’t help with that.")
+  with HTTP 400 `json_validate_failed`. These calls are final: the full text is logged and they are
+  never re-asked. They are excluded from mention rates, with a sensitivity table that includes them as
+  "no stock named". Refusal rates per prompt are reported (`stage1_refusals.csv`).
+- **Quality gate** (`src/quality_checks.py`, runs before every analysis): name vs. ID mismatch (stop
+  if any cell exceeds 2%), completed vs. planned counts, 20 random raw responses, choice shares summing
+  to 1, Stage 2 balance, and the Groq finish-reason share.
 - **Metrics** (`src/analyze_stage1.py`):
   - mention rate of each company per model (share of responses naming it, Wilson 95% CI);
   - **own-maker lift** = own-company mention rate in that model − mean mention rate of the same
-    company in the *other* models. This controls for general popularity: Meta named by Llama is
-    compared with Meta named by Qwen and the other models;
+    company in the models from *other makers*. This controls for general popularity: Meta named by
+    Llama is compared with Meta named by the Qwen models. Models from the same maker (e.g. two Qwen
+    models) are never compared with each other;
   - a 95% bootstrap CI for the lift, a Fisher exact test (model vs. the other models pooled), and a
     permutation test that shuffles model labels within each prompt variant, plus a joint
     permutation test over all primary pairs;
@@ -43,10 +62,9 @@ Do LLMs favor stock in their own maker's company beyond what general popularity 
   answer is logged and never mixed into the Stage 1 prompts. Answers on 2026-10-11:
   llama3.1:8b → "Meta AI", qwen2.5:7b → "Alibaba Cloud".
 
-With only the two local models, each lift compares one model against the other. Hosted models
-(Part C) widen the comparison set.
+Groq models widen the comparison set beyond the two local models.
 
-**Hosted models (Groq, checked against the live model list on 2026-10-11).** Approved:
+**Hosted models (Groq, checked against the live model list on 2026-10-11).** Run:
 `qwen/qwen3.8-27b` (Qwen family, own company BABA, primary) and `openai/gpt-oss-120b` (secondary and
 exploratory: OpenAI is not listed, so MSFT is a proxy). `allam-2-7b` (SDAIA, not listed) may be added
 last as a comparison-only model if rate limits allow. **Groq offers no Llama chat model and no Gemma,
@@ -54,19 +72,28 @@ so Meta's own-maker lift rests on one local model (llama3.1:8b)**. The hosted mo
 "other models" comparison for Meta. A 4-call Groq smoke test (`stage1_groqsmoke_*`) checked
 parsing, 429 handling and logging, and is not analyzed.
 
-## Stage 2 (planned; only if Stage 1 shows a signal or on the author's go-ahead)
-A table of ~10 real public companies (including each maker) with **made-up financials**, reshuffled
-each run. A balanced, seeded and logged assignment decides which company gets the best financials, so
-the name is separated from the numbers. A control version uses fictional company names with the same
-financials. Analysis: logistic regression `pick ~ is_own_maker + financial rank + row position
-(+ model)`.
+## Stage 2: made-up financials (frozen at `own-maker-stage2-v1`; runs complete; analysis *(draft)*)
+Design files: `stage2/config.yaml` and `stage2/prompt.yaml`.
+- **Companies:** 10 real companies (META, BABA, MSFT, GOOGL, AAPL, AMZN, NVDA, JPM, JNJ, PG). The
+  control condition uses 10 fictional names, with the same financials and the same row order in every
+  run.
+- **Financials:** 10 **hypothetical** profiles. Each profile is better than the next on every column,
+  so the financial rank is unambiguous. The prompt says "All figures are hypothetical."
+- **Assignment:** a seeded random Latin square for each block of 10 runs, so each company gets each
+  rank exactly 5 times in 50 runs. Rows are shuffled per run.
+- **Runs:** local llama3.1:8b and qwen2.5:7b, 2 conditions × 50 runs = 200 calls.
+- **Analysis (pre-specified):** per model and condition, logistic regression `pick ~ is_own_maker +
+  financial_rank + row_position` with SEs clustered by run. The fictional condition is the placebo.
 
 ## Reproduce
 ```bash
 python studies/own_maker/src/run_stage1.py --dry-run          # calls + token estimate, no calls
 python studies/own_maker/src/run_stage1.py                    # main run (asks before >300 calls)
 python studies/own_maker/src/run_stage1.py --maker-question   # one call per model
-python studies/own_maker/src/analyze_stage1.py                # -> results/tables/stage1_*.csv
+python studies/own_maker/src/analyze_stage1.py                # quality gate, then results/tables/stage1_*.csv
+python studies/own_maker/src/run_stage2.py --dry-run          # Stage 2 (200 local calls)
+python studies/own_maker/src/analyze_stage2.py                # quality gate, then results/tables/stage2/
+python src/estimate_budget.py                                 # frontier-model budget estimate
 pytest studies/own_maker/tests
 ```
 Logs: `runs/raw/stage1_<phase>_<model>.jsonl` (append-only; provider, model id, digest, UTC date,
