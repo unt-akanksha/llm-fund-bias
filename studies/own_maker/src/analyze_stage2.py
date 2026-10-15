@@ -26,6 +26,18 @@ STUDY = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(STUDY.parent.parent / "src"))
 from common import read_jsonl  # noqa: E402
 
+import quality_checks  # noqa: E402
+
+
+def gate(stage, phase, models, override):
+    """Standing quality checks before any analysis; stop on failure unless explicitly overridden."""
+    try:
+        quality_checks.run(stage, phase, models)
+    except quality_checks.GateFailure as e:
+        if not override:
+            sys.exit(f"STOP (quality gate): {e}\nRe-run with --override-gate '<reason>' only after review.")
+        print(f"QUALITY GATE OVERRIDDEN ({override}): {e}")
+
 TABLES = STUDY / "results" / "tables" / "stage2"
 
 
@@ -59,7 +71,10 @@ def fit(d):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--phase", default="main")
-    phase = ap.parse_args().phase
+    ap.add_argument("--override-gate", metavar="REASON", help="continue despite a failed quality gate (reason is printed)")
+    a = ap.parse_args()
+    phase = a.phase
+    gate("stage2", phase, None, a.override_gate)
     cfg = yaml.safe_load(open(STUDY / "stage2" / "config.yaml"))
     recs = [r for p in sorted((STUDY / "runs" / "raw").glob(f"stage2_{phase}_*.jsonl")) for r in read_jsonl(p)]
     runs = pd.DataFrame(recs)

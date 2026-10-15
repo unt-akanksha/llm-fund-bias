@@ -27,6 +27,18 @@ STUDY = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(STUDY.parent.parent / "src"))
 from common import read_jsonl  # noqa: E402
 
+import quality_checks  # noqa: E402
+
+
+def gate(stage, phase, models, override):
+    """Standing quality checks before any analysis; stop on failure unless explicitly overridden."""
+    try:
+        quality_checks.run(stage, phase, models)
+    except quality_checks.GateFailure as e:
+        if not override:
+            sys.exit(f"STOP (quality gate): {e}\nRe-run with --override-gate '<reason>' only after review.")
+        print(f"QUALITY GATE OVERRIDDEN ({override}): {e}")
+
 import companies  # noqa: E402  (parser v2)
 import companies_v1  # noqa: E402  (parser v1, frozen at own-maker-v0.1-frozen)
 
@@ -185,8 +197,10 @@ def main():
     ap.add_argument("--models", help="comma-separated model keys to include (default: all in the logs)")
     ap.add_argument("--out", help="subfolder of results/tables for this analysis (e.g. local)")
     ap.add_argument("--parser", choices=sorted(PARSERS), default="v2")
+    ap.add_argument("--override-gate", metavar="REASON", help="continue despite a failed quality gate (reason is printed)")
     a = ap.parse_args()
     phase = a.phase
+    gate("stage1", phase, a.models.split(",") if a.models else None, a.override_gate)
     df = load_runs(phase, a.parser)
     if a.models:
         df = df[df.model_key.isin(a.models.split(","))].reset_index(drop=True)
