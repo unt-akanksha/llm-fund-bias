@@ -1,0 +1,5 @@
+model_key,condition,calls,no_valid_ticker
+llama3.1-8b,fictional_names,50,0
+llama3.1-8b,real_names,50,0
+qwen2.5-7b,fictional_names,50,0
+qwen2.5-7b,real_names,50,0

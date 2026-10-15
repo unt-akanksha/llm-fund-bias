@@ -1,0 +1,5 @@
+model_key,condition,n_runs,rank1_pick_rate,mean_rank_picked,own_slot_pick_rate,own_lo,own_hi,expected_if_balanced,pick_META,pick_BABA,pick_MSFT,pick_GOOGL,pick_AAPL,pick_AMZN,pick_NVDA,pick_JPM,pick_JNJ,pick_PG
+llama3.1-8b,fictional_names,50,0.62,1.54,0.08,0.0315,0.1884,0.1,0.08,0.12,0.16,0.1,0.06,0.06,0.06,0.16,0.1,0.1
+llama3.1-8b,real_names,50,0.5,1.92,0.04,0.011,0.1346,0.1,0.04,0.02,0.2,0.12,0.04,0.06,0.08,0.04,0.34,0.06
+qwen2.5-7b,fictional_names,50,0.68,1.5,0.12,0.0562,0.238,0.1,0.1,0.12,0.12,0.08,0.08,0.06,0.12,0.1,0.06,0.16
+qwen2.5-7b,real_names,50,0.6,1.68,0.16,0.0834,0.2851,0.1,0.04,0.16,0.16,0.02,0.14,0.0,0.06,0.1,0.2,0.12

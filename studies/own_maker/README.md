@@ -10,9 +10,9 @@ A separate study from the fund-choice experiment in the repo root. Its files liv
 
 > **Status: work in progress (2026-10-15). Results here are exploratory and not final.**
 > - Stage 1: llama3.1:8b, qwen2.5:7b (local) and qwen3.8-27b (Groq) complete, 500 responses each.
->   gpt-oss-120b (Groq) is **running** (secondary, MSFT proxy).
-> - Stage 2: design frozen (tag `own-maker-stage2-v1`) and the 200 local calls are complete.
->   **Analysis not yet run or reported.**
+>   gpt-oss-120b (Groq; secondary, MSFT proxy) is **in progress**: 250/500 calls (prompts 1–5).
+> - Stage 2: design frozen (tag `own-maker-stage2-v1`), 200 local calls complete, quality gate passed;
+>   exploratory results below.
 > - Sections marked *(draft)* describe planned or unfinished work.
 
 ## Research question
@@ -72,7 +72,29 @@ so Meta's own-maker lift rests on one local model (llama3.1:8b)**. The hosted mo
 "other models" comparison for Meta. A 4-call Groq smoke test (`stage1_groqsmoke_*`) checked
 parsing, 429 handling and logging, and is not analyzed.
 
-## Stage 2: made-up financials (frozen at `own-maker-stage2-v1`; runs complete; analysis *(draft)*)
+## Exploratory results so far
+- **Stage 1 (three complete models; `results/tables/three_models_parser_v1/` and `_v2/`, identical lifts):**
+  - qwen2.5:7b named Alibaba in 4.8% of responses vs. 0% for llama: lift +4.8 pp [+3.0, +6.6],
+    p < 0.001. 16 of the 24 mentions come from one prompt.
+  - qwen3.8-27b named Alibaba 0 times in 500.
+  - llama3.1:8b never named Meta: lift −0.5 pp [−1.0, −0.1], p = 0.18.
+- **gpt-oss-120b refusals (partial: day 1, prompts 1–5;
+  `results/tables/four_models_partial_gptoss_day1/stage1_refusals.csv`):**
+  - 60 of 250 requests were refused as plain-text "I’m sorry…" answers.
+  - Refusals per prompt: p02_portfolio 48/50 (96%), p03_budget_10k 8/50, p04_beginner 3/50,
+    p01_typical 1/50, p05_low_risk 0/50.
+  - Sensitivity: MSFT's mention rate is 79% of answered requests (150/190) and 60% if refusals count
+    as "no stock named" (150/250).
+  - The gpt-oss lift is not reported until all 10 prompts are done: the other models' rates cover
+    all 10 prompts, so the prompt mix would differ.
+- **Stage 2 (`results/tables/stage2/`; 50 runs per cell):**
+  - No own-maker effect is detectable with the financials held fixed: own-company odds ratio
+    llama/META 0.27 [0.06, 1.35] (p = 0.11), qwen/BABA 2.87 [0.62, 13.4] (p = 0.18). The
+    fictional-name placebo gives 0.69 and 1.50.
+  - The financial rank drives picks in every cell (p < 0.001).
+  - The design has low power: it can only detect large effects.
+
+## Stage 2: made-up financials (frozen at `own-maker-stage2-v1`; runs complete; results exploratory)
 Design files: `stage2/config.yaml` and `stage2/prompt.yaml`.
 - **Companies:** 10 real companies (META, BABA, MSFT, GOOGL, AAPL, AMZN, NVDA, JPM, JNJ, PG). The
   control condition uses 10 fictional names, with the same financials and the same row order in every

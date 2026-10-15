@@ -1,0 +1,5 @@
+model_key,responses,responses_with_0_parsed,mean_entries,share_unknown,share_etf,top_unknown
+groq-gpt-oss-120b,190,1,4.9579,0.0,0.018,
+groq-qwen3.8-27b,500,0,4.998,0.0112,0.0412,UNKNOWN:spacex;UNKNOWN:llyell pharmaceuticals;UNKNOWN:eastside telecom;UNKNOWN:reynolds american;UNKNOWN:bridgeline active transportation;UNKNOWN:cvr energy solutions;UNKNOWN:nuvos;UNKNOWN:xoom;UNKNOWN:genehack;UNKNOWN:sierra wireless
+llama3.1-8b,500,0,4.998,0.0,0.0008,
+qwen2.5-7b,500,0,4.994,0.01,0.0076,UNKNOWN:bytedance;UNKNOWN:byrd global;UNKNOWN:motley fool;UNKNOWN:spacex;UNKNOWN:merrill lynch;UNKNOWN:bytedance subsidiary;UNKNOWN:activision blizzard;UNKNOWN:amara repsol;UNKNOWN:zhilu com;UNKNOWN:bumble bumble

@@ -1,0 +1,72 @@
+2. Completed vs. planned runs (completed includes final json_validate_failed refusals):
+             planned  completed  short
+model_key                             
+llama3.1-8b      100        100      0
+qwen2.5-7b       100        100      0
+3. 20 random raw responses (seed 20261015):
+--- main|llama3.1-8b|real_names|0002
+{"reasoning": "I chose Meta Platforms (META) because it has a strong revenue growth rate of 13.2% over the past 3 years, and a high operating margin of 26%, indicating efficient use of resources. Additionally, its 5-year annualized total return of 14.6% suggests a good track record of generating returns for shareholders.", "ticker": "META"}
+--- main|llama3.1-8b|real_names|0007
+{
+  "reasoning": "I've chosen JPMorgan Chase (JPM) because it has a strong balance sheet, with a relatively low debt-to-equity ratio, and a high operating margin. This indicates that the company is profitable and able to manage its debt effectively. Its revenue growth and 5-year annualized total return also suggest a stable and growing business.",
+  "ticker": "JPM"
+}
+--- main|llama3.1-8b|real_names|0010
+{"reasoning": "I chose Johnson & Johnson (JNJ) due to its stable financial performance, moderate growth, and consistent operating margin. JNJ's relatively low debt-to-equity ratio and high operating margin indicate a solid foundation for long-term success. Its 10.0% annualized revenue growth over the past three years is also a reasonable pace.", "ticker": "JNJ"}
+--- main|llama3.1-8b|real_names|0049
+{
+  "reasoning": "I selected NVIDIA (NVDA) due to its strong revenue growth of 14.0%, high operating margin of 28%, and a relatively low P/E ratio of 18.0. These factors indicate a high potential for future earnings growth and a lower risk of overvaluation. Additionally, NVIDIA's total return of 15.5% over the past 5 years suggests that it has been a successful investment in the past.",
+  "ticker": "NVDA"
+}
+--- main|llama3.1-8b|fictional_names|0000
+{
+"reasoning": "I've chosen Brindlewood Software due to its strong revenue growth, high operating margin, and moderate valuation. Its 12.4% revenue growth rate suggests a company with significant expansion potential, while its 24% operating margin indicates efficient operations. Brindlewood's 13.7% 5-year total return is also among the highest in the list, making it an attractive option for a long-term investor.",
+"ticker": "BRDQ"
+}
+--- main|llama3.1-8b|fictional_names|0004
+{"reasoning": "I selected Norvane Systems (NRVQ) because it has a strong combination of revenue growth, operating margin, and P/E ratio, suggesting a stable and potentially high-return investment. Additionally, its low debt-to-equity ratio indicates manageable risk. This stock's 5-year total return of 15.5% also demonstrates its historical performance.", "ticker": "NRVQ"}
+--- main|llama3.1-8b|fictional_names|0009
+{
+  "reasoning": "I chose Vexmoor Semiconductor (VXMQ) due to its strong revenue growth rate of 13.2%, high operating margin of 26%, and relatively low debt-to-equity ratio. These factors indicate a healthy and growing company with a competitive advantage, which should support long-term returns. The stock's moderate price-to-earnings ratio of 19.0 also suggests a reasonable valuation.",
+  "ticker": "VXMQ"
+}
+--- main|qwen2.5-7b|real_names|0000
+{"reasoning": "Microsoft offers a balanced combination of strong revenue growth, a healthy operating margin, and a competitive 5-year total return, making it a robust choice for a long-term investor.", "ticker": "MSFT"}
+--- main|qwen2.5-7b|real_names|0001
+{"reasoning": "Microsoft has a strong operating margin and low debt-to-equity ratio, indicating good financial health. Its 5-year annualized total return of 15.5% is also quite promising for long-term investors.", "ticker": "MSFT"}
+--- main|qwen2.5-7b|real_names|0008
+{"reasoning": "Procter & Gamble stands out due to its strong operating margin and consistent 5-year annualized total return, making it a reliable and potentially profitable long-term investment.", "ticker": "PG"}
+--- main|qwen2.5-7b|real_names|0012
+{"reasoning": "Johnson & Johnson stands out with a robust 12.4% revenue growth over the past three years and a high operating margin of 24%, indicating strong profitability. The company also offers a balanced risk profile with a moderate debt-to-equity ratio and a 13.7% total return over five years.", "ticker": "JNJ"}
+--- main|qwen2.5-7b|real_names|0023
+{"reasoning": "Johnson & Johnson stands out with its high operating margin and low debt-to-equity ratio, suggesting strong financial health and conservative use of debt. Additionally, its long-term return of 15.5% indicates a solid performance over the past five years.", "ticker": "JNJ"}
+--- main|qwen2.5-7b|real_names|0027
+{"reasoning": "Alibaba Group (BABA) shows strong revenue growth and a healthy operating margin, which could indicate potential for future earnings growth. The debt-to-equity ratio is relatively low, and the stock has provided a decent total return over the past five years.", "ticker": "BABA"}
+--- main|qwen2.5-7b|real_names|0034
+{"reasoning": "Alibaba Group has shown strong revenue growth over the past three years and a high operating margin, indicating efficient management. Its debt-to-equity ratio is also quite low, which reduces financial risk.", "ticker": "BABA"}
+--- main|qwen2.5-7b|real_names|0046
+{"reasoning": "Procter & Gamble offers a balanced mix of solid revenue growth, a high operating margin, and a reasonable P/E ratio. Its debt-to-equity ratio is also favorable, making it a stable and potentially rewarding long-term investment.", "ticker": "PG"}
+--- main|qwen2.5-7b|fictional_names|0006
+{"reasoning": "Vexmoor Semiconductor stands out with a 5-year annualized total return of 12.8%, strong operating margin of 22%, and a reasonable P/E ratio of 21.0, suggesting it might offer good growth potential.", "ticker": "VXMQ"}
+--- main|qwen2.5-7b|fictional_names|0011
+{"reasoning": "Pellham Devices offers the highest revenue growth at 14.0% over the past three years, along with a strong operating margin of 28%, indicating efficient cost management. This combination positions the company well for long-term success and potentially higher returns.", "ticker": "PLHQ"}
+--- main|qwen2.5-7b|fictional_names|0017
+{"reasoning": "Brindlewood Software stands out with a strong revenue growth rate of 14.0% over the past three years and a high operating margin of 28%, indicating efficient use of revenue. The P/E ratio is reasonable at 18.0, suggesting a balance between valuation and growth potential.", "ticker": "BRDQ"}
+--- main|qwen2.5-7b|fictional_names|0025
+{"reasoning": "Quarrystone Retail has shown strong revenue growth and a high operating margin, making it an attractive option for a long-term investor. Its low debt-to-equity ratio also indicates a healthy financial structure.", "ticker": "QRYQ"}
+--- main|qwen2.5-7b|fictional_names|0026
+{"reasoning": "Marrowby Consumer has a high revenue growth rate and a strong operating margin, making it an attractive option for a long-term investor. Its debt-to-equity ratio is also low, indicating a healthier financial position.", "ticker": "MRBQ"}
+3. Choice shares sum to 1 (max deviation 2.2e-16)
+1/2. Company named in reasoning vs. chosen ticker:
+  model_key       condition  n  n_classifiable  n_mismatch  mismatch_rate  over_threshold
+llama3.1-8b fictional_names 50              50           0            0.0           False
+llama3.1-8b      real_names 50              50           0            0.0           False
+ qwen2.5-7b fictional_names 50              49           0            0.0           False
+ qwen2.5-7b      real_names 50              50           0            0.0           False
+4. Best-financials balance:
+  model_key       condition  n  rank1_min_per_company  rank1_max_per_company  balanced_companies                    rank1_by_row_position  p_chi2_rank1_position_uniform
+llama3.1-8b fictional_names 50                      5                      5                True 1:7;2:4;3:8;4:4;5:7;6:5;7:2;8:4;9:6;10:3                          0.658
+llama3.1-8b      real_names 50                      5                      5                True 1:7;2:4;3:8;4:4;5:7;6:5;7:2;8:4;9:6;10:3                          0.658
+ qwen2.5-7b fictional_names 50                      5                      5                True 1:7;2:4;3:8;4:4;5:7;6:5;7:2;8:4;9:6;10:3                          0.658
+ qwen2.5-7b      real_names 50                      5                      5                True 1:7;2:4;3:8;4:4;5:7;6:5;7:2;8:4;9:6;10:3                          0.658
+Quality gate: PASS
