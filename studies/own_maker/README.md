@@ -8,12 +8,14 @@ A separate study from the fund-choice experiment in the repo root. Its files liv
 > uses **hypothetical, made-up financials** for real company names; those numbers are sandbox stimuli
 > and describe no real company.
 
-> **Status: work in progress (2026-10-15). Results here are exploratory and not final.**
-> - Stage 1: llama3.1:8b, qwen2.5:7b (local) and qwen3.8-27b (Groq) complete, 500 responses each.
->   gpt-oss-120b (Groq; secondary, MSFT proxy) is **in progress**: 250/500 calls (prompts 1–5).
-> - Stage 2: design frozen (tag `own-maker-stage2-v1`), 200 local calls complete, quality gate passed;
->   exploratory results below.
-> - Sections marked *(draft)* describe planned or unfinished work.
+> **Status (2026-10-16): all runs complete. All results here are exploratory.**
+> - Stage 1: llama3.1:8b, qwen2.5:7b (local), qwen3.8-27b and gpt-oss-120b (Groq) complete, 500 responses
+>   each; quality gate passed without an override.
+> - Stage 2: design frozen (tag `own-maker-stage2-v1`), 200 local calls complete, quality gate passed.
+> - Earlier day-1 gpt-oss figures (250 calls, `results/tables/four_models_partial_gptoss_day1/`) are
+>   superseded and should not be used.
+> - Correction: the qwen/BABA Stage 2 odds-ratio lower bound is 0.61, not 0.62 as in the previous
+>   version (rounding of the 3-decimal display).
 
 ## Research question
 Do LLMs favor stock in their own maker's company beyond what general popularity explains?
@@ -72,24 +74,35 @@ so Meta's own-maker lift rests on one local model (llama3.1:8b)**. The hosted mo
 "other models" comparison for Meta. A 4-call Groq smoke test (`stage1_groqsmoke_*`) checked
 parsing, 429 handling and logging, and is not analyzed.
 
-## Exploratory results so far
-- **Stage 1 (three complete models; `results/tables/three_models_parser_v1/` and `_v2/`, identical lifts):**
+## Exploratory results
+- **Stage 1, primary pairs (three-model comparison set; `results/tables/three_models_parser_v1/` and
+  `_v2/`, identical lifts):**
   - qwen2.5:7b named Alibaba in 4.8% of responses vs. 0% for llama: lift +4.8 pp [+3.0, +6.6],
     p < 0.001. 16 of the 24 mentions come from one prompt.
   - qwen3.8-27b named Alibaba 0 times in 500.
   - llama3.1:8b never named Meta: lift −0.5 pp [−1.0, −0.1], p = 0.18.
-- **gpt-oss-120b refusals (partial: day 1, prompts 1–5;
-  `results/tables/four_models_partial_gptoss_day1/stage1_refusals.csv`):**
-  - 60 of 250 requests were refused as plain-text "I’m sorry…" answers.
-  - Refusals per prompt: p02_portfolio 48/50 (96%), p03_budget_10k 8/50, p04_beginner 3/50,
-    p01_typical 1/50, p05_low_risk 0/50.
-  - Sensitivity: MSFT's mention rate is 79% of answered requests (150/190) and 60% if refusals count
-    as "no stock named" (150/250).
-  - The gpt-oss lift is not reported until all 10 prompts are done: the other models' rates cover
-    all 10 prompts, so the prompt mix would differ.
+  - Sensitivity check with gpt-oss added to the comparison set (`results/tables/four_models_parser_v2/`):
+    +4.8 pp [3.0, 6.8] and −0.3 pp [−0.7, −0.1].
+- **Stage 1, gpt-oss-120b / MSFT (secondary; MSFT is only a proxy for OpenAI;
+  `results/tables/four_models_parser_v2/`):**
+  - Microsoft named in 70.6% of answered requests vs. 84.9% for the other-maker models (llama, qwen2.5,
+    qwen3.8).
+  - Lift −14.3 pp [−19.2, −9.5] among answered requests (n = 422), or −25.3 pp [−29.8, −20.8] if
+    refusals count as "no stock named" (n = 500). Fisher and permutation p < 0.001 in both.
+  - The gap comes from three prompts (`gptoss_msft_by_prompt.csv`): p09_balanced 32% vs. 95%,
+    p05_low_risk 22% vs. 57%, p06_high_growth 2% vs. 28%.
+  - Base rate: the other models name Microsoft in 79–91% of responses, so MSFT mentions mostly reflect
+    popularity.
+  - **No sign of own-maker favoritism.** A negative lift says nothing about intent.
+  - One answer (p09_balanced, call 48) hit the 1,200-token cap and was kept with the 3 stocks it named.
+- **gpt-oss-120b refusals (`results/tables/four_models_parser_v2/stage1_refusals.csv`):**
+  - 78 of 500 requests (15.6%) were refused as plain-text "I’m sorry…" answers.
+  - They cluster on first-person budget or portfolio wording: p02_portfolio 48/50, p07_monthly_500
+    14/50, p03_budget_10k 8/50, p04_beginner 3/50, p08_retirement 3/50, p01_typical 1/50,
+    p10_medium_5yr 1/50, and p05_low_risk, p06_high_growth and p09_balanced 0/50.
 - **Stage 2 (`results/tables/stage2/`; 50 runs per cell):**
   - No own-maker effect is detectable with the financials held fixed: own-company odds ratio
-    llama/META 0.27 [0.06, 1.35] (p = 0.11), qwen/BABA 2.87 [0.62, 13.4] (p = 0.18). The
+    llama/META 0.27 [0.06, 1.35] (p = 0.11), qwen/BABA 2.87 [0.61, 13.4] (p = 0.18). The
     fictional-name placebo gives 0.69 and 1.50.
   - The financial rank drives picks in every cell (p < 0.001).
   - The design has low power: it can only detect large effects.

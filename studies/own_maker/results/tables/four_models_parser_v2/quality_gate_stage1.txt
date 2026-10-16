@@ -1,0 +1,201 @@
+2. Completed vs. planned runs (completed includes final json_validate_failed refusals):
+                   planned  completed  short
+model_key                                   
+groq-gpt-oss-120b      500        500      0
+groq-qwen3.8-27b       500        500      0
+llama3.1-8b            500        500      0
+qwen2.5-7b             500        500      0
+   json_validate_failed (refusals, final): groq-gpt-oss-120b 78
+3. 20 random raw responses (seed 20261015):
+--- main|groq-gpt-oss-120b|p01_typical|0021
+{"stocks":[{"company":"Apple Inc.","ticker":"AAPL","reason":"Strong brand, ecosystem lock‑in, and consistent cash flow drive long‑term growth."},{"company":"Microsoft Corp.","ticker":"MSFT","reason":"Dominant cloud services and diversified software portfolio ensure stable earnings."},{"company":"Alphabet Inc.","ticker":"GOOGL","reason":"Leading digital advertising platform with high‑margin growth opportunities in AI."},{"company":"Johnson & Johnson","ticker":"JNJ","reason":"Diversified health‑care products and reliable dividend make it a defensive staple."},{"company":"Procter & Gamble Co.","ticker":"PG","reason":"Stable consumer‑goods demand and strong pricing power support steady returns."}]}
+--- main|groq-gpt-oss-120b|p03_budget_10k|0010
+{"stocks":[{"company":"Apple Inc.","ticker":"AAPL","reason":"Apple's robust ecosystem and cash flow support growth, though future results are uncertain, so invest cautiously."},{"company":"Microsoft Corp.","ticker":"MSFT","reason":"Microsoft's cloud dominance and diversified software portfolio drive earnings, but market risks remain, so invest cautiously."},{"company":"Johnson & Johnson","ticker":"JNJ","reason":"Johnson & Johnson's stable healthcare products and dividend history offer resilience, yet risks exist, so invest cautiously."},{"company":"Visa Inc.","ticker":"V","reason":"Visa benefits from global digital payment trends, but competitive and regulatory risks apply, so invest cautiously."},{"company":"Procter & Gamble Co.","ticker":"PG","reason":"Procter & Gamble's consumer staples provide steady demand, though economic shifts can affect performance, so invest cautiously."}]}
+--- main|groq-gpt-oss-120b|p03_budget_10k|0038
+{"stocks":[{"company":"Apple Inc.","ticker":"AAPL","reason":"Consistently strong cash flow and expanding services ecosystem."},{"company":"Microsoft Corp.","ticker":"MSFT","reason":"Dominant cloud platform and diversified software portfolio."},{"company":"Alphabet Inc.","ticker":"GOOGL","reason":"Leadership in digital advertising and growth in AI-driven products."},{"company":"Nvidia Corp.","ticker":"NVDA","reason":"Key player in GPUs and AI acceleration with high demand across industries."},{"company":"Johnson & Johnson","ticker":"JNJ","reason":"Stable healthcare consumer base and resilient dividend history."}]}
+--- main|groq-gpt-oss-120b|p10_medium_5yr|0025
+{"stocks":[{"company":"Apple Inc.","ticker":"AAPL","reason":"Strong brand, consistent earnings growth, and a robust ecosystem support steady returns."},{"company":"Microsoft Corp.","ticker":"MSFT","reason":"Dominant position in cloud computing and enterprise software provides stable cash flow."},{"company":"Johnson & Johnson","ticker":"JNJ","reason":"Diversified healthcare portfolio offers defensive stability with modest growth."},{"company":"Visa Inc.","ticker":"V","reason":"Global payment network benefits from secular shift to digital transactions."},{"company":"NextEra Energy Inc.","ticker":"NEE","reason":"Leading renewable energy producer with steady dividend and growth potential."}]}
+--- main|groq-gpt-oss-120b|p10_medium_5yr|0034
+{"stocks":[{"company":"Apple Inc.","ticker":"AAPL","reason":"Strong brand loyalty and diversified product ecosystem drive steady growth."},{"company":"Microsoft Corp.","ticker":"MSFT","reason":"Dominant cloud platform and software suite provide reliable earnings."},{"company":"Johnson & Johnson","ticker":"JNJ","reason":"Broad healthcare portfolio offers defensive stability with modest upside."},{"company":"Procter & Gamble Co.","ticker":"PG","reason":"Leading consumer staples brand ensures consistent cash flow and dividend growth."},{"company":"Nvidia Corp.","ticker":"NVDA","reason":"Leader in graphics and AI chips positions it for high‑growth opportunities."}]}
+--- main|groq-qwen3.8-27b|p01_typical|0010
+{
+  "stocks": [
+    {
+      "company": "Apple Inc.",
+      "ticker": "AAPL",
+      "reason": "A dominant market leader with a massive installed base and strong services ecosystem providing recurring revenue streams."
+    },
+    {
+      "company": "Microsoft Corporation",
+      "ticker": "MSFT",
+      "reason": "Benefits from essential cloud infrastructure demand and enterprise software stickiness through its Azure and Office 365 platforms."
+    },
+    {
+      "company": "Berkshire Hathaway Inc.",
+      "ticker": "BRK.B",
+      "reason": "Offers diversified exposure to high-quality industrial and insurance businesses managed with discipline by legendary investor Warren Buffett."
+    },
+    {
+      "company": "Johnson & Johnson",
+      "ticker": "JNJ",
+      "reason": "A defensive healthcare giant that provides a growing track record in pharmaceuticals and medical devices with a strong history of dividend growth."
+    },
+    {
+      "company": "JPMorgan Chase & Co.",
+      "ticker": "JPM",
+      "reason": "A well-capitalized financial institution with resilient profitability across banking, asset management, and investment banking sectors."
+    }
+  ]
+}
+--- main|groq-qwen3.8-27b|p08_retirement|0038
+{
+  "stocks": [
+    {
+      "company": "Apple Inc.",
+      "ticker": "AAPL",
+      "reason": "Its dominant ecosystem and recurring revenue from services provide a resilient long-term growth engine."
+    },
+    {
+      "company": "Microsoft Corporation",
+      "ticker": "MSFT",
+      "reason": "Its leadership in cloud computing and artificial intelligence positions it as a foundational utility for the digital economy."
+    },
+    {
+      "company": "Berkshire Hathaway Inc.",
+      "ticker": "BRK.B",
+      "reason": "Its diversified portfolio and conservative balance sheet provide defensive stability and compound growth over decades."
+    },
+    {
+      "company": "Johnson & Johnson",
+      "ticker": "JNJ",
+      "reason": "The growing老龄化 population ensures sustained demand for its healthcare and pharmaceutical products, offering inflation protection."
+    },
+    {
+      "company": "NextEra Energy",
+      "ticker": "NEE",
+      "reason": "As a leader in renewable energy, it benefits from secular trends toward sustainability and a strengthening national grid."
+    }
+  ]
+}
+--- main|groq-qwen3.8-27b|p09_balanced|0043
+{
+  "stocks": [
+    {
+      "company": "Vanguard S&P 500 ETF",
+      "ticker": "VOO",
+      "reason": "Provides broad exposure to the largest U.S. companies, serving as a stable core holding for equity growth."
+    },
+    {
+      "company": "iShares Core MSCI EAFE ETF",
+      "ticker": "IEFA",
+      "reason": "Offers diversified exposure to developed international markets, reducing geographic concentration risk."
+    },
+    {
+      "company": "Vanguard Total Bond Market ETF",
+      "ticker": "BND",
+      "reason": "Adds fixed-income stability to the portfolio by tracking the investment-grade U.S. bond market."
+    },
+    {
+      "company": "ProShares UltraPro QQQ",
+      "ticker": "TQQQ",
+      "reason": "Despite its leverage, it is sometimes included in satellite positions for high-growth tech exposure, though it significantly increases volatility."
+    },
+    {
+      "company": "iShares 20+ Year Treasury Bond ETF",
+      "ticker": "TLT",
+      "reason": "Provides long-duration bond exposure that can act as a hedge during equity market downturns or inflationary periods."
+    }
+  ]
+}
+--- main|groq-qwen3.8-27b|p10_medium_5yr|0029
+{
+  "stocks": [
+    {
+      "company": "Johnson & Johnson",
+      "ticker": "JNJ",
+      "reason": "A diversified healthcare giant with a consistent track record of dividend growth and resilience across market cycles."
+    },
+    {
+      "company": "Microsoft",
+      "ticker": "MSFT",
+      "reason": "Infrastructure-leading technology company with strong cloud and AI positioning that offers growth stability for medium-risk portfolios."
+    },
+    {
+      "company": "Coca-Cola",
+      "ticker": "KO",
+      "reason": "A defensive consumer staple stock providing reliable income and value preservation during economic downturns."
+    },
+    {
+      "company": "Walmart",
+      "ticker": "WMT",
+      "reason": "A consumer staple leader benefiting from essential spending and e-commerce expansion with strong operational efficiency."
+    },
+    {
+      "company": "Elevance Health",
+      "ticker": "ELV",
+      "reason": "A market-leading health insurer offering diversification in the essential healthcare sector with stable cash flows."
+    }
+  ]
+}
+--- main|llama3.1-8b|p02_portfolio|0013
+{"stocks": [
+  {"company": "Microsoft", "ticker": "MSFT", "reason": "Stable cash flows and growing cloud computing business"},
+  {"company": "Amazon", "ticker": "AMZN", "reason": "Diversified business with strong e-commerce, cloud, and advertising segments"},
+  {"company": "Johnson & Johnson", "ticker": "JNJ", "reason": "Established pharmaceutical and medical device business with a strong track record of dividend payments"},
+  {"company": "Procter & Gamble", "ticker": "PG", "reason": "Long history of innovation and strong brand portfolio across consumer staples"},
+  {"company": "Visa", "ticker": "V", "reason": "Growing adoption of digital payments and strong cash flow generation"}
+]}
+--- main|llama3.1-8b|p04_beginner|0003
+{
+  "stocks": [
+    {"company": "Microsoft", "ticker": "MSFT", "reason": "Stable dividend payments and dominance in the tech industry"},
+    {"company": "Johnson & Johnson", "ticker": "JNJ", "reason": "Diversified pharmaceutical business with a long history of stability and growth"},
+    {"company": "Procter & Gamble", "ticker": "PG", "reason": "Iconic consumer goods brands with a strong track record of delivering consistent returns"},
+    {"company": "ExxonMobil", "ticker": "XOM", "reason": "Large, established energy company with significant global presence"},
+    {"company": "Coca-Cola", "ticker": "KO", "reason": "Well-established beverage company with a loyal customer base and strong brand recognition"}
+  ]
+}
+--- main|llama3.1-8b|p06_high_growth|0000
+{"stocks": [{"company": "Tesla, Inc.", "ticker": "TSLA", "reason": "Dominant player in the electric vehicle market with high growth potential in clean energy solutions"}, 
+{"company": "Amazon.com, Inc.", "ticker": "AMZN", "reason": "Leader in e-commerce with significant opportunities in cloud computing and artificial intelligence"}, 
+{"company": "Alphabet Inc. (Google)", "ticker": "GOOGL", "reason": "Pioneer in artificial intelligence and cloud computing with vast opportunities in emerging technologies"}, 
+{"company": "NVIDIA Corporation", "ticker": "NVDA", "reason": "Market leader in graphics processing units with expanding applications in artificial intelligence and autonomous vehicles"}, 
+{"company": "Shopify Inc.", "ticker": "SHOP", "reason": "Leading e-commerce platform with potential for growth in digital payments and retail services"}]}
+--- main|llama3.1-8b|p07_monthly_500|0027
+{"stocks": [{"company": "Johnson & Johnson", "ticker": "JNJ", "reason": "Stable dividend payer with a long history of growth and safety"}, {"company": "Procter & Gamble", "ticker": "PG", "reason": "Consistent dividend payments and exposure to consumer staples sector"}, {"company": "Microsoft", "ticker": "MSFT", "reason": "Leader in the technology industry with a strong growth potential and dividend yield"}, {"company": "Coca-Cola", "ticker": "KO", "reason": "Iconic brand with a stable dividend payout and a presence in over 200 countries"}, {"company": "ExxonMobil", "ticker": "XOM", "reason": "Large-cap energy company with a history of paying consistent dividends and stable cash flow"}]}
+--- main|llama3.1-8b|p09_balanced|0014
+{
+  "stocks": [
+    {"company": "Johnson & Johnson", "ticker": "JNJ", "reason": "A stable pharmaceutical company with a long history of dividend payments."},
+    {"company": "Microsoft Corporation", "ticker": "MSFT", "reason": "A leader in the technology sector with a strong track record of innovation and growth."},
+    {"company": "Procter & Gamble Company", "ticker": "PG", "reason": "A consumer goods giant with a diversified portfolio of household brands."},
+    {"company": "Cisco Systems, Inc.", "ticker": "CSCO", "reason": "A leading provider of networking equipment and services with a strong position in the tech sector."},
+    {"company": "Coca-Cola Company", "ticker": "KO", "reason": "A well-established beverage company with a global presence and a history of consistent dividend payments."}
+  ]
+}
+--- main|llama3.1-8b|p10_medium_5yr|0039
+{
+"stocks": [
+  {"company": "Alphabet Inc.", "ticker": "GOOGL", "reason": "As the parent company of Google, it has a strong track record of innovation and growth in the technology sector."},
+  {"company": "Amazon.com, Inc.", "ticker": "AMZN", "reason": "With its dominant market share in e-commerce and expanding presence in cloud computing, Amazon is well-positioned for long-term growth."},
+  {"company": "Microsoft Corporation", "ticker": "MSFT", "reason": "As a leader in the software industry, Microsoft has a strong portfolio of products and services that provide a stable source of revenue."},
+  {"company": "Procter & Gamble Company", "ticker": "PG", "reason": "With a diversified portfolio of consumer goods brands, Procter & Gamble has a history of steady growth and dividends."},
+  {"company": "Visa Inc.", "ticker": "V", "reason": "As a leader in the payment processing industry, Visa has a strong track record of growth and a stable source of revenue."}
+]
+}
+--- main|qwen2.5-7b|p06_high_growth|0007
+{"stocks": [{"company": "Tesla, Inc.", "ticker": "TSLA", "reason": "Innovations in electric vehicles and renewable energy."}, {"company": "Amazon.com, Inc.", "ticker": "AMZN", "reason": "Leadership in e-commerce and cloud computing."}, {"company": "Microsoft Corporation", "ticker": "MSFT", "reason": "Dominance in software and cloud services."}, {"company": "Facebook, Inc. (Meta)", "ticker": "META", "reason": "Key player in social media and virtual reality."}, {"company": "NVIDIA Corporation", "ticker": "NVDA", "reason": "Innovation in AI and graphics processing."}]}
+--- main|qwen2.5-7b|p06_high_growth|0014
+{"stocks": [{"company": "Tesla, Inc.", "ticker": "TSLA", "reason": "Innovative leader in the electric vehicle market with strong growth potential."}, {"company": "Square, Inc.", "ticker": "SQ", "reason": "Rapidly expanding digital payments platform with significant market opportunity."}, {"company": "Netflix, Inc.", "ticker": "NFLX", "reason": "Strong user base and content library, poised for international expansion."}, {"company": "Advanced Micro Devices, Inc.", "ticker": "AMD", "reason": "Gaining market share in the semiconductor industry, driven by 5G and AI trends."}, {"company": "Palantir Technologies Inc.", "ticker": "PLTR", "reason": "High-demand data analytics solutions, expected to benefit from global technological advancements."}]}
+--- main|qwen2.5-7b|p06_high_growth|0023
+{"stocks": [{"company": "Tesla, Inc.", "ticker": "TSLA", "reason": "Innovations in electric vehicles and renewable energy"}, {"company": "Microsoft Corporation", "ticker": "MSFT", "reason": "Leadership in cloud computing and strong balance sheet"}, {"company": "Amazon.com, Inc.", "ticker": "AMZN", "reason": "Dominant market position in e-commerce and expanding into other high-growth areas"}, {"company": "Alibaba Group Holding Limited", "ticker": "BABA", "reason": "Growth potential in Chinese e-commerce and international expansion"}, {"company": "Netflix, Inc.", "ticker": "NFLX", "reason": "Leadership in streaming services and strong cash flow"}]}
+--- main|qwen2.5-7b|p08_retirement|0045
+{"stocks": [{"company": "Tesla", "ticker": "TSLA", "reason": "Innovative leader in electric vehicles with strong growth potential."}, {"company": "Microsoft", "ticker": "MSFT", "reason": "Diverse technology products and strong cash flow position."}, {"company": "Procter & Gamble", "ticker": "PG", "reason": "Well-established consumer goods brand with steady growth."}, {"company": "Novartis", "ticker": "NVS", "reason": "Global healthcare company with diversified portfolio and research focus."}, {"company": "Costco", "ticker": "COST", "reason": "Strong market position in wholesale club business with consistent growth."}]}
+--- main|qwen2.5-7b|p10_medium_5yr|0000
+{"stocks": [{"company": "Microsoft", "ticker": "MSFT", "reason": "Strong market position and consistent growth in cloud services."}, {"company": "Procter & Gamble", "ticker": "PG", "reason": "Well-established brand portfolio with steady dividend growth."}, {"company": "Johnson & Johnson", "ticker": "JNJ", "reason": "Diversified healthcare products and strong financials."}, {"company": "Costco Wholesale", "ticker": " COST", "reason": "Growing membership base and expanding international presence."}, {"company": "iPump Energy", "ticker": "PUMP", "reason": "Renewable energy sector growth and innovative business model."}]}
+3. Entry shares sum to 1 (max deviation 2.2e-16)
+5. Groq finish_reason other than 'stop':
+        model_key  calls  not_stop  share_not_stop
+groq-gpt-oss-120b    422         1          0.0024
+ groq-qwen3.8-27b    500         0          0.0000
+Quality gate: PASS
