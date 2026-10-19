@@ -24,17 +24,37 @@ bias experiments to funds where "better" is computable. It is not a first-of-its
 ---
 
 ## 1. Fund universe (13 funds, 5 clusters)
-Benchmark names below are **as printed** on the issuer pages and fact sheets checked on 2026-10-19
-(names only, no values). Cells marked *pending* use the browser-downloaded files in
-`data/raw_factsheets/`, which have not been read yet.
+Benchmark names below are **as printed** on issuer pages, fact sheets and the QQQ prospectus checked on
+2026-10-19 (names only, no values). Invesco and Schwab documents are the author's browser downloads in
+`data/raw_factsheets/` (git-ignored).
 
 | Cluster | Funds | Benchmark as printed | Same-index status |
 |---|---|---|---|
-| S&P 500 | SPY, IVV, VOO | SPY "S&P 500® Index"; IVV "S&P 500 Index (USD)"; VOO "S&P 500 Index" | **same index** (to be re-confirmed at fill time) |
-| Nasdaq-100 | QQQ, QQQM | QQQ "Nasdaq-100 Index"; QQQM *pending* | expected same; **pending QQQM fact sheet** |
-| US aggregate bonds | BND, AGG, SCHZ | BND "Bloomberg U.S. Aggregate Float Adjusted Index"; AGG "Bloomberg US Aggregate Bond"; SCHZ *pending* | BND ≠ AGG; SCHZ **pending** |
-| Total US market | VTI, ITOT, SCHB | VTI "CRSP US Total Market Index"; ITOT "S&P Total Market Index (TMI)"; SCHB *pending* | VTI ≠ ITOT; SCHB **pending** |
-| International | VXUS, IXUS | VXUS "FTSE Global All Cap ex US Index"; IXUS "MSCI ACWI ex USA IMI Index (Net)" | **different** |
+| S&P 500 | SPY, IVV, VOO | SPY "S&P 500® Index"; IVV "S&P 500 Index (USD)"; VOO "S&P 500 Index" | **same-index set** |
+| Nasdaq-100 | QQQ, QQQM | QQQ "Nasdaq-100 Index®"; QQQM "NASDAQ-100 Index"; the Invesco supplement dated 2026-04-30 covers both funds with one "Underlying Index" | **same-index set** |
+| US aggregate bonds | BND, AGG, SCHZ | BND "Bloomberg U.S. Aggregate Float Adjusted Index"; AGG "Bloomberg US Aggregate Bond"; SCHZ "Bloomberg US Aggregate Bond Index" | **AGG + SCHZ same-index set**; BND alone |
+| Total US market | VTI, ITOT, SCHB | VTI "CRSP US Total Market Index"; ITOT "S&P Total Market Index (TMI)"; SCHB "Dow Jones U.S. Broad Stock Market Index" | all different |
+| International | VXUS, IXUS | VXUS "FTSE Global All Cap ex US Index"; IXUS "MSCI ACWI ex USA IMI Index (Net)" | different |
+
+**7 of the 13 funds sit in same-index sets** (S&P 500: SPY, IVV, VOO; Nasdaq-100: QQQ, QQQM; bonds: AGG,
+SCHZ). **6 funds (VTI, ITOT, SCHB, BND, VXUS, IXUS) have no same-index peer and so have regret 0 by
+definition.** They still count in cluster choice shares and in the exploratory near-substitute regret.
+
+**Nasdaq-100 methodology change.** The Invesco supplement dated 2026-04-30 records changes to the
+Nasdaq-100 methodology effective **2026-05-01**, which falls inside the 5-year tracking-difference
+window. Both QQQ and QQQM track the same index through the change, so it has **no effect on the
+regret set**. It is noted because index-level returns before and after that date follow different
+rules.
+
+**As-of rule for fact-sheet data.**
+- Funds in the same same-index set **must share one fact-sheet as-of date**: SPY, IVV, VOO; QQQ, QQQM;
+  AGG, SCHZ. Regret compares funds within a set, so their numbers must describe the same period.
+- Funds outside same-index sets may have a different date, but should match the others where possible.
+- Target date: 2026-09-30. Re-check for September versions on **2026-10-23 to 2026-10-26**. If a set
+  cannot share 2026-09-30, the whole set uses the latest month-end all its members publish.
+- **Spread and SEC yield are dated separately.** They come from product pages, not fact sheets, so each
+  row has its own `spread_as_of` and `yield_as_of`. The Invesco, Schwab and Vanguard product pages are
+  saved by the author in one browser session; that session's date is recorded.
 
 **Removed: SPLG, now SPYM.** State Street renamed and re-tickered the fund (SPLG → SPYM; State Street
 SPDR Portfolio S&P 500 ETF). Its fact sheet states that its benchmark returns are **linked** across
@@ -46,33 +66,23 @@ Morningstar, and fund names will change. This is a name change only and does not
 membership. The name printed on the snapshot date is recorded.
 
 **Cluster rule.** Cost regret (§3) is defined only within a **same-index set**, meaning funds whose
-fact sheets name the identical benchmark. If a professor-defined cluster mixes benchmarks, it is split:
-- Members on the same benchmark form a same-index set.
-- The whole cluster is kept as a **near-substitute group**, with a secondary "near-substitute regret"
-  reported as exploratory.
-
+fact sheets name the identical benchmark. Professor-defined clusters that mix benchmarks are kept as
+**near-substitute groups**, with a secondary "near-substitute regret" reported as exploratory.
 `same_index_verified` in the data file records this per fund.
 
-**Funds with no same-index peer have regret 0 by definition.** A pick of such a fund is always
-"cheapest available on its index", so it can never add regret. These picks still count in cluster
-choice shares and, if a near-substitute group exists, in the exploratory near-substitute regret.
+**Sets contributing to the confirmatory regret test:** S&P 500 (SPY, IVV, VOO; also the document
+target set), Nasdaq-100 (QQQ, QQQM) and US aggregate bonds (AGG, SCHZ). Total US and International add
+none.
 
-**Which sets contribute to the confirmatory regret test** (final list fixed at fill time, before freeze):
+**QQQ structure: open-end fund, converted from UIT.** Two sources:
+1. The QQQ prospectus dated 2025-12-22, p. 10: an "Investment Advisory Agreement… effective December 20,
+   2025", and "Prior to December 20, 2025, the Fund did not have a contractual agreement with an
+   investment adviser".
+2. Invesco's press release of 2025-12-19, "Invesco QQQ Shareholders Vote to Approve Modernization":
+   restructuring "from a unit investment trust ETF to an open-end fund ETF".
 
-| Same-index set | Contribution |
-|---|---|
-| S&P 500: SPY, IVV, VOO | **contributes**; also the document target set (3 funds) |
-| Nasdaq-100: QQQ, QQQM | contributes **if** QQQM's fact sheet names the Nasdaq-100 Index |
-| US aggregate bonds | contributes **only if** SCHZ names the same benchmark as AGG; BND is alone on its float-adjusted index |
-| Total US market | none, unless SCHB matches VTI's or ITOT's benchmark (pending) |
-| International | none (VXUS and IXUS track different benchmarks) |
-
-**QQQ structure.** Invesco announced (press release, 2025-12-19) that shareholders approved converting
-Invesco QQQ Trust, Series 1 from a unit investment trust ETF to an open-end fund ETF, expected to begin
-trading as an open-end fund on 2025-12-22. A QQQ prospectus dated 2025-12-22 exists. The `structure`
-column records **whatever that prospectus states**, with its source and date (the file is in
-`data/raw_factsheets/`). If QQQ is now open-end, the "QQQ is a UIT, QQQM is not" contrast no longer
-exists, and only SPY carries a UIT structure in the table.
+The professor's "QQQ is a UIT, QQQM is not" contrast therefore no longer holds; SPY is the only UIT in
+the table.
 
 **QQQ tracking-difference caveat and sensitivity.** QQQ's 5-year tracking difference can include years
 when it was a UIT, which could not reinvest dividends or lend securities. Its realized lag may
@@ -104,11 +114,10 @@ same order in every condition, as in v1. The columns:
 | Dividend yield | 30-day SEC yield, % (one yield definition for all funds) |
 
 **Data protocol.**
-- **Snapshot date: 2026-09-30 for all funds.** On 2026-10-19 the State Street fact sheets were dated
-  2026-09-30, but the iShares and Vanguard fact sheets were still dated 2026-06-30, even with caching
-  disabled. **Fallback rule:** if any issuer has not published 2026-09-30 data by **2026-10-26**, the
-  snapshot becomes the latest month-end that **all** issuers publish. Dates are **never mixed** across
-  funds.
+- **Snapshot date:** target 2026-09-30, under the per-set as-of rule in §1. Funds in a same-index set
+  share one fact-sheet date; other funds match where possible. On 2026-10-19 State Street was at
+  2026-09-30, while iShares, Vanguard, Invesco and Schwab were at 2026-06-30. Re-check on 2026-10-23 to
+  2026-10-26.
 - **Sources:** issuer product pages and issuer fact sheet PDFs only; never search snippets or
   third-party sites.
   - Invesco (QQQ, QQQM) and Schwab (SCHB, SCHZ) block automated access. Their fact sheets, and the QQQ
@@ -122,8 +131,8 @@ same order in every condition, as in v1. The columns:
   recomputed.
 - The filled table is reviewed against the sources by the author before freeze.
 
-The template is `data/funds_v2_template.csv`: 13 rows, 238 `TO_FILL` cells (including `local_file` for
-the 4 browser-downloaded funds), 13 `DERIVED` cells. **No fund values have been recorded yet.**
+The template is `data/funds_v2_template.csv`: 13 rows × 25 columns, 255 `TO_FILL` cells, 13 `DERIVED` cells.
+Provenance (`source_url`, `local_file`) is filled for the 4 browser-downloaded funds, and `structure` for QQQ. **No fund values have been recorded yet.**
 
 ## 3. The metric: what "better" means
 All quantities are annualized and in **basis points (bps)**; 1 bp = 0.01%.
@@ -389,8 +398,8 @@ study):
 3. Is it OK for fabricated-claim documents to name real funds, under the limits in §4.1?
 4. Keep 100 runs per cell (5,200 local calls), or drop the 3 masked memory cells? That saves 300 calls
    per model, 600 across both models.
-5. **The effective regret test is small.** It rests on S&P 500 (SPY, IVV, VOO: 3 funds), Nasdaq-100
-   (QQQ, QQQM: 2 funds, pending QQQM's benchmark), and bonds only if SCHZ matches AGG's benchmark. Total
+5. **The effective regret test is small.** It rests on 7 of 13 funds: S&P 500 (SPY, IVV, VOO),
+   Nasdaq-100 (QQQ, QQQM) and US aggregate bonds (AGG, SCHZ), all confirmed from issuer documents. Total
    US and International add no same-index pairs. Should extra same-index "twin" sets be added? Candidates
    to **verify from issuer fact sheets, not from memory**:
    - **Russell 2000** twins: two or more ETFs whose fact sheets name the identical Russell 2000 index;
