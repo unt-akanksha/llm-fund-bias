@@ -23,3 +23,6 @@ runs/raw/*.tmp
 
 # Live progress log of the main run
 runs/progress.log
+
+# Issuer fact sheets / prospectuses downloaded by hand for Study 1 v2 (not redistributed)
+data/raw_factsheets/

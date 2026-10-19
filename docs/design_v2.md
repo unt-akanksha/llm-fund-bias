@@ -23,20 +23,31 @@ bias experiments to funds where "better" is computable. It is not a first-of-its
 
 ---
 
-## 1. Fund universe (14 funds, 5 clusters)
-| Cluster | Tickers (from professor) | Same-index status |
-|---|---|---|
-| Nasdaq-100 | QQQ, QQQM | expected same index; **verify** |
-| S&P 500 | SPY, IVV, VOO, SPLG | expected same index; **verify** |
-| Total US market | VTI, ITOT, SCHB | **may track different benchmarks; verify** |
-| US aggregate bonds | BND, AGG, SCHZ | **may differ (e.g. float-adjusted variant); verify** |
-| International | VXUS, IXUS | **may track different benchmarks; verify** |
+## 1. Fund universe (13 funds, 5 clusters)
+Benchmark names below are **as printed** on the issuer pages and fact sheets checked on 2026-10-19
+(names only, no values). Cells marked *pending* use the browser-downloaded files in
+`data/raw_factsheets/`, which have not been read yet.
+
+| Cluster | Funds | Benchmark as printed | Same-index status |
+|---|---|---|---|
+| S&P 500 | SPY, IVV, VOO | SPY "S&P 500® Index"; IVV "S&P 500 Index (USD)"; VOO "S&P 500 Index" | **same index** (to be re-confirmed at fill time) |
+| Nasdaq-100 | QQQ, QQQM | QQQ "Nasdaq-100 Index"; QQQM *pending* | expected same; **pending QQQM fact sheet** |
+| US aggregate bonds | BND, AGG, SCHZ | BND "Bloomberg U.S. Aggregate Float Adjusted Index"; AGG "Bloomberg US Aggregate Bond"; SCHZ *pending* | BND ≠ AGG; SCHZ **pending** |
+| Total US market | VTI, ITOT, SCHB | VTI "CRSP US Total Market Index"; ITOT "S&P Total Market Index (TMI)"; SCHB *pending* | VTI ≠ ITOT; SCHB **pending** |
+| International | VXUS, IXUS | VXUS "FTSE Global All Cap ex US Index"; IXUS "MSCI ACWI ex USA IMI Index (Net)" | **different** |
+
+**Removed: SPLG, now SPYM.** State Street renamed and re-tickered the fund (SPLG → SPYM; State Street
+SPDR Portfolio S&P 500 ETF). Its fact sheet states that its benchmark returns are **linked** across
+several earlier indices before the S&P 500, so a tracking difference against the S&P 500 over the
+measurement window is not clean. The S&P 500 same-index set is therefore **SPY, IVV, VOO**.
+
+**Benchmark renaming note.** Vanguard's VTI fact sheet announces that CRSP benchmarks will be renamed to
+Morningstar, and fund names will change. This is a name change only and does not change cluster
+membership. The name printed on the snapshot date is recorded.
 
 **Cluster rule.** Cost regret (§3) is defined only within a **same-index set**, meaning funds whose
-fact sheets name the identical benchmark. If a professor-defined cluster turns out to mix benchmarks,
-it is split:
-- Members on the same benchmark form a same-index set (a fund alone on its benchmark has regret 0 by
-  definition).
+fact sheets name the identical benchmark. If a professor-defined cluster mixes benchmarks, it is split:
+- Members on the same benchmark form a same-index set.
 - The whole cluster is kept as a **near-substitute group**, with a secondary "near-substitute regret"
   reported as exploratory.
 
@@ -46,28 +57,33 @@ it is split:
 "cheapest available on its index", so it can never add regret. These picks still count in cluster
 choice shares and, if a near-substitute group exists, in the exploratory near-substitute regret.
 
-**Which clusters contribute to the regret test.** This depends on benchmark verification, so it is
-not asserted here. Expected, to be confirmed from fact sheets:
+**Which sets contribute to the confirmatory regret test** (final list fixed at fill time, before freeze):
 
-| Cluster | Expected contribution to the confirmatory regret test |
+| Same-index set | Contribution |
 |---|---|
-| S&P 500 (4 funds) | contributes, if all four name the same benchmark; this is also the document target cluster |
-| Nasdaq-100 (2 funds) | contributes, if both name the same benchmark |
-| US aggregate bonds (3) | only the members that share an identical benchmark |
-| Total US market (3) | likely none, if each fund tracks a different benchmark |
-| International (2) | likely none, if the two track different benchmarks |
+| S&P 500: SPY, IVV, VOO | **contributes**; also the document target set (3 funds) |
+| Nasdaq-100: QQQ, QQQM | contributes **if** QQQM's fact sheet names the Nasdaq-100 Index |
+| US aggregate bonds | contributes **only if** SCHZ names the same benchmark as AGG; BND is alone on its float-adjusted index |
+| Total US market | none, unless SCHB matches VTI's or ITOT's benchmark (pending) |
+| International | none (VXUS and IXUS track different benchmarks) |
 
-The final list of contributing same-index sets is fixed when the data is filled, **before freeze**, and
-recorded in the data file. If S&P 500 does not verify as one same-index set, the design is revisited
-before any run, because it is the document target cluster.
+**QQQ structure.** Invesco announced (press release, 2025-12-19) that shareholders approved converting
+Invesco QQQ Trust, Series 1 from a unit investment trust ETF to an open-end fund ETF, expected to begin
+trading as an open-end fund on 2025-12-22. A QQQ prospectus dated 2025-12-22 exists. The `structure`
+column records **whatever that prospectus states**, with its source and date (the file is in
+`data/raw_factsheets/`). If QQQ is now open-end, the "QQQ is a UIT, QQQM is not" contrast no longer
+exists, and only SPY carries a UIT structure in the table.
 
-**Additions and removals.** I propose **no additions**: 14 funds meets the 12+ target, and the S&P 500
-cluster (4 funds) gives the richest within-index contrast.
-- An optional addition would be a higher-fee S&P 500 *index mutual fund*, to widen the cost gap. I
-  recommend against it: mutual funds have no bid-ask spread or intraday trading, which breaks the
-  common cost formula.
-- **Check before freeze:** that every ticker is active under the listed symbol on the snapshot date
-  (flagged for SPLG).
+**QQQ tracking-difference caveat and sensitivity.** QQQ's 5-year tracking difference can include years
+when it was a UIT, which could not reinvest dividends or lend securities. Its realized lag may
+therefore not reflect its current structure. For the **Nasdaq-100 set (QQQ, QQQM)** a sensitivity
+outcome is reported next to the primary: **regret computed from ER + S/H only** (no tracking
+difference).
+
+**Additions and removals.** No additions; 13 funds meets the 12+ target. A higher-fee S&P 500 index
+mutual fund is not added, because it has no bid-ask spread or intraday trading, which breaks the common
+cost formula. Candidate extra same-index sets (Russell 2000 twins, gold twins) are listed as open
+question 5 (§10), to be verified from issuer fact sheets, never from memory.
 
 ## 2. Fund information shown to the model
 One markdown table, one row per fund. Row order is shuffled per run (seeded), and run *k* gets the
@@ -88,16 +104,26 @@ same order in every condition, as in v1. The columns:
 | Dividend yield | 30-day SEC yield, % (one yield definition for all funds) |
 
 **Data protocol.**
-- **One snapshot date** for all funds: the latest common fact-sheet date. Every row records
-  `source_url` and `as_of_date`; if fields come from several pages, the URLs are listed with field tags.
+- **Snapshot date: 2026-09-30 for all funds.** On 2026-10-19 the State Street fact sheets were dated
+  2026-09-30, but the iShares and Vanguard fact sheets were still dated 2026-06-30, even with caching
+  disabled. **Fallback rule:** if any issuer has not published 2026-09-30 data by **2026-10-26**, the
+  snapshot becomes the latest month-end that **all** issuers publish. Dates are **never mixed** across
+  funds.
+- **Sources:** issuer product pages and issuer fact sheet PDFs only; never search snippets or
+  third-party sites.
+  - Invesco (QQQ, QQQM) and Schwab (SCHB, SCHZ) block automated access. Their fact sheets, and the QQQ
+    prospectus, are **downloaded by the author in a browser** into `data/raw_factsheets/`. That folder
+    is git-ignored, so no issuer PDFs are in git. The issuer URL each file came from is recorded in
+    `source_url`, and the file name in `local_file`.
+- Every row records `source_url` and `as_of_date`. If fields come from several pages, the URLs are
+  listed with field tags.
 - **No value is entered from memory.** Anything not found is left `TO_FILL` and blocks the freeze.
 - Raw inputs used in derived fields (the index 5-yr return) are stored too, so every number can be
   recomputed.
 - The filled table is reviewed against the sources by the author before freeze.
 
-The template is `data/funds_v2_template.csv`: 14 rows, 252 `TO_FILL` cells, 14 `DERIVED` cells.
-**No fund data has been fetched yet.** All funds should be fetched on one date, just before freeze,
-so the snapshot is internally consistent.
+The template is `data/funds_v2_template.csv`: 13 rows, 238 `TO_FILL` cells (including `local_file` for
+the 4 browser-downloaded funds), 13 `DERIVED` cells. **No fund values have been recorded yet.**
 
 ## 3. The metric: what "better" means
 All quantities are annualized and in **basis points (bps)**; 1 bp = 0.01%.
@@ -151,6 +177,8 @@ containing *c*:
     if a different quantity was meant.
 - **Secondary outcome:** the dominated-pick rate, meaning the share of picks of a fund that is
   dominated within its set.
+- **Sensitivity for the Nasdaq-100 set:** regret recomputed with ER + S/H only, reported next to the
+  primary (see the QQQ caveat in §1).
 - **Per condition we report:** mean regret (bootstrap 95% CI), the share of picks with regret > ε
   (Wilson CI), the dominated-pick rate, and cluster choice shares.
 
@@ -158,7 +186,7 @@ containing *c*:
 
 ### 4.1 Argument types (documents)
 Each document is synthetic, about 200 words (190–210), and uses the same four-part structure as v1:
-headline, claim, support, recommendation. The **target cluster is S&P 500** (4 funds). "Best" and
+headline, claim, support, recommendation. The **target set is S&P 500** (SPY, IVV, VOO). "Best" and
 "worst" mean the lowest and highest C(H = 10) in that cluster, fixed from the filled data before freeze.
 
 | Doc | Argument type | Target | What it says |
@@ -240,8 +268,8 @@ The 12 ordered adjacent pairs (AB, BD, DC, BC, CA, AD, CD, DB, BA, DA, AC, CB) e
 
 ## 6. Masked-name control
 The same table, the same numbers and the same row order, with identity removed:
-- tickers become neutral codes (`FND01`–`FND14`, fixed per fund);
-- fund names become "Fund 01" … "Fund 14";
+- tickers become neutral codes (`FND01`–`FND13`, fixed per fund);
+- fund names become "Fund 01" … "Fund 13";
 - issuer names are removed.
 
 Index names and structure stay visible, because they are part of the data and define clusters.
@@ -255,7 +283,7 @@ picks beyond the numbers.
 | Context | baseline; D1–D7 (7 single docs); 3 memories; 4 Williams orders |
 | Naming | real; masked (core conditions only) |
 | Model | llama3.1:8b, qwen2.5:7b (local, Ollama) |
-| Row order | 14 rows, shuffled per run, matched across conditions |
+| Row order | 13 rows, shuffled per run, matched across conditions |
 | Runs | 100 per cell; temperature 1.0; seeded |
 
 | Block | Cells | Calls per model |
@@ -271,7 +299,7 @@ in the confirmatory analysis.
 
 **Tokens per call (estimate; to be replaced by the pilot's measured values).**
 - v1 measured about 750 input tokens for an 8-row × 7-column table plus instructions.
-- v2 has 14 rows × 15 columns, roughly 1,900–2,100 tokens for the table alone.
+- v2 has 13 rows × 15 columns, roughly 1,800–2,000 tokens for the table alone.
 
 | Prompt | Input tokens | Output tokens |
 |---|---|---|
@@ -361,3 +389,12 @@ study):
 3. Is it OK for fabricated-claim documents to name real funds, under the limits in §4.1?
 4. Keep 100 runs per cell (5,200 local calls), or drop the 3 masked memory cells? That saves 300 calls
    per model, 600 across both models.
+5. **The effective regret test is small.** It rests on S&P 500 (SPY, IVV, VOO: 3 funds), Nasdaq-100
+   (QQQ, QQQM: 2 funds, pending QQQM's benchmark), and bonds only if SCHZ matches AGG's benchmark. Total
+   US and International add no same-index pairs. Should extra same-index "twin" sets be added? Candidates
+   to **verify from issuer fact sheets, not from memory**:
+   - **Russell 2000** twins: two or more ETFs whose fact sheets name the identical Russell 2000 index;
+   - **gold** twins: two or more physically backed gold trusts tracking the same gold price benchmark.
+   Gold trusts are grantor trusts with no index "tracking difference" in the usual sense, so the cost
+   formula would need checking for them. Adding either set would add rows to the table, increasing
+   tokens per call, and would need a design update before freeze.
