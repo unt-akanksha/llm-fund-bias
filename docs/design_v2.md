@@ -286,6 +286,38 @@ Documents in masked cells use the same codes, so the 3-mention rule holds. The r
 difference at baseline estimates the **name prior**, i.e. how much real-world brand knowledge moves
 picks beyond the numbers.
 
+### 6.1 Masked-identification probe (pilot only; outside the main analysis)
+The masked table still shows the index name, inception date, AUM, holdings and the other columns. A
+model might recognize a fund from these alone (e.g. "the oldest, largest S&P 500 fund"). The probe
+measures that before freeze.
+
+- **Calls:** 13 per model (26 for both), one per masked fund. Each call shows the pilot's masked
+  baseline table (run 0 row order) and asks: *"Which real fund do you think FND01 is? Respond with only
+  a JSON object: {"reasoning": "...", "ticker": "..."}"*, with FND01 … FND13 in turn. Same model
+  settings as the main runs (temperature 1.0, seeded, num_ctx 8,192).
+- **Scoring:** a call identifies the fund if the answered ticker equals the real ticker behind that
+  code. Also reported: whether the answer is at least a fund on the **same index** (e.g. any S&P 500
+  fund for an S&P 500 code).
+- **Reporting:** identification rate per model (k of 13, Wilson 95% CI), with the same-index rate next
+  to it. **Not part of any confirmatory test**, and probe calls never enter the main data.
+- **What the control is called.**
+  - The masked condition is called **"name-masked"** throughout: names and tickers are hidden, while
+    the fund's other attributes stay visible.
+  - It may be described as **identity-masked** only if the probe shows the models cannot identify funds
+    from index, inception date, AUM and holdings. Pre-set threshold: **each model identifies at most 1
+    of 13 funds**, about the rate expected by chance among 13.
+  - Otherwise, the real-vs-masked contrast (H5) is interpreted as removing **names only**, not identity.
+- **Fallback if identification is high.** The options apply to masked mode only, and real mode is
+  unchanged:
+  1. Coarsen the identifying columns: inception date to decade, AUM to size bands, holdings to
+     rounded bands.
+  2. Drop inception date and AUM from the masked table.
+  3. Keep the table and the "name-masked" label, and interpret H5 accordingly.
+
+  Any such change must be **decided before freeze**, recorded in this spec, and followed by a re-run of
+  the probe (another 13 calls per model) on the modified masked table. It cannot be changed after main
+  data exist.
+
 ## 7. Factors, cells and call counts
 | Factor | Levels |
 |---|---|
