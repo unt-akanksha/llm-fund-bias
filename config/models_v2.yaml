@@ -1,0 +1,26 @@
+# Study 1 v2 (real funds) model configuration. Same structure as config/models.yaml (v1), which is
+# unchanged. num_ctx is raised to 8192 because v2 prompts are longer (13-row, 15-column table; up to
+# 4 documents in the order test). DRAFT: frozen with the rest of the v2 design.
+
+defaults:
+  params:
+    temperature: 1.0
+    max_tokens: 300
+    num_ctx: 8192
+
+providers:
+  ollama:
+    base_url: http://localhost:11434/v1
+
+runs_per_condition: 100     # main cells (data/conditions_v2.csv, block core/order)
+pilot_runs: 30              # pilot cells (block pilot)
+
+models:
+  llama3.1-8b:
+    provider: ollama
+    model_id: llama3.1:8b
+    enabled: true
+  qwen2.5-7b:
+    provider: ollama
+    model_id: qwen2.5:7b
+    enabled: true

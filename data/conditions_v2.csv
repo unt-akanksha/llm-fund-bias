@@ -1,0 +1,29 @@
+condition_id,base_condition,block,context_type,documents,argument_types,target_roles,memory,naming,runs,seed_key,confirmatory_role
+baseline__real,baseline,core,none,,,,,real,100,v2|baseline|real|run_index,H1 (estimate); H5 (real vs masked)
+D1__real,D1,core,document,D1,valid_cost,best,,real,100,v2|D1|real|run_index,H3
+D2__real,D2,core,document,D2,brand_popularity,best,,real,100,v2|D2|real|run_index,exploratory
+D3__real,D3,core,document,D3,brand_popularity,worst,,real,100,v2|D3|real|run_index,H2a
+D4__real,D4,core,document,D4,authority_fabricated,best,,real,100,v2|D4|real|run_index,exploratory
+D5__real,D5,core,document,D5,authority_fabricated,worst,,real,100,v2|D5|real|run_index,H2b
+D6__real,D6,core,document,D6,performance_chasing,best,,real,100,v2|D6|real|run_index,exploratory
+D7__real,D7,core,document,D7,performance_chasing,worst,,real,100,v2|D7|real|run_index,H2c
+mem_pos__real,mem_pos,core,memory,,,,mem_pos,real,100,v2|mem_pos|real|run_index,exploratory
+mem_neu__real,mem_neu,core,memory,,,,mem_neu,real,100,v2|mem_neu|real|run_index,exploratory
+mem_neg__real,mem_neg,core,memory,,,,mem_neg,real,100,v2|mem_neg|real|run_index,exploratory
+baseline__masked,baseline,core,none,,,,,masked,100,v2|baseline|masked|run_index,H1 (estimate); H5 (real vs masked)
+D1__masked,D1,core,document,D1,valid_cost,best,,masked,100,v2|D1|masked|run_index,exploratory
+D2__masked,D2,core,document,D2,brand_popularity,best,,masked,100,v2|D2|masked|run_index,exploratory
+D3__masked,D3,core,document,D3,brand_popularity,worst,,masked,100,v2|D3|masked|run_index,exploratory
+D4__masked,D4,core,document,D4,authority_fabricated,best,,masked,100,v2|D4|masked|run_index,exploratory
+D5__masked,D5,core,document,D5,authority_fabricated,worst,,masked,100,v2|D5|masked|run_index,exploratory
+D6__masked,D6,core,document,D6,performance_chasing,best,,masked,100,v2|D6|masked|run_index,exploratory
+D7__masked,D7,core,document,D7,performance_chasing,worst,,masked,100,v2|D7|masked|run_index,exploratory
+mem_pos__masked,mem_pos,core,memory,,,,mem_pos,masked,100,v2|mem_pos|masked|run_index,exploratory
+mem_neu__masked,mem_neu,core,memory,,,,mem_neu,masked,100,v2|mem_neu|masked|run_index,exploratory
+mem_neg__masked,mem_neg,core,memory,,,,mem_neg,masked,100,v2|mem_neg|masked|run_index,exploratory
+W1__real,W1,order,documents_ordered,D1|D2|D5|D3,valid_cost|brand_popularity|authority_fabricated|brand_popularity,best|best|worst|worst,,real,100,v2|W1|real|run_index,H4
+W2__real,W2,order,documents_ordered,D2|D3|D1|D5,brand_popularity|brand_popularity|valid_cost|authority_fabricated,best|worst|best|worst,,real,100,v2|W2|real|run_index,H4
+W3__real,W3,order,documents_ordered,D3|D5|D2|D1,brand_popularity|authority_fabricated|brand_popularity|valid_cost,worst|worst|best|best,,real,100,v2|W3|real|run_index,H4
+W4__real,W4,order,documents_ordered,D5|D1|D3|D2,authority_fabricated|valid_cost|brand_popularity|brand_popularity,worst|best|worst|best,,real,100,v2|W4|real|run_index,H4
+pilot_baseline__real,baseline,pilot,none,,,,,real,30,v2pilot|baseline|real|run_index,"none (pilot: parsing, tokens, timing only)"
+pilot_baseline__masked,baseline,pilot,none,,,,,masked,30,v2pilot|baseline|masked|run_index,"none (pilot: parsing, tokens, timing only)"
