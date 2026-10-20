@@ -247,3 +247,27 @@ def test_run_main_plan_and_parse():
     assert rm.parse('{"reasoning": "x", "ticker": "nyse: aaa"}', "real", {}) == ("AAA", "AAA", "x")
     assert rm.parse('{"reasoning": "x", "ticker": "FND03"}', "masked", {"FND03": "AAA"})[0] == "AAA"
     assert rm.parse("not json", "real", {}) == (None, None, None)
+
+
+def test_gate_amendment1_invalid_ticker_is_flagged_not_a_stop(tmp_path, monkeypatch):
+    import json
+    from v2 import run_main as rm
+    for name in ("LOGDIR", "PROGRESS", "SAMPLE", "GATE"):
+        monkeypatch.setattr(rm, name, tmp_path / name if name == "LOGDIR" else tmp_path / f"{name}.txt")
+    rm.LOGDIR.mkdir()
+    funds = render.load_funds(render.FILLED_CSV, placeholder=False)
+    conds = {c["condition_id"]: c for c in render.load_conditions() if c["block"] in ("core", "order")}
+
+    def write(n_last_cell):
+        with open(rm.LOGDIR / "main_m.jsonl", "w") as f:
+            for cid in rm.PASS1:
+                for i in range(rm.PASS1_RUNS if cid != rm.PASS1[-1] else n_last_cell):
+                    f.write(json.dumps({"run_id": f"{cid}|{i}", "condition_id": cid, "run_index": i, "error": None,
+                                        "chosen_ticker": "XXXX" if i < 2 else funds[0]["ticker"],
+                                        "hit_output_cap": False, "reasoning": "", "raw_response": "{}"}) + "\n")
+
+    write(rm.PASS1_RUNS)                      # 2/50 invalid in every cell (4%): flagged, not a stop
+    assert rm.gate({}, ["m"], funds, conds)
+    assert "invalid (flagged) 2" in rm.GATE.read_text()
+    write(rm.PASS1_RUNS - 1)                  # planned != completed still stops
+    assert not rm.gate({}, ["m"], funds, conds)

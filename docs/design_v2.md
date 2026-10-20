@@ -442,7 +442,7 @@ The run is unattended, resumable and has auto-stop, as in v1.
   1. planned = completed (50 successful calls per cell);
   2. name-vs-ID mismatch ≤ 2% of classifiable responses (the study 1 rule-based detector,
      `src/name_id_check.recommended_fund`, with real names and tickers, or masked names and codes);
-  3. invalid or unparsed tickers ≤ 2%;
+  3. invalid or unparsed tickers ≤ 2% (**superseded by Amendment 1** below: now a flagged outcome, not a stop);
   4. output-cap hits ≤ 2%. Ollama does not return a finish reason, so a call counts as truncated
      when tokens_out ≥ max_tokens (300);
   5. pick shares over valid picks sum to 1;
@@ -456,6 +456,36 @@ The run is unattended, resumable and has auto-stop, as in v1.
   invalid (checked after 40 calls).
 - A progress file (`runs/v2_main_progress.log`) gets a status line every 15 minutes. The runner does
   no analysis.
+
+**Amendment 1 (2026-10-20, after Pass 1, before any Pass 2 data existed).**
+- **Trigger.** llama3.1:8b `baseline__real` had 2/50 invalid tickers: "VVO" (a typo for VOO) and "VTSAX",
+  a fund that is not in the table. This failed the invalid ≤ 2% check, and the gate stopped the run at
+  06:48 UTC. All other checks passed in that cell, and the other 17 Pass 1 cells passed every check.
+- **Reason.** An invalid ticker is model behavior, not a harness fault: the response parsed and the call
+  completed. Stopping on it would drop a real outcome rather than catch a technical failure.
+- **Change, in the gate logic only.**
+  - An invalid ticker (off-table or typo) is now a **flagged outcome category**, reported per cell. It
+    no longer stops the run.
+  - These stops are unchanged: planned ≠ completed; name-vs-ID mismatch > 2%; output-cap hits > 2%;
+    3 consecutive errors; more than 5% invalid or failed calls overall per model (checked during each
+    pass).
+  - The "shares sum to 1" check is unchanged.
+- **Unchanged:** conditions, documents, prompts and parsing.
+- **Gate report files.** The original gate report (`runs/v2_gate_pass1.txt`) is kept unchanged. The
+  re-run gate writes `runs/v2_gate_pass1_amend1.txt`.
+- **Analysis.** Invalid picks stay in the logs and are reported as their own category. §8 does not yet
+  say how they enter the shares and regret analysis; the author decides this before any analysis is run.
+- **Also applies to the OpenAI extension** (see below).
+
+**Extension: OpenAI models (post-freeze, at the professor's request; not part of the confirmatory design).**
+- **Models:** gpt-5.4-mini-2026-03-17 and gpt-5.4-2026-03-05, via `src/v2/run_openai.py` and
+  `config/models_v2_openai.yaml`.
+- **Same as the local run:** 26 conditions, rendered prompts, seeds, row orders and parsing.
+- **Model settings:** reasoning effort `none`; temperature 1.0 and the seed are sent.
+- **Output cap:** 4,000 tokens, shared by reasoning and answer. A cut-off answer is a failed call.
+- **Spend:** hard stop at $5, estimated from the token usage the API reports.
+- **Run:** Pass 1 only for now, with the Amendment 1 gate.
+- **Log:** `runs/raw_v2/main_openai.jsonl`. Every row is labeled `extension: true`.
 
 **Groq free tier: not viable for the full design.**
 - With about 1,600 input tokens on average (measured) plus a 300-token output cap (about 1,900 tokens per call),

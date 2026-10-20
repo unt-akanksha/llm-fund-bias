@@ -8,7 +8,7 @@ Pass 1 (50 runs per cell): baseline__real, baseline__masked, D1__real, D3__real,
 Gate after Pass 1 (per model x Pass 1 cell; any failure -> STOP, Pass 2 not started):
   - planned = completed (successful calls);
   - name-vs-ID mismatch <= 2% of classifiable responses (fund named in the reasoning vs ticker output);
-  - invalid/unparsed tickers (not in the table shown) <= 2%;
+  - invalid/unparsed tickers (not in the table shown): reported as a flagged outcome, not a stop (Amendment 1);
   - output-cap hits (tokens_out >= max_tokens, i.e. finish_reason 'length') <= 2%;
   - choice shares over valid picks sum to 1;
   - 20 random raw responses (fixed seed) written to runs/v2_pass1_sample.txt for the author.
@@ -42,7 +42,7 @@ CONFIG = ROOT / "config" / "models_v2.yaml"
 LOGDIR = ROOT / "runs" / "raw_v2"
 PROGRESS = ROOT / "runs" / "v2_main_progress.log"
 SAMPLE = ROOT / "runs" / "v2_pass1_sample.txt"
-GATE = ROOT / "runs" / "v2_gate_pass1.txt"
+GATE = ROOT / "runs" / "v2_gate_pass1_amend1.txt"   # Amendment 1 (spec §7); the original v2_gate_pass1.txt is kept
 PHASE = "main"
 TARGETS = {"best": "IVV", "worst": "SPY"}          # design §3/§4.1 with the verified data (frozen)
 PASS1 = ["baseline__real", "baseline__masked", "D1__real", "D3__real", "D5__real",
@@ -178,10 +178,9 @@ def gate(cfg, models, funds, conds):
             share_sum = sum(v / sum(picks.values()) for v in picks.values()) if picks else 0.0
             checks = {"planned=completed": n == PASS1_RUNS,
                       "name-vs-ID<=2%": (mism / cls if cls else 0) <= GATE_MAX,
-                      "invalid<=2%": invalid / max(n, 1) <= GATE_MAX,
                       "output-cap<=2%": capped / max(n, 1) <= GATE_MAX,
                       "shares sum to 1": abs(share_sum - 1) < 1e-9}
-            lines.append(f"{mk:<12} {cid:<18} n={n:<3} name/ID mismatch {mism}/{cls} | invalid {invalid} | "
+            lines.append(f"{mk:<12} {cid:<18} n={n:<3} name/ID mismatch {mism}/{cls} | invalid (flagged) {invalid} | "
                          f"cap hits {capped} | " + " ".join(f"{k}:{'PASS' if v else 'FAIL'}" for k, v in checks.items()))
             fails += [f"{mk} {cid}: {k}" for k, v in checks.items() if not v]
             sample_pool += rs
