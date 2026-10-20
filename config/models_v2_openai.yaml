@@ -1,0 +1,26 @@
+# Study 1 v2 EXTENSION: OpenAI models. Added after the design freeze (tag v2.0-frozen-design) at the
+# professor's request. The frozen local config (config/models_v2.yaml) is unchanged.
+# Same 26 conditions, rendered prompts and answer parsing as the local run (src/v2/run_main.py).
+# Prices: USD per 1M tokens, standard tier, from https://developers.openai.com/api/docs/pricing
+# (read 2026-10-20). Dated snapshots are pinned for reproducibility (same price as the alias).
+
+defaults:
+  params:
+    temperature: 1.0              # same as local; sent only if the model accepts it (else API default, 1.0)
+    reasoning_effort_try: [none, minimal, low]   # lowest value the API accepts is used and logged
+    max_completion_tokens: 4000   # reasoning + answer; generous so reasoning cannot cut the answer off
+    local_answer_cap: 300         # local max_tokens; answers longer than this are flagged (not cut)
+
+spend:
+  cap_usd: 5.00                   # hard cap over ALL OpenAI calls (dry run + main), from reported usage
+
+concurrency: 3
+base_url: https://api.openai.com/v1
+
+models:
+  gpt-5.4-mini:                   # mini class
+    model_id: gpt-5.4-mini-2026-03-17
+    price_per_m: {input: 0.75, cached_input: 0.075, output: 4.50}
+  gpt-5.4:                        # mid tier
+    model_id: gpt-5.4-2026-03-05
+    price_per_m: {input: 2.50, cached_input: 0.25, output: 15.00}
