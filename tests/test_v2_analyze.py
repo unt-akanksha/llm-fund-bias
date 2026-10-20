@@ -74,4 +74,36 @@ def test_pilot_logs(model, tmp_path):
     ok, out = an.run(an.ROOT / "runs" / "raw_v2" / f"pilot_{model}.jsonl", out=tmp_path)
     assert ok
     t = pd.read_csv(out / "tests.csv").set_index("hypothesis")
-    assert not t.loc["H2a", "in_family"] and t.loc["H5", "in_family"]     # pilot has baseline cells only
+    assert t.loc["H2a", "missing"] and t.loc["H2a", "p_perm"] == 1 and not t.loc["H5", "missing"]  # baseline only
+    assert t["in_family"].sum() == 6 and t["interim"].all()
+
+
+def test_invalid_as_zero_sensitivity(effects_log, tmp_path):
+    ok, out = an.run(effects_log, out=tmp_path, invalid_as_zero=True)
+    assert ok and out == tmp_path / "sensitivity_invalid_as_zero"
+    reg = pd.read_csv(out / "regret_by_condition.csv").set_index("cell")
+    assert reg.loc["baseline__real", "mean_regret_bps"] == pytest.approx(200 / 100)   # 2 invalid count as 0
+    assert reg.loc["baseline__real", "suboptimal_rate"] == pytest.approx(20 / 100)
+    sc = pd.read_csv(out / "shares_cluster.csv")
+    clusters = sc[(sc["cell"] == "baseline__real") & ~sc["category"].str.startswith("invalid")]
+    assert (clusters["denominator"] == 100).all() and clusters["share"].sum() == pytest.approx(0.98)
+    t = pd.read_csv(out / "tests.csv").set_index("hypothesis")
+    assert t.loc["H5", "n1"] == 100 and t.loc["H2a", "n2"] == 100            # invalid picks in denominators
+    assert (out / "summary.txt").read_text().startswith("SENSITIVITY")
+    assert not (tmp_path / "tests.csv").exists()                            # main outputs not written
+
+
+def test_holm_family_always_six_interim_when_missing(effects_log, tmp_path):
+    from v2.run_main import PASS1
+    p = tmp_path / "pass1.jsonl"
+    p.write_text("".join(l for l in open(effects_log) if json.loads(l)["condition_id"] in PASS1))
+    ok, out = an.run(p, out=tmp_path / "out")
+    t = pd.read_csv(out / "tests.csv").set_index("hypothesis")
+    fam = t[t["in_family"]]
+    assert ok and len(fam) == 6 and t["interim"].all()
+    assert fam["missing"].sum() == 1 and t.loc["H2c", "p_perm"] == 1 and t.loc["H2c", "p_holm"] == 1
+    # Holm over 6 (not 5): the smallest p is multiplied by 6
+    assert fam["p_holm"].min() == pytest.approx(min(1, 6 * fam["p_perm"].min()))
+    assert (out / "summary.txt").read_text().startswith("INTERIM: 1 of 6")
+    full = pd.read_csv(an.run(effects_log, out=tmp_path / "full")[1] / "tests.csv")
+    assert not full["interim"].any() and not full["missing"].any()

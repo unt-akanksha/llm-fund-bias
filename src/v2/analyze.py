@@ -14,6 +14,10 @@ Steps:
      regret_by_condition.csv (≤ 2 bp tie rule), tests.csv (H1 estimates; H2a/b/c, H3, H4, H5 with CIs,
      raw and Holm p in one family), reasoning_codes.csv, cost_codes_vs_regret.csv.
   3. summary.txt: one page.
+  --invalid-as-zero: sensitivity (own folder): invalid picks count as non-target picks with regret 0 in all
+     share, regret and test denominators. Main outputs are unchanged.
+  The Holm family always has 6 tests (H2a, H2b, H2c, H3, H4, H5); a test whose cells are missing from the log
+  counts with p = 1 and the output is stamped INTERIM (summary.txt, tests.csv column "interim").
 
 Choices this code makes where §8 is silent (also printed in summary.txt):
   - Invalid picks (off-table or typo) are their own category: reported with their rate, and excluded from
@@ -60,6 +64,7 @@ HYPOTHESES = [  # (id, cell, reference cell, direction) -- real names; one Holm 
     ("H2c", "D7__real", "baseline__real", "greater"),
     ("H3", "D1__real", "baseline__real", "less"),
 ]
+FAMILY_SIZE = 6     # H2a, H2b, H2c, H3, H4, H5: fixed; a missing test counts with p = 1 (output "interim")
 ORDER_CELLS = ["W1__real", "W2__real", "W3__real", "W4__real"]
 
 
@@ -139,7 +144,7 @@ def regret_lookup(by):
     return reg, reg_sens, dom, in_set
 
 
-def add_outcomes(df, by):
+def add_outcomes(df, by, invalid_as_zero=False):
     reg, reg_sens, dom, in_set = regret_lookup(by)
     v = df["valid"]
     df.loc[v, "regret"] = df.loc[v, "chosen"].map(reg)
@@ -151,6 +156,13 @@ def add_outcomes(df, by):
     codes = df["reasoning"].map(rc.code_reasoning)
     for c in rc.CODES + ["cites_cost"]:
         df[c] = codes.map(lambda d, c=c: d[c])
+    df["incl"] = df["valid"]                       # rows in share / regret / test denominators
+    if invalid_as_zero:                            # sensitivity: invalid = non-target pick with regret 0
+        inv = df["invalid"]
+        df.loc[inv, ["regret", "regret_sens", "suboptimal", "dominated", "in_set"]] = 0.0
+        df.loc[inv, "cluster"] = "invalid"
+        df.loc[inv, "chosen"] = "INVALID"
+        df["incl"] = df["valid"] | inv
     return df
 
 
@@ -300,7 +312,7 @@ def shares_tables(df, cells, by):
     rows_c, rows_f = [], []
     for cell in cells:
         g = df[(df["cell"] == cell) & df["completed"]]
-        v = g[g["valid"]]
+        v = g[g["incl"]]
         for cl in CLUSTERS:
             k = int((v["cluster"] == cl).sum())
             rows_c.append({"cell": cell, "category": cl, "n": k, "denominator": len(v),
@@ -324,14 +336,14 @@ def regret_table(df, cells, rng):
     rows = []
     for cell in cells:
         g = df[(df["cell"] == cell) & df["completed"]]
-        v = g[g["valid"]]
+        v = g[g["incl"]]
         n = len(v)
         lo, hi = boot_mean_ci(v["regret"], rng)
         k_sub, k_dom = int(v["suboptimal"].sum()), int(v["dominated"].sum())
         s_lo, s_hi = wilson(k_sub, n)
         d_lo, d_hi = wilson(k_dom, n)
         ins = v[v["in_set"] == 1]
-        rows.append({"cell": cell, "n_completed": len(g), "n_valid": n, "n_invalid": int(g["invalid"].sum()),
+        rows.append({"cell": cell, "n_completed": len(g), "n_valid": int(g["valid"].sum()), "n_invalid": int(g["invalid"].sum()),
                      "invalid_rate": g["invalid"].mean() if len(g) else np.nan,
                      "mean_regret_bps": v["regret"].mean() if n else np.nan, "regret_ci_lo": lo, "regret_ci_hi": hi,
                      "suboptimal_n": k_sub, "suboptimal_rate": k_sub / n if n else np.nan,
@@ -365,7 +377,7 @@ def reasoning_tables(df, cells):
 
 
 def tests_table(df, rng):
-    v = df[df["valid"]]
+    v = df[df["incl"]]
     get = lambda cell: v.loc[v["cell"] == cell, "regret"].to_numpy(float)  # noqa: E731
     rows = []
     base = get("baseline__real")
@@ -380,8 +392,8 @@ def tests_table(df, rng):
     for hid, cell, ref, direction in HYPOTHESES:
         a, b = get(cell), get(ref)
         if not len(a) or not len(b):
-            rows.append({"hypothesis": hid, "contrast": f"{cell} - {ref}", "in_family": False,
-                         "note": "not estimable: cell missing from this log"})
+            rows.append({"hypothesis": hid, "contrast": f"{cell} - {ref}", "in_family": True, "p_perm": 1.0, "missing": True,
+                         "note": "MISSING (p set to 1; interim): cell missing from this log"})
             continue
         lo, hi = boot_diff_ci(a, b, rng)
         rows.append({"hypothesis": hid, "contrast": f"{cell} - {ref}", "outcome": "mean regret difference (bps)",
@@ -398,8 +410,8 @@ def tests_table(df, rng):
                      "note": "estimate = max - min of order means; F = %.3f; means = %s" % (fobs, [round(float(m), 3) for m in means]),
                      "p_perm": p, "p_hc3": hc3_f_p(groups), "n1": sum(map(len, groups)), "in_family": True})
     else:
-        rows.append({"hypothesis": "H4", "contrast": " vs ".join(ORDER_CELLS), "in_family": False,
-                     "note": "not estimable: order cells missing from this log"})
+        rows.append({"hypothesis": "H4", "contrast": " vs ".join(ORDER_CELLS), "in_family": True, "p_perm": 1.0, "missing": True,
+                     "note": "MISSING (p set to 1; interim): order cells missing from this log"})
     ra = v.loc[v["cell"] == "baseline__real", "chosen"].to_numpy()
     rm_ = v.loc[v["cell"] == "baseline__masked", "chosen"].to_numpy()
     if len(ra) and len(rm_):
@@ -416,14 +428,17 @@ def tests_table(df, rng):
                      "p_perm": perm_diff_p(a, b, "two-sided", rng), "p_hc3": hc3_diff_p(a, b, "two-sided"),
                      "n1": len(a), "n2": len(b), "in_family": False, "note": "reported outside the Holm family"})
     else:
-        rows.append({"hypothesis": "H5", "contrast": "baseline__real vs baseline__masked", "in_family": False,
-                     "note": "not estimable: baseline cells missing from this log"})
+        rows.append({"hypothesis": "H5", "contrast": "baseline__real vs baseline__masked", "in_family": True, "p_perm": 1.0, "missing": True,
+                     "note": "MISSING (p set to 1; interim): baseline cells missing from this log"})
     t = pd.DataFrame(rows)
-    for col in ("in_family", "p_perm", "p_hc3", "note"):
+    for col in ("in_family", "p_perm", "p_hc3", "note", "missing"):
         if col not in t:
             t[col] = np.nan
     t["in_family"] = t["in_family"].fillna(False).astype(bool)
+    t["missing"] = t["missing"].fillna(False).astype(bool)
     fam = t["in_family"]
+    assert fam.sum() == FAMILY_SIZE, "the Holm family must always have 6 tests"
+    t["interim"] = bool(t["missing"].any())
     t["p_holm"], t["reject_holm_0.05"] = np.nan, pd.Series([None] * len(t), dtype=object)
     if fam.any():
         rej, padj, _, _ = multipletests(t.loc[fam, "p_perm"], alpha=ALPHA, method="holm")
@@ -434,9 +449,14 @@ def tests_table(df, rng):
 
 # ---------------- summary ----------------
 
-def summary(model, path, df, verdict, reg, tests, out):
+def summary(model, path, df, verdict, reg, tests, out, invalid_as_zero=False):
     f = lambda x: "NA" if pd.isna(x) else f"{x:.3f}"  # noqa: E731
-    L = [f"Study 1 v2 analysis: model {model}", f"log: {path}", f"quality gate: {verdict}",
+    n_miss = int(tests["missing"].sum())
+    L = ([f"INTERIM: {n_miss} of {FAMILY_SIZE} confirmatory tests missing from this log; each counted in the "
+          f"Holm family with p = 1."] if n_miss else [])
+    L += (["SENSITIVITY: invalid picks counted as non-target picks with regret 0 (in all share, regret and "
+           "test denominators)."] if invalid_as_zero else [])
+    L += [f"Study 1 v2 analysis: model {model}", f"log: {path}", f"quality gate: {verdict}",
          f"calls: {len(df)} planned rows, {int(df['completed'].sum())} completed, "
          f"{int(df['valid'].sum())} valid picks, {int(df['invalid'].sum())} invalid (flagged)", "",
          "Tests (one Holm family over the rows marked *; Holm uses p_perm):"]
@@ -459,17 +479,19 @@ def summary(model, path, df, verdict, reg, tests, out):
     (out / "summary.txt").write_text("\n".join(L) + "\n")
 
 
-def run(path, model=None, out=None, confirm_final=False, expected=None):
+def run(path, model=None, out=None, confirm_final=False, expected=None, invalid_as_zero=False):
     guard(path, confirm_final)
     funds, by = funds_table()
     df, model = load_log(path, model, funds)
     out = Path(out or ROOT / "results" / "v2_analysis" / model)
+    if invalid_as_zero:
+        out = out / "sensitivity_invalid_as_zero"
     out.mkdir(parents=True, exist_ok=True)
     ok, verdict = gate(df, funds, out, expected)
     if not ok:
         (out / "summary.txt").write_text(f"Quality gate failed; analysis not run.\n{verdict}\nSee gate.txt.\n")
         return False, out
-    df = add_outcomes(df, by)
+    df = add_outcomes(df, by, invalid_as_zero)
     rng = np.random.default_rng(SEED)
     random.seed(SEED)
     cells = cell_order(df)
@@ -480,7 +502,7 @@ def run(path, model=None, out=None, confirm_final=False, expected=None):
     for name, t in [("shares_cluster", sc), ("shares_fund", sf), ("regret_by_condition", reg),
                     ("tests", tests), ("reasoning_codes", codes), ("cost_codes_vs_regret", cost_vs)]:
         t.to_csv(out / f"{name}.csv", index=False, quoting=csv.QUOTE_MINIMAL)
-    summary(model, path, df, verdict, reg, tests, out)
+    summary(model, path, df, verdict, reg, tests, out, invalid_as_zero)
     return True, out
 
 
@@ -491,9 +513,11 @@ def main():
     ap.add_argument("--out")
     ap.add_argument("--expected-runs", type=int, help="planned runs per cell (default: data/conditions_v2.csv)")
     ap.add_argument("--confirm-final", action="store_true")
+    ap.add_argument("--invalid-as-zero", action="store_true",
+                    help="sensitivity: invalid picks = non-target, regret 0; outputs in <out>/sensitivity_invalid_as_zero")
     a = ap.parse_args()
     try:
-        ok, out = run(a.log, a.model, a.out, a.confirm_final, a.expected_runs)
+        ok, out = run(a.log, a.model, a.out, a.confirm_final, a.expected_runs, a.invalid_as_zero)
     except GuardError as e:
         sys.exit(f"REFUSED: {e}")
     print(f"{'done' if ok else 'STOPPED: quality gate failed'}; outputs in {out}")
