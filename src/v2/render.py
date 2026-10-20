@@ -55,8 +55,6 @@ COLUMNS = [
     ("Tracking difference (5-yr)", "tracking_difference_5y_pct", lambda v: f"{v}%"),
     ("Holdings", "holdings_count", str),
     ("AUM", "aum_usd", str),
-    ("Bid-ask spread (30-day median)", "median_bid_ask_spread_30d_pct", lambda v: f"{v}%"),
-    ("30-day SEC yield", "sec_yield_30d_pct", lambda v: f"{v}%"),
 ]
 
 PLACEHOLDER = {   # same character length as typical real values; NOT fund data
@@ -64,7 +62,6 @@ PLACEHOLDER = {   # same character length as typical real values; NOT fund data
     "structure_short": "open-end ETF", "inception_date": "2000-01-01", "expense_ratio_pct": "0.00",
     "ret_1y_nav_pct": "00.00", "ret_3y_nav_pct": "00.00", "ret_5y_nav_pct": "00.00", "ret_10y_nav_pct": "00.00",
     "tracking_difference_5y_pct": "-0.00", "holdings_count": "000", "aum_usd": "$000.0B",
-    "median_bid_ask_spread_30d_pct": "0.00", "sec_yield_30d_pct": "0.00",
 }
 
 

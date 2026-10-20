@@ -15,18 +15,16 @@ ROOT = Path(__file__).resolve().parents[1]
 
 # ---------------- cost (fixtures: fictional funds "AAA", "BBB", ...) ----------------
 
-def F(t, er, td, sp):
-    return cost.FundCost(t, er, td, sp)
+def F(t, er, td):
+    return cost.FundCost(t, er, td)
 
 
 def test_net_cost_formula_and_er_redundancy():
-    f = F("AAA", 0.09, -0.12, 0.02)          # ER 9 bps, lags index by 12 bps, spread 2 bps
+    f = F("AAA", 0.09, -0.12)                 # ER 9 bps, lags index by 12 bps
     assert f.er_bps == pytest.approx(9) and f.residual_bps == pytest.approx(3)
-    assert cost.net_cost_bps(f, 10) == pytest.approx(9 + 3 + 0.2)
-    assert cost.net_cost_bps(f, 10) == pytest.approx(-f.td_bps + f.spread_bps / 10)   # ER + R = -TD
-    assert cost.net_cost_bps(f, 1) == pytest.approx(14)
-    with pytest.raises(ValueError):
-        cost.net_cost_bps(f, 0)
+    assert cost.net_cost_bps(f) == pytest.approx(12)
+    assert cost.net_cost_bps(f) == pytest.approx(-f.td_bps)          # ER + R = -TD
+    assert cost.net_cost_bps(F("BBB", 0.03, 0.01)) == pytest.approx(-1)   # beats its index (e.g. lending)
 
 
 def test_tracking_difference_is_fund_minus_index():
@@ -34,19 +32,18 @@ def test_tracking_difference_is_fund_minus_index():
 
 
 def test_regret_within_set_and_singleton_zero():
-    s = [F("AAA", 0.03, -0.03, 0.01), F("BBB", 0.09, -0.10, 0.01), F("CCC", 0.03, -0.02, 0.05)]
+    s = [F("AAA", 0.03, -0.03), F("BBB", 0.09, -0.10), F("CCC", 0.03, -0.02)]
     c = {f.ticker: cost.net_cost_bps(f) for f in s}
     assert cost.regret_bps("AAA", s) == pytest.approx(c["AAA"] - min(c.values()))
-    assert cost.regret_bps(min(c, key=c.get), s) == 0
-    assert cost.regret_bps("BBB", s) > 5
-    assert cost.regret_bps("ZZZ", [F("ZZZ", 0.5, -0.6, 0.3)]) == 0          # alone on its index
+    assert cost.regret_bps("CCC", s) == 0 and cost.regret_bps("BBB", s) == pytest.approx(8)
+    assert cost.regret_bps("ZZZ", [F("ZZZ", 0.5, -0.6)]) == 0          # alone on its index
     with pytest.raises(KeyError):
         cost.regret_bps("QQQ", s)
 
 
-def test_er_spread_only_sensitivity_ignores_tracking_difference():
-    a, b = F("AAA", 0.20, -0.50, 0.01), F("BBB", 0.15, -0.15, 0.01)
-    assert cost.regret_bps("AAA", [a, b], cost_fn=cost.cost_er_spread_only_bps) == pytest.approx(5)
+def test_er_only_sensitivity_ignores_tracking_difference():
+    a, b = F("AAA", 0.20, -0.50), F("BBB", 0.15, -0.15)
+    assert cost.regret_bps("AAA", [a, b], cost_fn=cost.cost_er_only_bps) == pytest.approx(5)
 
 
 def test_ties_under_one_bp():
@@ -54,34 +51,28 @@ def test_ties_under_one_bp():
 
 
 def test_dominance_strict_and_ties():
-    a, b = F("AAA", 0.03, -0.03, 0.01), F("BBB", 0.09, -0.10, 0.02)
+    a, b = F("AAA", 0.03, -0.03), F("BBB", 0.09, -0.10)        # A: ER 3, R 0 ; B: ER 9, R 1
     assert cost.dominates(a, b) and not cost.dominates(b, a)
-    c = F("CCC", 0.035, -0.035, 0.015)          # within 1 bp of AAA on every component -> no strict edge
+    c = F("CCC", 0.035, -0.04)                                  # within 1 bp of A on ER and R
     assert not cost.dominates(a, c) and not cost.dominates(c, a)
-    d = F("DDD", 0.02, -0.10, 0.01)             # better ER, worse residual -> no dominance either way
+    d = F("DDD", 0.02, -0.10)                                   # better ER, worse residual: no dominance
     assert not cost.dominates(a, d) and not cost.dominates(d, a)
     assert cost.dominated_funds([a, b, c, d]) == ["BBB"]
 
 
 def test_best_worst_and_tie_breaks():
-    s = [F("AAA", 0.03, -0.03, 0.01), F("BBB", 0.09, -0.10, 0.01), F("CCC", 0.05, -0.05, 0.02)]
+    s = [F("AAA", 0.03, -0.03), F("BBB", 0.09, -0.10), F("CCC", 0.05, -0.05)]
     assert cost.best_and_worst(s) == ("AAA", "BBB")
-    # best tie (C within 1 bp): lower ER wins
-    t = [F("AAA", 0.05, -0.05, 0.00), F("BBB", 0.03, -0.055, 0.00), F("CCC", 0.30, -0.30, 0.00)]
+    t = [F("AAA", 0.05, -0.05), F("BBB", 0.03, -0.055), F("CCC", 0.30, -0.30)]   # best tie: lower ER
     assert cost.best_and_worst(t)[0] == "BBB"
-    # best tie with equal ER: lower spread wins; then ticker A-Z
-    u = [F("BBB", 0.03, -0.03, 0.02), F("AAA", 0.03, -0.035, 0.03), F("CCC", 0.30, -0.30, 0.00)]
-    assert cost.best_and_worst(u)[0] == "BBB"
-    v = [F("BBB", 0.03, -0.03, 0.01), F("AAA", 0.03, -0.03, 0.01), F("CCC", 0.30, -0.30, 0.00)]
+    v = [F("BBB", 0.03, -0.03), F("AAA", 0.03, -0.035), F("CCC", 0.30, -0.30)]   # equal ER: ticker A-Z
     assert cost.best_and_worst(v)[0] == "AAA"
-    # worst tie: highest ER wins; full tie in ER and spread -> ticker Z-A
-    w = [F("AAA", 0.30, -0.30, 0.00), F("BBB", 0.25, -0.305, 0.00), F("CCC", 0.01, -0.01, 0.00)]
+    w = [F("AAA", 0.30, -0.30), F("BBB", 0.25, -0.305), F("CCC", 0.01, -0.01)]   # worst tie: higher ER
     assert cost.best_and_worst(w)[1] == "AAA"
-    x = [F("AAA", 0.30, -0.30, 0.0), F("BBB", 0.30, -0.30, 0.0), F("CCC", 0.01, -0.01, 0.0)]
+    x = [F("AAA", 0.30, -0.30), F("BBB", 0.30, -0.30), F("CCC", 0.01, -0.01)]    # equal ER: ticker Z-A
     assert cost.best_and_worst(x)[1] == "BBB"
-    # all tied, or a single fund: no contrast
-    assert cost.best_and_worst([F("AAA", .03, -.03, 0), F("BBB", .03, -.035, 0)]) == (None, None)
-    assert cost.best_and_worst([F("AAA", .03, -.03, 0)]) == (None, None)
+    assert cost.best_and_worst([F("AAA", .03, -.03), F("BBB", .03, -.035)]) == (None, None)
+    assert cost.best_and_worst([F("AAA", .03, -.03)]) == (None, None)
 
 
 # ---------------- renderer ----------------

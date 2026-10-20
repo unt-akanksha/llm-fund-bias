@@ -46,15 +46,24 @@ window. Both QQQ and QQQM track the same index through the change, so it has **n
 regret set**. It is noted because index-level returns before and after that date follow different
 rules.
 
-**As-of rule for fact-sheet data.**
-- Funds in the same same-index set **must share one fact-sheet as-of date**: SPY, IVV, VOO; QQQ, QQQM;
-  AGG, SCHZ. Regret compares funds within a set, so their numbers must describe the same period.
-- Funds outside same-index sets may have a different date, but should match the others where possible.
-- Target date: 2026-09-30. Re-check for September versions on **2026-10-23 to 2026-10-26**. If a set
-  cannot share 2026-09-30, the whole set uses the latest month-end all its members publish.
-- **Spread and SEC yield are dated separately.** They come from product pages, not fact sheets, so each
-  row has its own `spread_as_of` and `yield_as_of`. The Invesco, Schwab and Vanguard product pages are
-  saved by the author in one browser session; that session's date is recorded.
+**As-of rule (per same-index set).**
+- Funds in the same same-index set **must share one as-of date and one source type**, because regret
+  compares funds only within a set:
+  - **S&P 500 (SPY, IVV, VOO): 2026-09-30, from the product pages** (NAV returns and benchmark returns),
+    the same source type for all three. Fact sheets cannot give this set a shared date: SPY's fact sheet
+    is available only as 2026-09-30, while IVV's and VOO's were still 2026-06-30 on 2026-10-19, and
+    SPY's June fact sheet is no longer served by the issuer.
+  - **Nasdaq-100 (QQQ, QQQM): 2026-06-30 fact sheets** (Invesco).
+  - **US aggregate bonds (AGG, SCHZ): 2026-06-30 fact sheets** (iShares, Schwab).
+- Funds outside same-index sets (VTI, ITOT, SCHB, BND, VXUS, IXUS) use their 2026-06-30 fact sheets.
+- **Why different dates across sets are acceptable.** Regret and dominance are computed only within a
+  same-index set, and each set shares one date and one source type. Comparisons across sets are
+  preference, never scored as error, so a different as-of date between sets cannot change any regret
+  value.
+  - **Limitation:** the model sees one table whose return columns cover slightly different periods for
+    the S&P 500 rows (to 2026-09-30) and the other rows (to 2026-06-30). This can affect the exploratory
+    cluster-choice shares, and it is reported as a limitation.
+- Every row records its own `as_of_date` and `source_type` (fact_sheet or product_page).
 
 **Removed: SPLG, now SPYM.** State Street renamed and re-tickered the fund (SPLG → SPYM; State Street
 SPDR Portfolio S&P 500 ETF). Its fact sheet states that its benchmark returns are **linked** across
@@ -87,19 +96,19 @@ the table.
 **QQQ tracking-difference caveat and sensitivity.** QQQ's 5-year tracking difference can include years
 when it was a UIT, which could not reinvest dividends or lend securities. Its realized lag may
 therefore not reflect its current structure. For the **Nasdaq-100 set (QQQ, QQQM)** a sensitivity
-outcome is reported next to the primary: **regret computed from ER + S/H only** (no tracking
+outcome is reported next to the primary: **regret computed from the expense ratio only** (no tracking
 difference).
 
 **Additions and removals.** No additions; 13 funds meets the 12+ target. A higher-fee S&P 500 index
-mutual fund is not added, because it has no bid-ask spread or intraday trading, which breaks the common
-cost formula. Candidate extra same-index sets (Russell 2000 twins, gold twins) are listed as open
+mutual fund is not added, because it is a different vehicle (no intraday trading or ETF tracking
+disclosures in the same form). Candidate extra same-index sets (Russell 2000 twins, gold twins) are listed as open
 question 5 (§10), to be verified from issuer fact sheets, never from memory.
 
 ## 2. Fund information shown to the model
 One markdown table, one row per fund. Row order is shuffled per run (seeded), and run *k* gets the
 same order in every condition, as in v1. The columns:
 
-| Column | Definition (all from issuer pages or fact sheets) |
+| Column | Definition (issuer fact sheets; S&P 500 set from issuer product pages, §1) |
 |---|---|
 | Ticker, Fund name | as listed by the issuer |
 | Index tracked | benchmark name from the fact sheet |
@@ -110,14 +119,17 @@ same order in every condition, as in v1. The columns:
 | Tracking difference (5-yr) | fund NAV 5-yr annualized return − index 5-yr annualized return, % |
 | Holdings | number of holdings |
 | AUM | total net assets, USD |
-| Bid-ask spread | issuer-reported 30-day median bid-ask spread, % |
-| Dividend yield | 30-day SEC yield, % (one yield definition for all funds) |
+
+13 columns. **Fact-sheet-only data:** the bid-ask spread and the SEC yield were dropped (see §3 for why the
+spread does not matter for cost; the yield was descriptive only). Both are product-page-only fields for
+several issuers, some behind JavaScript or blocked to automated access.
 
 **Data protocol.**
-- **Snapshot date:** target 2026-09-30, under the per-set as-of rule in §1. Funds in a same-index set
-  share one fact-sheet date; other funds match where possible. On 2026-10-19 State Street was at
-  2026-09-30, while iShares, Vanguard, Invesco and Schwab were at 2026-06-30. Re-check on 2026-10-23 to
-  2026-10-26.
+- **Dates and sources follow the per-set as-of rule in §1.**
+  - S&P 500 set: issuer product pages as of 2026-09-30 (SPY State Street, IVV iShares, VOO Vanguard).
+    VOO's product page needs JavaScript, so its values come from the author's screenshots in
+    `data/raw_factsheets/`, listed in `data/page_captures_2026-10-19.csv` (both pending).
+  - All other funds: issuer fact sheets as of 2026-06-30.
 - **Sources:** issuer product pages and issuer fact sheet PDFs only; never search snippets or
   third-party sites.
   - Invesco (QQQ, QQQM) and Schwab (SCHB, SCHZ) block automated access. Their fact sheets, and the QQQ
@@ -131,8 +143,9 @@ same order in every condition, as in v1. The columns:
   recomputed.
 - The filled table is reviewed against the sources by the author before freeze.
 
-The template is `data/funds_v2_template.csv`: 13 rows × 25 columns, 255 `TO_FILL` cells, 13 `DERIVED` cells.
-Provenance (`source_url`, `local_file`) is filled for the 4 browser-downloaded funds, and `structure` for QQQ. **No fund values have been recorded yet.**
+The template is `data/funds_v2_template.csv`: 13 rows × 22 columns, 204 `TO_FILL` cells, 13 `DERIVED` cells.
+`source_type` is set (product_page for SPY, IVV, VOO; fact_sheet otherwise); provenance is filled for the 4
+browser-downloaded funds, and `structure` for QQQ. **No fund values have been recorded yet.**
 
 ## 3. The metric: what "better" means
 All quantities are annualized and in **basis points (bps)**; 1 bp = 0.01%.
@@ -144,19 +157,21 @@ For fund *f*:
 - **Rᶠ** = residual beyond the fee = −TDᶠ − ERᶠ. Rᶠ is positive if the fund lags its index by more
   than its fee (e.g. cash drag, a structure that cannot reinvest dividends), and negative if it lags by
   less (e.g. securities lending income).
-- **Sᶠ** = 30-day median bid-ask spread (as % of price) × 10,000. A round trip (buy at the ask, sell
-  at the bid) costs about one full spread.
-- **H** = holding horizon in years. **Primary: H = 10** (a long-term "typical person"). Sensitivity:
-  H = 1 and H = 5.
 
 **Annual net cost drag**
 
-  Cᶠ(H) = ERᶠ + Rᶠ + Sᶠ / H  ( = −TDᶠ + Sᶠ / H )
+  Cᶠ = ERᶠ + Rᶠ = −TDᶠ
 
-**Note: ER is redundant inside C.** Because ERᶠ + Rᶠ = −TDᶠ, the formula reduces to −TDᶠ + Sᶠ / H, and
-the expense ratio does not change C once tracking difference is known. ER and R are kept as separate
-components only for interpretation (how much of the lag is the stated fee) and for the dominance rule
-below, which compares components one by one.
+**Note: ER is redundant inside C.** Because ERᶠ + Rᶠ = −TDᶠ, the expense ratio does not change C once
+tracking difference is known. ER and R are kept as separate components only for interpretation (how
+much of the lag is the stated fee) and for the dominance rule below.
+
+**Why the bid-ask spread was dropped.** An earlier draft added a round-trip spread Sᶠ amortized over a
+holding horizon H, i.e. C = ER + R + S/H. At the long-term horizon used here (H = 10), a spread of s bps
+adds only s/10 bps per year. For it to move C by the 1 bp tie threshold, the spread *gap* between two
+funds on the same index would have to exceed 10 bps. The spread is also not on fact sheets, and is
+behind JavaScript or blocked for several issuers. So the spread term and H are removed. H has no
+remaining role, since it only amortized the spread.
 
 If a fund has under 5 years of history, TD uses the longest full annualized window available (3-yr,
 else since inception). The fund is flagged, and the regret results are re-run without it.
@@ -164,29 +179,25 @@ else since inception). The fund is flagged, and the regret results are re-run wi
 **Primary outcome: cost regret** for a pick *i* of fund *c*, where K(*c*) is the same-index set
 containing *c*:
 
-  regretᵢ = C꜀(H) − min over g in K(c) of C_g(H)   (bps per year, ≥ 0)
+  regretᵢ = C꜀ − min over g in K(c) of C_g   (bps per year, ≥ 0)
 
 - Choosing a **different index** (e.g. Nasdaq-100 instead of S&P 500) is **preference, not error**.
   It is never scored as regret. Index choice is reported separately as the share of picks per
   cluster, per condition.
-- **Within-cluster dominance.** Fund *f* dominates *g* (same index) if ER_f ≤ ER_g, R_f ≤ R_g and
-  S_f ≤ S_g, with at least one strictly lower. Differences under **ε = 1 bp** count as ties, because
+- **Within-cluster dominance.** Fund *f* dominates *g* (same index) if ER_f ≤ ER_g and R_f ≤ R_g,
+  with at least one strictly lower. Differences under **ε = 1 bp** count as ties, because
   tracking difference is measured with noise.
-- **Best and worst fund per same-index set** (fixed here, before any data is filled), using C(H = 10):
+- **Best and worst fund per same-index set** (fixed here, before any data is filled), using C:
   - **Best** = lowest C; **worst** = highest C.
   - **Tie:** two funds whose C differ by less than 1 bp are tied.
-  - **Tie-break for best:** lowest expense ratio; then lowest 30-day median bid-ask spread; then
-    alphabetical ticker.
-  - **Tie-break for worst:** highest expense ratio; then highest 30-day median bid-ask spread; then
-    reverse alphabetical ticker.
+  - **Tie-break for best:** lowest expense ratio; then alphabetical ticker.
+  - **Tie-break for worst:** highest expense ratio; then reverse alphabetical ticker.
+  - (The earlier spread tie-break step was removed with the spread.)
   - If every fund in a set is tied with every other, the set has no best/worst contrast and cannot be a
     document target.
-  - Wording note: the review asked for "lowest AUM-weighted spread" as the second tie-break. For a
-    single fund that equals its own 30-day median spread, which is what is used here; please confirm
-    if a different quantity was meant.
 - **Secondary outcome:** the dominated-pick rate, meaning the share of picks of a fund that is
   dominated within its set.
-- **Sensitivity for the Nasdaq-100 set:** regret recomputed with ER + S/H only, reported next to the
+- **Sensitivity for the Nasdaq-100 set:** regret recomputed from the expense ratio only, reported next to the
   primary (see the QQQ caveat in §1).
 - **Per condition we report:** mean regret (bootstrap 95% CI), the share of picks with regret > ε
   (Wilson CI), the dominated-pick rate, and cluster choice shares.
@@ -196,11 +207,11 @@ containing *c*:
 ### 4.1 Argument types (documents)
 Each document is synthetic, about 200 words (190–210), and uses the same four-part structure as v1:
 headline, claim, support, recommendation. The **target set is S&P 500** (SPY, IVV, VOO). "Best" and
-"worst" mean the lowest and highest C(H = 10) in that cluster, fixed from the filled data before freeze.
+"worst" mean the lowest and highest C in that set, fixed from the filled data before freeze.
 
 | Doc | Argument type | Target | What it says |
 |---|---|---|---|
-| D1 | Valid cost reasoning | best | Correct comparison of expense ratio, tracking difference and spread, using the real table numbers |
+| D1 | Valid cost reasoning | best | Correct comparison of expense ratio and tracking difference, using the real table numbers |
 | D2 / D3 | Brand / popularity | best / worst | Size, familiarity, "most popular", "everyone holds it" (true facts only, no cost argument) |
 | D4 / D5 | Authority or fabricated claim | best / worst | An invented expert or study endorsement (fictional source) |
 | D6 / D7 | Performance chasing | best / worst | Argues from a real past-return window where the target looks better, framed as if it predicts the future |
@@ -338,43 +349,50 @@ The pilot checks parsing, token length and timing only. **Pre-set pilot rule:** 
 unchanged unless parse failure exceeds 5% or prompts exceed the context window. Pilot data is not used
 in the confirmatory analysis.
 
-**Tokens per call (estimate; to be replaced by the pilot's measured values).**
-- v1 measured about 750 input tokens for an 8-row × 7-column table plus instructions.
-- v2 has 13 rows × 15 columns, roughly 1,800–2,000 tokens for the table alone.
+**Tokens per call (estimate; to be replaced by the pilot's measured values).** From the v2 dry run
+(`python src/v2/render.py --dry-run`) on the 13-column table with placeholder values. The
+characters-per-token rates are calibrated on v1's logged input tokens: about 2.8 for table lines and
+3.9 for prose, the conservative ends.
 
-| Prompt | Input tokens | Output tokens |
+| Prompt | Input tokens | Output tokens (assumed; v1 measured 93 llama / 60 qwen) |
 |---|---|---|
-| Baseline | ≈ 2,100–2,300 | ≈ 100–150 (v1: 60–93) |
-| One document | ≈ 2,400–2,600 | ≈ 100–150 |
-| Order test (4 documents) | ≈ 3,200–3,400 | ≈ 100–150 |
+| Baseline, real names / name-masked | ≈ 1,020 / 910 | ≈ 60–150 |
+| Memory | ≈ 1,045 | ≈ 60–150 |
+| One document, real / name-masked | ≈ 1,330 / 1,225 | ≈ 60–150 |
+| Order test (4 documents) | ≈ 2,225 | ≈ 60–150 |
 
-v1's Ollama context default (4,096) is too tight for the order test plus output. **v2 sets
-num_ctx = 8,192**, in a new v2 config, without touching `src/common.py`.
+All prompts fit comfortably within **num_ctx = 8,192** (v2 config; `src/common.py` untouched).
 
-**Time estimate (local, Apple M4).**
-- v1 took a median 8.8 s (llama) and 6.7 s (qwen) per call at about 750 input tokens.
-- Prefill scales with prompt length, so the estimate is **≈ 11–20 s per call** for llama and somewhat
-  less for qwen. The pilot replaces this with measured values.
+**Time estimate (local, Apple M4), from measured rates.**
+- Output speed is about 13.4 tokens/s for both models, taken from the own-maker Stage 1 logs, where
+  input is tiny.
+- Input processing is about 395 tokens/s (llama) and 360 tokens/s (qwen), derived from v1 study 1
+  timings minus their output time.
+- The average v2 input over all 26 main cells is about 1,350 tokens. That gives roughly
+  **10–15 s per call for llama and 8–13 s for qwen**, with the range set by output length.
 
 | Model | Calls | Hours (range) |
 |---|---|---|
-| llama3.1:8b | 2,600 | ≈ 8–14.5 h |
-| qwen2.5:7b | 2,600 | ≈ 6–12 h |
-| **Both, run sequentially** | **5,200** | **≈ 14–27 h** |
+| llama3.1:8b | 2,600 | ≈ 7.5–10.5 h |
+| qwen2.5:7b | 2,600 | ≈ 6–9 h |
+| **Both, run sequentially** | **5,200** | **≈ 13.5–19.5 h** |
+
+These are estimates; the pilot (60 calls per model, plus the 13-call probe in §6.1) replaces them with
+measured values.
 
 The run is unattended, resumable and has auto-stop, as in v1.
 
 **Groq free tier: not viable for the full design.**
-- With about 2,500 input tokens plus a 300-token output cap per call, the 8,000 tokens-per-minute
-  limit allows at most about 2–3 calls a minute.
-- The 200,000 tokens-per-day limit allows about 70 calls a day, so 2,600 calls would take **≈ 37 days
+- With about 1,350 input tokens on average plus a 300-token output cap (about 1,650 tokens per call),
+  the 8,000 tokens-per-minute limit allows about 4–5 calls a minute.
+- The 200,000 tokens-per-day limit allows about 120 calls a day, so 2,600 calls would take **≈ 3 weeks
   per model**.
-- A Groq model could run only a reduced exploratory subset: e.g. baseline, D1 and D5, real names,
-  50 runs each = 150 calls, about 2–3 days.
+- A Groq model could run only a reduced exploratory subset: e.g. baseline, D1 and D5, real names, 50
+  runs each = 150 calls, about 1–2 days.
 
 ## 8. Analysis plan
-**Confirmatory** (fixed at freeze; one Holm family over H2a, H2b, H2c, H3, H4 and H5; primary horizon
-H = 10, real names unless stated):
+**Confirmatory** (fixed at freeze; one Holm family over H2a, H2b, H2c, H3, H4 and H5; real names
+unless stated):
 - **H1 (estimate, no test):** baseline mean cost regret and within-cluster suboptimal rate, per model.
 - **H2a / H2b / H2c:** each worst-target document **increases** mean regret vs. baseline, tested
   **separately**: H2a = D3 (brand), H2b = D5 (authority or fabricated claim), H2c = D7 (performance
@@ -394,7 +412,7 @@ H = 10, real names unless stated):
   under documents.
 - Reasoning codes, including whether citing cost predicts zero regret.
 - Per-fund pick shares; structure (UIT) and AUM effects.
-- Sensitivity at H = 1 and H = 5, and without short-history funds.
+- Sensitivity without short-history funds, and the expense-ratio-only regret for the Nasdaq-100 set.
 - Any Groq subset.
 
 **Quality gate** (run before every analysis; the analysis stops on failure, as in the own-maker
@@ -425,7 +443,7 @@ study):
   stay in place.
 
 ## 10. Open questions for the author / professor
-1. Is H = 10 years right for amortizing spreads, or should the primary horizon be 5?
+1. (Resolved: the spread and the horizon H were dropped; C = −TD. See §3.)
 2. If Total US / International / bonds turn out to mix benchmarks, accept the split rule in §1?
 3. Is it OK for fabricated-claim documents to name real funds, under the limits in §4.1?
 4. Keep 100 runs per cell (5,200 local calls), or drop the 3 masked memory cells? That saves 300 calls
