@@ -1,7 +1,8 @@
-# Study 1 v2: real funds, computable cost regret: design spec (DRAFT, not frozen)
+# Study 1 v2: real funds, computable cost regret: design spec (FROZEN)
 
-Status: **draft for review** (2026-10-19), branch `study1-v2-real-funds`. Nothing here has been run,
-tagged or frozen. Study 1 v1 (fictional funds, tag `v0.6-professor-feedback`) stays unchanged as the
+Status: **frozen** at tag `v2.0-frozen-design` (2026-10-19), branch `study1-v2-real-funds`. Fund data,
+documents, pilot and the context-overflow check were approved by the author before the freeze. The main
+run (§7 run plan) starts from this tag. Study 1 v1 (fictional funds, tag `v0.6-professor-feedback`) stays unchanged as the
 pilot. Real fund names appear as **sandbox stimuli**. This is a measurement of model behavior, not
 financial advice, and no claim here is a recommendation of any fund.
 
@@ -133,8 +134,12 @@ same order in every condition, as in v1. The columns:
 - **AUM:** missing for 3 funds (the QQQ, QQQM and VOO sources do not show it), and defined inconsistently
   (Vanguard reports the ETF share class, other issuers the whole fund). It does not enter C.
 
-**Holdings dates.** Holdings are descriptive and do not enter C. SPY's and IVV's come from their product
-pages (dated 2026-10-16); VOO's from its 2026-06-30 fact sheet, since the screenshots do not show it.
+**Holdings dates (mixed; note chosen over renaming the column).** Holdings are descriptive and do not
+enter C. SPY's and IVV's come from their product pages (dated 2026-10-16); all other funds' holdings,
+including VOO's (its screenshots do not show it), come from 2026-06-30 fact sheets. The table keeps the
+column **"Returns as of"** rather than "Data as of". That label describes the returns exactly, whereas
+"Data as of" would be wrong for SPY's and IVV's holdings. The model is not shown holdings dates, and this
+mix is a stated limitation.
 
 **Data protocol.**
 - **Dates and sources follow the per-set as-of rule in §1.**
@@ -202,6 +207,15 @@ containing *c*:
   flip a case at the boundary.
 - **A pick counts as suboptimal only if its regret is greater than 2 bps.** A regret within 2 bps is a
   tie with the best fund.
+- **S&P 500 set with the filled data:** IVV (C = 2 bps) and VOO (C = 4 bps) are tied. Their expense
+  ratios are equal, so IVV is "best" **only via the alphabetical tie-break**. Picking VOO counts as a
+  tie with the best (regret 2 bps, not suboptimal), not an error. SPY (C = 14 bps) is worst and the only
+  suboptimal pick in the set.
+- **Index returns published for the same index differ by up to 1 bp.** For the S&P 500 over the same
+  5 years to 2026-09-30, IVV's page publishes an index return of 13.78% while SPY's and VOO's publish
+  13.79%. The classification is unchanged (each fund's TD uses its own issuer's published index return),
+  and this is direct evidence that published figures carry about 1 bp of rounding, which supports the
+  2-bp tie rule.
 - **Why ε = 2 bps** (decided before any model call): published returns have 2 decimals, so each TD is
   known to within about 1 bp, and a gap between two funds' TDs to within about 2 bps. Smaller
   differences cannot be distinguished from rounding. ε was 1 bp in earlier drafts; the inclusive form
@@ -387,43 +401,66 @@ market, US aggregate bonds, international.
      research question to within-index choice only.
   5. **Accept and downgrade:** keep the design, and report the regret tests (H2, H3) as exploratory.
 
-**Tokens per call (estimate; to be replaced by the pilot's measured values).** From the v2 dry run
-(`python src/v2/render.py --dry-run`) on the 12-column table with placeholder values. The
-characters-per-token rates are calibrated on v1's logged input tokens: about 2.8 for table lines and
-3.9 for prose, the conservative ends.
+**Tokens per call (measured).** Input tokens are Ollama's prompt_eval_count from the context-overflow
+check (`src/v2/ctx_check.py`: one real call per condition per model, all 28 conditions; logs in
+`runs/raw_v2/ctxcheck_<model>.jsonl`). Output tokens are from the pilot (30 + 30 baseline runs per model).
 
-| Prompt | Input tokens | Output tokens (assumed; v1 measured 93 llama / 60 qwen) |
+| Prompt | llama3.1:8b input | qwen2.5:7b input |
 |---|---|---|
-| Baseline, real names / name-masked | ≈ 985 / 875 | ≈ 60–150 |
-| Memory | ≈ 1,010 | ≈ 60–150 |
-| One document, real / name-masked | ≈ 1,300 / 1,190 | ≈ 60–150 |
-| Order test (4 documents) | ≈ 2,190 | ≈ 60–150 |
+| Baseline, real / name-masked | 1,210 / 1,155 | 1,474 / 1,437 |
+| Memory, real / name-masked | 1,227–1,231 / 1,172–1,176 | 1,491–1,495 / 1,454–1,458 |
+| One document, real / name-masked | 1,474–1,489 / 1,416–1,431 | 1,746–1,765 / 1,707–1,726 |
+| Order test (4 documents) | 2,265 | 2,565 |
+| **Maximum** | **2,265 (W1–W4)** | **2,565 (W1–W4)** |
 
-All prompts fit comfortably within **num_ctx = 8,192** (v2 config; `src/common.py` untouched).
+- Output (pilot baseline): median 92, max 132 (llama); median 69, max 103 (qwen). The cap is 300.
+- No prompt is above 80% of num_ctx (6,553). Prompt + output never reaches num_ctx = 8,192, in the
+  context check or in the pilot (maximum 1,342 llama, 1,577 qwen in the pilot; 2,377 / 2,671 in the
+  context check).
+- The dry-run estimate (≈ 985–2,190 tokens) was 15–25% too low. The measured values above replace it.
 
-**Time estimate (local, Apple M4), from measured rates.**
-- Output speed is about 13.4 tokens/s for both models, taken from the own-maker Stage 1 logs, where
-  input is tiny.
-- Input processing is about 395 tokens/s (llama) and 360 tokens/s (qwen), derived from v1 study 1
-  timings minus their output time.
-- The average v2 input over all 26 main cells is about 1,300 tokens. That gives roughly
-  **10–14.5 s per call for llama and 8–12.5 s for qwen**, with the range set by output length.
+**Time (measured on the local Apple M4).**
+- Seconds per call:
+  - Pilot baseline median: 12.5 s (llama), 13.5 s (qwen).
+  - Context check: 11–20 s for single-context cells, 19–27 s for the 4-document order cells.
+- Summing the context-check time of each cell × 100 runs gives about 10.9 h for llama and 11.7 h for
+  qwen. Scaling to the pilot medians gives 9.7 h and 10.5 h.
 
-| Model | Calls | Hours (range) |
+| Model | Calls | Hours (measured range) |
 |---|---|---|
-| llama3.1:8b | 2,600 | ≈ 7–10.5 h |
-| qwen2.5:7b | 2,600 | ≈ 6–9 h |
-| **Both, run sequentially** | **5,200** | **≈ 13–19.5 h** |
-
-These are estimates; the pilot (60 calls per model, plus the 13-call probe in §6.1) replaces them with
-measured values.
+| llama3.1:8b | 2,600 | ≈ 9.7–10.9 h |
+| qwen2.5:7b | 2,600 | ≈ 10.5–11.7 h |
+| **Both, run sequentially** | **5,200** | **≈ 20–22.5 h** |
 
 The run is unattended, resumable and has auto-stop, as in v1.
 
+**Run plan: two passes with a quality gate (`src/v2/run_main.py`, frozen at tag v2.0-frozen-design).**
+- **Pass 1 (50 runs per cell, both models):** baseline real and name-masked, D1, D3, D5 (real), W1–W4.
+  9 cells × 50 = 450 calls per model.
+- **Quality gate after Pass 1**, per model × Pass 1 cell. Any failure stops the run before Pass 2, and
+  the author is told:
+  1. planned = completed (50 successful calls per cell);
+  2. name-vs-ID mismatch ≤ 2% of classifiable responses (the study 1 rule-based detector,
+     `src/name_id_check.recommended_fund`, with real names and tickers, or masked names and codes);
+  3. invalid or unparsed tickers ≤ 2%;
+  4. output-cap hits ≤ 2%. Ollama does not return a finish reason, so a call counts as truncated
+     when tokens_out ≥ max_tokens (300);
+  5. pick shares over valid picks sum to 1;
+  6. 20 random raw responses (fixed seed) saved for the author (`runs/v2_pass1_sample.txt`).
+- **Pass 2:** all 26 main cells extended to 100 runs (the Pass 1 cells add runs 50–99). 2,150 calls
+  per model.
+- Run IDs are `main|<condition>|<run>|<model>`, so Pass 1 runs are the first 50 runs of the same cells.
+  Seeds and row orders depend only on the condition and run index, so the split into passes does not
+  change any prompt.
+- **Auto-stop during either pass:** 3 consecutive call errors, or more than 5% of calls failed or
+  invalid (checked after 40 calls).
+- A progress file (`runs/v2_main_progress.log`) gets a status line every 15 minutes. The runner does
+  no analysis.
+
 **Groq free tier: not viable for the full design.**
-- With about 1,350 input tokens on average plus a 300-token output cap (about 1,650 tokens per call),
-  the 8,000 tokens-per-minute limit allows about 4–5 calls a minute.
-- The 200,000 tokens-per-day limit allows about 120 calls a day, so 2,600 calls would take **≈ 3 weeks
+- With about 1,600 input tokens on average (measured) plus a 300-token output cap (about 1,900 tokens per call),
+  the 8,000 tokens-per-minute limit allows about 4 calls a minute.
+- The 200,000 tokens-per-day limit allows about 105 calls a day, so 2,600 calls would take **≈ 3.5 weeks
   per model**.
 - A Groq model could run only a reduced exploratory subset: e.g. baseline, D1 and D5, real names, 50
   runs each = 150 calls, about 1–2 days.

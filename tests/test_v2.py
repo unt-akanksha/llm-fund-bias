@@ -172,6 +172,7 @@ def test_checker_passes_clean_dummy(tmp_path, funds):
     (dummy_doc(words=215), "215 words"),
     (dummy_doc(extra="unlike VOO"), "another fund VOO"),
     (dummy_doc(extra="SPY"), "real identity leaked"),
+    (dummy_doc(extra="from Vanguard"), "issuer brand word"),
 ])
 def test_checker_fails_loudly(tmp_path, funds, text, msg):
     fails = run_check(tmp_path, funds, text)
@@ -233,3 +234,16 @@ def test_conditions_v2_matches_spec():
     assert len(set(pairs)) == 12
     roles = {r["base_condition"]: r["target_roles"] for r in rows if r["block"] == "order"}
     assert all(v.split("|").count("best") == 2 for v in roles.values())   # balanced 2 vs 2
+
+
+def test_run_main_plan_and_parse():
+    from v2 import run_main as rm
+    conds = {c["condition_id"]: c for c in render.load_conditions() if c["block"] in ("core", "order")}
+    assert set(rm.PASS1) <= set(conds) and len(conds) == 26
+    p1 = rm.jobs_for(rm.PASS1, rm.PASS1_RUNS, conds)
+    full = rm.jobs_for(list(conds), rm.FULL_RUNS, conds)
+    key = lambda j: (j[0]["condition_id"], j[1])
+    assert len(p1) == 450 and len(full) == 2600 and {key(j) for j in p1} <= {key(j) for j in full}
+    assert rm.parse('{"reasoning": "x", "ticker": "nyse: aaa"}', "real", {}) == ("AAA", "AAA", "x")
+    assert rm.parse('{"reasoning": "x", "ticker": "FND03"}', "masked", {"FND03": "AAA"})[0] == "AAA"
+    assert rm.parse("not json", "real", {}) == (None, None, None)

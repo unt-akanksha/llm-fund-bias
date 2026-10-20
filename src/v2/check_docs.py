@@ -7,7 +7,11 @@ checker renders it in BOTH naming modes (real and masked) and verifies that:
   1. the target fund is named exactly 3 times (ticker, full name, masked code or masked name);
   2. no other fund is named (any other ticker, fund name, masked code or masked name);
   3. the length is 190-210 words;
-  4. the target's index name appears at most once.
+  4. the target's index name appears at most once;
+  5. in masked mode, the target's real ticker/name does not leak;
+  6. no issuer brand word (iShares, BlackRock, Vanguard, State Street, SPDR, Invesco, Schwab) appears
+     outside the target's own name placeholder, since a brand word names a fund family and, in masked
+     mode, would reveal identity.
 """
 
 import argparse
@@ -16,9 +20,10 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from v2.render import fill_document, load_funds, mask_map  # noqa: E402
+from v2.render import FILLED_CSV, fill_document, load_funds, mask_map  # noqa: E402
 
 REQUIRED_MENTIONS = 3
+BRAND_WORDS = ["iShares", "BlackRock", "Vanguard", "State Street", "SPDR", "Invesco", "Schwab"]
 MIN_WORDS, MAX_WORDS = 190, 210
 MAX_INDEX_MENTIONS = 1
 
@@ -68,6 +73,10 @@ def check_document(doc_id, template_text, target_ticker, funds, naming):
     n_index = _count(text, by[target_ticker].get("index_tracked", ""))
     if n_index > MAX_INDEX_MENTIONS:
         fails.append(f"{doc_id} [{naming}]: index name appears {n_index}x (max {MAX_INDEX_MENTIONS})")
+    brands = {b: len(re.findall(re.escape(b), scrub, re.I)) for b in BRAND_WORDS}
+    brands = {b: k for b, k in brands.items() if k}
+    if brands:
+        fails.append(f"{doc_id} [{naming}]: issuer brand word outside the target name: {brands}")
     if "{{" in text:
         fails.append(f"{doc_id} [{naming}]: unfilled placeholder left in text")
     # 5. masked mode must not leak the target's real ticker or name
@@ -96,9 +105,9 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--docs", default=str(Path(__file__).resolve().parents[2] / "data" / "sources_v2"))
     ap.add_argument("--targets", required=True, help="D1=SPY,D2=SPY,... (document -> target ticker)")
-    ap.add_argument("--funds", default=None, help="filled fund CSV (default: template; names must be filled)")
+    ap.add_argument("--funds", default=str(FILLED_CSV), help="filled fund CSV (default: data/funds_v2.csv)")
     a = ap.parse_args()
-    funds = load_funds(a.funds, placeholder=False) if a.funds else load_funds(placeholder=False)
+    funds = load_funds(a.funds, placeholder=False)
     targets = dict(kv.split("=") for kv in a.targets.split(","))
     fails = check_all(a.docs, targets, funds)
     if fails:
@@ -106,6 +115,10 @@ def main():
         for f in fails:
             print("  - " + f)
         sys.exit(1)
+    for doc_id, ticker in sorted(targets.items()):
+        tpl = (Path(a.docs) / f"{doc_id}.txt").read_text()
+        wc = {n: len(fill_document(tpl, ticker, funds, n).split()) for n in ("real", "masked")}
+        print(f"  {doc_id} -> {ticker}: {wc['real']} words (real), {wc['masked']} words (masked)")
     print(f"Document check passed: {len(targets)} documents x 2 naming modes.")
 
 
