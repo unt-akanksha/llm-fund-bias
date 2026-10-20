@@ -477,6 +477,25 @@ The run is unattended, resumable and has auto-stop, as in v1.
   say how they enter the shares and regret analysis; the author decides this before any analysis is run.
 - **Also applies to the OpenAI extension** (see below).
 
+**Amendment 2 (2026-10-20, gate review; after the OpenAI extension's Pass 1, before any analysis).**
+- **Trigger.** The OpenAI Pass 1 gate failed on name-vs-ID for gpt-5.4: 1 flag in `baseline__real` and
+  3 in `D3__real`.
+- **Review.** The author read the reasoning text of all 4 flagged responses (`main|baseline__real|0019`,
+  `main|D3__real|0019`, `0022`, `0031`, all gpt-5.4). All 4 are **detector false positives**: each one
+  recommends the chosen fund (VTI) and mentions the other fund (QQQ or SPY) only as a rejected
+  comparison. The cause is that the explicit-selection rule matches "… pick than X" and takes X as the
+  selected fund.
+- **Change.**
+  - Manual gate reviews are recorded in `data/gate_reviews_v2.csv` (run_id, reviewer, verdict, note).
+  - `src/v2/analyze.py` prints the original gate result unchanged, then "GATE (after manual review)" with
+    the reviewed false positives removed from the mismatch counts.
+  - The analysis stops only if the reviewed gate fails. The number of cleared responses is stated in
+    `gate.txt` and `summary.txt`.
+- **Unchanged:** the name-vs-ID detector (`src/name_id_check.py`), the 2% threshold and all other gate
+  checks.
+- A response is cleared only by a written review row. The reviews cover only responses the detector
+  flagged; they never add a mismatch.
+
 **Extension: OpenAI models (post-freeze, at the professor's request; not part of the confirmatory design).**
 - **Models:** gpt-5.4-mini-2026-03-17 and gpt-5.4-2026-03-05, via `src/v2/run_openai.py` and
   `config/models_v2_openai.yaml`.
@@ -531,6 +550,14 @@ study):
 5. Choice shares sum to 1; every chosen ticker exists in the table shown in that run.
 6. Pre-freeze blockers: no `TO_FILL` in the fund data; document mention, length and fund-name checks
    pass; rendered prompts fit num_ctx.
+
+**Known limitations (quality gate).**
+- **Name-vs-ID detector, "pick than X" false positive** (Amendment 2). The explicit-selection rule (a
+  selection verb followed within 40 characters by a fund name) fires on comparisons such as "VTI is a
+  more balanced pick than SPY", and returns X (SPY) instead of the chosen fund. The contrast rule would
+  drop X after "than", but it runs only when the explicit rule does not match. Seen in gpt-5.4 output
+  (4 responses). The detector is kept unchanged for comparability with study 1; such flags are cleared
+  only by a manual review recorded in `data/gate_reviews_v2.csv`.
 
 ## 9. Implementation notes (no code yet)
 - New files only: e.g. `src/v2/`, a `config/models_v2.yaml`, `data/conditions_v2.csv` and

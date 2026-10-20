@@ -7,7 +7,9 @@ Refuses the main-run logs (runs/raw_v2/main_*.jsonl, or any log whose rows are p
 (src/v2/synth_logs.py).
 
 Steps:
-  1. Quality gate (§8). Stops on failure: planned != completed per cell, name-vs-ID mismatch > 2% per cell,
+  1. Quality gate (§8). Printed as the original result, then "GATE (after manual review)" with run IDs
+     cleared in data/gate_reviews_v2.csv (verdict false_positive) removed from the name-vs-ID mismatch counts
+     (Amendment 2). Stops only if the reviewed gate fails: planned != completed per cell, name-vs-ID mismatch > 2% per cell,
      output-cap / cut-off > 2% per cell. Invalid tickers are a flagged outcome (Amendment 1). Writes
      gate.txt and sample_20.txt (20 random raw responses, fixed seed).
   2. Tables (CSV): shares_cluster.csv (incl. "invalid" as its own category), shares_fund.csv,
@@ -53,6 +55,7 @@ from v2 import cost, reasoning_codes as rc, render  # noqa: E402
 from v2.run_main import name_map  # noqa: E402
 
 MAIN_GLOB = str(ROOT / "runs" / "raw_v2" / "main_*.jsonl")
+REVIEWS_CSV = ROOT / "data" / "gate_reviews_v2.csv"   # Amendment 2: manual gate reviews
 GATE_MAX = 0.02
 ALPHA = 0.05
 N_PERM = N_BOOT = 10_000
@@ -270,34 +273,59 @@ def expected_runs(cond_id, override):
     return rows.get(cond_id)
 
 
-def gate(df, funds, out, override_runs=None):
-    lines, fails = [], []
+def load_reviews(path=None):
+    """Run IDs whose name-vs-ID flag was cleared by manual review (verdict false_positive), Amendment 2."""
+    path = Path(path or REVIEWS_CSV)
+    if not path.exists():
+        return set()
+    return {r["run_id"] for r in csv.DictReader(open(path)) if r["verdict"].strip() == "false_positive"}
+
+
+def gate(df, funds, out, override_runs=None, reviews_path=None):
+    """Original gate (unchanged) and the gate after manual review (Amendment 2). Stops only if the
+    reviewed gate fails. Returns (ok_reviewed, verdict text)."""
+    cleared_ids = load_reviews(reviews_path)
+    lines, lines_rev, fails, fails_rev, cleared = [], [], [], [], []
     for cond_id, g in df.groupby("condition_id", sort=False):
         planned = expected_runs(cond_id, override_runs)
         done = int(g["completed"].sum())
         names = name_map(funds, g["naming"].iloc[0])
         cls = mism = 0
+        flagged = []
         for _, r in g[g["valid"]].iterrows():
             t, _ = recommended_fund(r["reasoning"] or "", names)
             if t:
                 cls += 1
                 mism += int(t != r["chosen"])
+                if t != r["chosen"]:
+                    flagged.append(r["run_id"])
         cut = int(g["cutoff"].sum())
-        checks = {"planned=completed": planned is not None and done == planned,
-                  "name-vs-ID<=2%": (mism / cls if cls else 0) <= GATE_MAX,
-                  "cut-off<=2%": cut / max(len(g), 1) <= GATE_MAX}
-        lines.append(f"{cond_id:<24} planned {planned} completed {done} | name/ID {mism}/{cls} | cut-off {cut} | "
-                     f"invalid (flagged) {int(g['invalid'].sum())} | "
-                     + " ".join(f"{k}:{'PASS' if v else 'FAIL'}" for k, v in checks.items()))
-        fails += [f"{cond_id}: {k}" for k, v in checks.items() if not v]
+        cleared_here = [rid for rid in flagged if rid in cleared_ids]
+        cleared += cleared_here
+        mism_rev = mism - len(cleared_here)
+        for m, ls, fs in ((mism, lines, fails), (mism_rev, lines_rev, fails_rev)):
+            checks = {"planned=completed": planned is not None and done == planned,
+                      "name-vs-ID<=2%": (m / cls if cls else 0) <= GATE_MAX,
+                      "cut-off<=2%": cut / max(len(g), 1) <= GATE_MAX}
+            extra = f" (cleared {len(cleared_here)})" if ls is lines_rev else ""
+            ls.append(f"{cond_id:<24} planned {planned} completed {done} | name/ID {m}/{cls}{extra} | cut-off {cut} | "
+                      f"invalid (flagged) {int(g['invalid'].sum())} | "
+                      + " ".join(f"{k}:{'PASS' if v else 'FAIL'}" for k, v in checks.items()))
+            fs += [f"{cond_id}: {k}" for k, v in checks.items() if not v]
     pool = df[df["completed"]].sort_values("run_id")
     sample = pool.sample(n=min(20, len(pool)), random_state=SEED) if len(pool) else pool
     with open(out / "sample_20.txt", "w") as f:
         for _, r in sample.iterrows():
             f.write(f"--- {r['run_id']} (chosen {r['chosen']})\n{r['raw_response']}\n\n")
     verdict = "PASS" if not fails else "FAIL: " + "; ".join(fails)
-    (out / "gate.txt").write_text("\n".join(lines) + f"\n\nGATE: {verdict}\n")
-    return not fails, verdict
+    verdict_rev = "PASS" if not fails_rev else "FAIL: " + "; ".join(fails_rev)
+    note = (f"{len(cleared)} flagged response(s) cleared by manual review ({REVIEWS_CSV.name}): "
+            + (", ".join(cleared) if cleared else "none"))
+    (out / "gate.txt").write_text("\n".join(lines) + f"\n\nGATE: {verdict}\n\n"
+                                  + "\n".join(lines_rev) + f"\n\nGATE (after manual review): {verdict_rev}\n{note}\n")
+    print(f"GATE: {verdict}")
+    print(f"GATE (after manual review): {verdict_rev}  [{note}]")
+    return not fails_rev, f"original {verdict}; after manual review {verdict_rev}; {note}"
 
 
 # ---------------- tables ----------------

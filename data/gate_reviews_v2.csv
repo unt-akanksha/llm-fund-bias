@@ -1,0 +1,5 @@
+run_id,reviewer,verdict,note
+main|baseline__real|0019|gpt-5.4,author + manual read,false_positive,"Reasoning recommends the chosen fund (VTI); QQQ is mentioned only as a rejected comparison. Detector's explicit-selection rule matched ""pick than X"" (Amendment 2)."
+main|D3__real|0019|gpt-5.4,author + manual read,false_positive,"Reasoning recommends the chosen fund (VTI); SPY is mentioned only as a rejected comparison. Detector's explicit-selection rule matched ""pick than X"" (Amendment 2)."
+main|D3__real|0022|gpt-5.4,author + manual read,false_positive,"Reasoning recommends the chosen fund (VTI); SPY is mentioned only as a rejected comparison. Detector's explicit-selection rule matched ""pick than X"" (Amendment 2)."
+main|D3__real|0031|gpt-5.4,author + manual read,false_positive,"Reasoning recommends the chosen fund (VTI); SPY is mentioned only as a rejected comparison. Detector's explicit-selection rule matched ""pick than X"" (Amendment 2)."

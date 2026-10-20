@@ -107,3 +107,42 @@ def test_holm_family_always_six_interim_when_missing(effects_log, tmp_path):
     assert (out / "summary.txt").read_text().startswith("INTERIM: 1 of 6")
     full = pd.read_csv(an.run(effects_log, out=tmp_path / "full")[1] / "tests.csv")
     assert not full["interim"].any() and not full["missing"].any()
+
+
+def _with_false_flags(src, dst, n=3):
+    """Copy a synthetic log; in n baseline__real IVV rows, add a 'pick than SPY' comparison (detector flags SPY)."""
+    out, done, ids = [], 0, []
+    for line in open(src):
+        r = json.loads(line)
+        if done < n and r["condition_id"] == "baseline__real" and r["chosen_ticker"] == "IVV":
+            r["reasoning"] = "IVV is a more cost-efficient default pick than SPY for a typical investor."
+            done += 1
+            ids.append(r["run_id"])
+        out.append(json.dumps(r) + "\n")
+    dst.write_text("".join(out))
+    return ids
+
+
+def test_gate_manual_review_clears_false_positives(effects_log, tmp_path, monkeypatch):
+    log = tmp_path / "flags.jsonl"
+    ids = _with_false_flags(effects_log, log)
+    reviews = tmp_path / "reviews.csv"
+    monkeypatch.setattr(an, "REVIEWS_CSV", reviews)
+    reviews.write_text("run_id,reviewer,verdict,note\n")
+    ok, out = an.run(log, out=tmp_path / "none")                     # 3/98 flagged > 2%: reviewed gate fails
+    assert not ok and "GATE (after manual review): FAIL" in (out / "gate.txt").read_text()
+    reviews.write_text("run_id,reviewer,verdict,note\n" + "".join(f"{i},test,false_positive,pick than X\n" for i in ids))
+    ok, out = an.run(log, out=tmp_path / "cleared")
+    gate_txt = (out / "gate.txt").read_text()
+    assert ok and "GATE: FAIL" in gate_txt                             # original result still printed unchanged
+    assert "GATE (after manual review): PASS" in gate_txt and "3 flagged response(s) cleared" in gate_txt
+    assert "3 flagged response(s) cleared" in (out / "summary.txt").read_text()
+
+
+def test_gate_reviews_file_amendment2():
+    import csv
+    rows = list(csv.DictReader(open(an.REVIEWS_CSV)))
+    assert [r["run_id"] for r in rows] == ["main|baseline__real|0019|gpt-5.4", "main|D3__real|0019|gpt-5.4",
+                                           "main|D3__real|0022|gpt-5.4", "main|D3__real|0031|gpt-5.4"]
+    assert all(r["verdict"] == "false_positive" and r["reviewer"] == "author + manual read" for r in rows)
+    assert all("pick than X" in r["note"] for r in rows)
