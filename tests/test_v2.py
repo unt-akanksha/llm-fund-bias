@@ -46,17 +46,25 @@ def test_er_only_sensitivity_ignores_tracking_difference():
     assert cost.regret_bps("AAA", [a, b], cost_fn=cost.cost_er_only_bps) == pytest.approx(5)
 
 
-def test_ties_under_one_bp():
-    assert cost.is_tie(3.0, 3.9) and not cost.is_tie(3.0, 4.0)
+def test_ties_within_two_bps_inclusive_after_rounding():
+    assert cost.EPS_BPS == 2.0
+    assert cost.is_tie(3.0, 5.0) and cost.is_tie(2.0, 4.0000000001) and not cost.is_tie(3.0, 5.01)
+    assert cost.is_tie(0.1 + 0.2, 2.3)                    # float noise removed by rounding to 0.01 bp
+
+
+def test_suboptimal_only_above_two_bps():
+    assert not cost.is_suboptimal(2.0) and not cost.is_suboptimal(1.999999999) and cost.is_suboptimal(2.01)
 
 
 def test_dominance_strict_and_ties():
     a, b = F("AAA", 0.03, -0.03), F("BBB", 0.09, -0.10)        # A: ER 3, R 0 ; B: ER 9, R 1
     assert cost.dominates(a, b) and not cost.dominates(b, a)
-    c = F("CCC", 0.035, -0.04)                                  # within 1 bp of A on ER and R
+    c = F("CCC", 0.035, -0.04)                                  # within 2 bps of A on ER and R
+    e = F("EEE", 0.03, -0.05)                                   # R exactly 2 bps worse than A: tie, no dominance
     assert not cost.dominates(a, c) and not cost.dominates(c, a)
-    d = F("DDD", 0.02, -0.10)                                   # better ER, worse residual: no dominance
+    d = F("DDD", 0.00, -0.10)                                   # ER 3 bps better, R 10 bps worse: no dominance
     assert not cost.dominates(a, d) and not cost.dominates(d, a)
+    assert not cost.dominates(a, e) and not cost.dominates(e, a)
     assert cost.dominated_funds([a, b, c, d]) == ["BBB"]
 
 
@@ -72,6 +80,8 @@ def test_best_worst_and_tie_breaks():
     x = [F("AAA", 0.30, -0.30), F("BBB", 0.30, -0.30), F("CCC", 0.01, -0.01)]    # equal ER: ticker Z-A
     assert cost.best_and_worst(x)[1] == "BBB"
     assert cost.best_and_worst([F("AAA", .03, -.03), F("BBB", .03, -.035)]) == (None, None)
+    # exact 2-bp gap is a tie: IVV-like (ER 3, C 2) vs VOO-like (ER 3, C 4) -> tie on C and ER -> ticker A-Z
+    assert cost.best_and_worst([F("YYY", .03, -.04), F("XXX", .03, -.02), F("ZZZ", .09, -.14)]) == ("XXX", "ZZZ")
     assert cost.best_and_worst([F("AAA", .03, -.03)]) == (None, None)
 
 
@@ -103,6 +113,7 @@ def test_masked_table_hides_tickers_and_names(funds):
     table = msgs[1]["content"]
     assert not any(f"| {x} |" in table for x in t)
     assert table.count("| FND") == 13 and "Placeholder Benchmark Index Name" in table
+    assert "Structure" not in table and "AUM" not in table and "Expense ratio (as published)" in table
 
 
 def test_document_fill_real_and_masked(funds):
@@ -110,6 +121,20 @@ def test_document_fill_real_and_masked(funds):
     assert render.fill_document(tpl, "SPY", funds, "real").startswith("Buy SPY now.")
     code, name = render.mask_map([f["ticker"] for f in funds])["SPY"]
     assert render.fill_document(tpl, "SPY", funds, "masked") == f"Buy {code} now. {name} is great."
+
+
+def test_na_is_not_given_a_percent_sign():
+    assert render._pct("N/A") == "N/A" and render._pct("1.50") == "1.50%"
+
+
+def test_zero_tracking_difference_prints_unsigned():
+    assert render._td("+0.00") == "0.00%" and render._td("-0.00") == "0.00%" and render._td("-0.14") == "-0.14%"
+
+
+def test_table_has_annualized_labels_and_returns_as_of(funds):
+    t = [f["ticker"] for f in funds]
+    head = render.build_messages(funds, render.row_order(t, "main", 0), "real")[1]["content"]
+    assert "5-yr annualized NAV return" in head and "| Returns as of |" in head
 
 
 def test_unfilled_fund_table_is_a_freeze_blocker():

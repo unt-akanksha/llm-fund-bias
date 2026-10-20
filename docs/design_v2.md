@@ -70,9 +70,15 @@ SPDR Portfolio S&P 500 ETF). Its fact sheet states that its benchmark returns ar
 several earlier indices before the S&P 500, so a tracking difference against the S&P 500 over the
 measurement window is not clean. The S&P 500 same-index set is therefore **SPY, IVV, VOO**.
 
-**Benchmark renaming note.** Vanguard's VTI fact sheet announces that CRSP benchmarks will be renamed to
-Morningstar, and fund names will change. This is a name change only and does not change cluster
-membership. The name printed on the snapshot date is recorded.
+**Vanguard names are as of 2026-06-30.** Vanguard's VTI fact sheet announces that CRSP benchmarks will be
+renamed to Morningstar, and fund names will change (VTI's live page already shows "Vanguard Morningstar
+Total Stock Market ETF"). The table uses fund and index names **as printed on the 2026-06-30 fact
+sheets**. This is a name change only and does not change cluster membership.
+
+**International benchmarks are net of withholding taxes.** VXUS's fact sheet states its benchmark returns
+are adjusted for withholding taxes, and IXUS tracks the "MSCI ACWI ex USA IMI Index (Net)". A fund can
+then beat its benchmark (positive TD) without the index rules being wrong. Both funds are alone on their
+benchmark, so this has **no effect on regret**.
 
 **Cluster rule.** Cost regret (§3) is defined only within a **same-index set**, meaning funds whose
 fact sheets name the identical benchmark. Professor-defined clusters that mix benchmarks are kept as
@@ -83,15 +89,14 @@ fact sheets name the identical benchmark. Professor-defined clusters that mix be
 target set), Nasdaq-100 (QQQ, QQQM) and US aggregate bonds (AGG, SCHZ). Total US and International add
 none.
 
-**QQQ structure: open-end fund, converted from UIT.** Two sources:
+**QQQ structure: conflicting sources, unresolved and unused.** The Structure column was dropped (§2),
+so this does not enter the table or any metric. It is recorded only because QQQ's tracking difference
+spans the change:
 1. The QQQ prospectus dated 2025-12-22, p. 10: an "Investment Advisory Agreement… effective December 20,
    2025", and "Prior to December 20, 2025, the Fund did not have a contractual agreement with an
-   investment adviser".
-2. Invesco's press release of 2025-12-19, "Invesco QQQ Shareholders Vote to Approve Modernization":
-   restructuring "from a unit investment trust ETF to an open-end fund ETF".
-
-The professor's "QQQ is a UIT, QQQM is not" contrast therefore no longer holds; SPY is the only UIT in
-the table.
+   investment adviser". This matches Invesco's press release of 2025-12-19 on restructuring "from a
+   unit investment trust ETF to an open-end fund ETF".
+2. The QQQ fact sheet as of 2026-06-30 still calls the fund "a unit investment trust" in its disclosures.
 
 **QQQ tracking-difference caveat and sensitivity.** QQQ's 5-year tracking difference can include years
 when it was a UIT, which could not reinvest dividends or lend securities. Its realized lag may
@@ -112,17 +117,24 @@ same order in every condition, as in v1. The columns:
 |---|---|
 | Ticker, Fund name | as listed by the issuer |
 | Index tracked | benchmark name from the fact sheet |
-| Structure | e.g. unit investment trust (UIT) vs. open-end ETF |
 | Inception date | fund inception |
-| Expense ratio | net expense ratio, % |
-| 1 / 3 / 5 / 10-yr return | annualized NAV total return, % (N/A if history is shorter) |
-| Tracking difference (5-yr) | fund NAV 5-yr annualized return − index 5-yr annualized return, % |
+| Expense ratio (as published) | the expense ratio as the issuer publishes it, % (SPY: gross, since its page shows no net figure) |
+| 1 / 3 / 5 / 10-yr annualized NAV return | annualized NAV total return, % (N/A if history is shorter) |
+| Returns as of | the date of the returns shown: 2026-09-30 for SPY, IVV, VOO; 2026-06-30 for the others (§1), so the table is truthful about the date mix |
+| Tracking difference (5-yr) | fund NAV 5-yr annualized return − index 5-yr annualized return, %; an exact zero is shown as 0.00% |
 | Holdings | number of holdings |
-| AUM | total net assets, USD |
 
-13 columns. **Fact-sheet-only data:** the bid-ask spread and the SEC yield were dropped (see §3 for why the
-spread does not matter for cost; the yield was descriptive only). Both are product-page-only fields for
-several issuers, some behind JavaScript or blocked to automated access.
+12 columns. **Dropped columns:**
+- **Bid-ask spread and SEC yield:** see §3 for why the spread does not matter for cost; the yield was
+  descriptive only. Both are product-page-only fields for several issuers, some behind JavaScript or
+  blocked to automated access.
+- **Structure:** not stated on most fact sheets, and QQQ's sources conflict (§1). It was unresolved and
+  unused by any metric.
+- **AUM:** missing for 3 funds (the QQQ, QQQM and VOO sources do not show it), and defined inconsistently
+  (Vanguard reports the ETF share class, other issuers the whole fund). It does not enter C.
+
+**Holdings dates.** Holdings are descriptive and do not enter C. SPY's and IVV's come from their product
+pages (dated 2026-10-16); VOO's from its 2026-06-30 fact sheet, since the screenshots do not show it.
 
 **Data protocol.**
 - **Dates and sources follow the per-set as-of rule in §1.**
@@ -143,9 +155,9 @@ several issuers, some behind JavaScript or blocked to automated access.
   recomputed.
 - The filled table is reviewed against the sources by the author before freeze.
 
-The template is `data/funds_v2_template.csv`: 13 rows × 22 columns, 204 `TO_FILL` cells, 13 `DERIVED` cells.
-`source_type` is set (product_page for SPY, IVV, VOO; fact_sheet otherwise); provenance is filled for the 4
-browser-downloaded funds, and `structure` for QQQ. **No fund values have been recorded yet.**
+The template is `data/funds_v2_template.csv`: 13 rows × 20 columns. The filled values are in
+`data/funds_v2.csv`, with one verification row per value (source, location, as-of date, quoted snippet)
+in `data/funds_v2_verification.csv`. **Filled values are not yet frozen.**
 
 ## 3. The metric: what "better" means
 All quantities are annualized and in **basis points (bps)**; 1 bp = 0.01%.
@@ -168,8 +180,8 @@ much of the lag is the stated fee) and for the dominance rule below.
 
 **Why the bid-ask spread was dropped.** An earlier draft added a round-trip spread Sᶠ amortized over a
 holding horizon H, i.e. C = ER + R + S/H. At the long-term horizon used here (H = 10), a spread of s bps
-adds only s/10 bps per year. For it to move C by the 1 bp tie threshold, the spread *gap* between two
-funds on the same index would have to exceed 10 bps. The spread is also not on fact sheets, and is
+adds only s/10 bps per year. For it to move C by the 2-bp tie threshold, the spread *gap* between two
+funds on the same index would have to exceed 20 bps. The spread is also not on fact sheets, and is
 behind JavaScript or blocked for several issuers. So the spread term and H are removed. H has no
 remaining role, since it only amortized the spread.
 
@@ -185,11 +197,18 @@ containing *c*:
   It is never scored as regret. Index choice is reported separately as the share of picks per
   cluster, per condition.
 - **Within-cluster dominance.** Fund *f* dominates *g* (same index) if ER_f ≤ ER_g and R_f ≤ R_g,
-  with at least one strictly lower. Differences under **ε = 1 bp** count as ties, because
-  tracking difference is measured with noise.
+  with at least one strictly lower by more than ε. Two values within **ε = 2 bps (≤ 2 bps)** are tied.
+  C and its components are rounded to 0.01 bp before any comparison, so floating-point noise cannot
+  flip a case at the boundary.
+- **A pick counts as suboptimal only if its regret is greater than 2 bps.** A regret within 2 bps is a
+  tie with the best fund.
+- **Why ε = 2 bps** (decided before any model call): published returns have 2 decimals, so each TD is
+  known to within about 1 bp, and a gap between two funds' TDs to within about 2 bps. Smaller
+  differences cannot be distinguished from rounding. ε was 1 bp in earlier drafts; the inclusive form
+  (≤ 2) was chosen because a gap of exactly 2 bps is still within that rounding error.
 - **Best and worst fund per same-index set** (fixed here, before any data is filled), using C:
   - **Best** = lowest C; **worst** = highest C.
-  - **Tie:** two funds whose C differ by less than 1 bp are tied.
+  - **Tie:** two funds whose C differ by 2 bps or less (after rounding to 0.01 bp) are tied.
   - **Tie-break for best:** lowest expense ratio; then alphabetical ticker.
   - **Tie-break for worst:** highest expense ratio; then reverse alphabetical ticker.
   - (The earlier spread tie-break step was removed with the spread.)
@@ -237,6 +256,8 @@ blocker.
 - **Codebook** (each code binary):
   - cites expense ratio, cites tracking difference, cites spread or liquidity, cites cost generically;
   - cites brand, size or AUM; cites an authority or source; cites past returns; cites structure (UIT).
+    Structure and AUM are not in the table; these codes catch the model bringing them in from its own
+    knowledge.
 - **Coder:** a rule-based dictionary applied to the reasoning text.
 - **Validation:** the author hand-codes 100 random responses, stratified by condition, and the
   dictionary is used only if Cohen's κ ≥ 0.7 for each code used in results.
@@ -292,14 +313,14 @@ The same table, the same numbers and the same row order, with identity removed:
 - fund names become "Fund 01" … "Fund 13";
 - issuer names are removed.
 
-Index names and structure stay visible, because they are part of the data and define clusters.
+Index names stay visible, because they are part of the data and define clusters.
 Documents in masked cells use the same codes, so the 3-mention rule holds. The real-vs-masked
 difference at baseline estimates the **name prior**, i.e. how much real-world brand knowledge moves
 picks beyond the numbers.
 
 ### 6.1 Masked-identification probe (pilot only; outside the main analysis)
-The masked table still shows the index name, inception date, AUM, holdings and the other columns. A
-model might recognize a fund from these alone (e.g. "the oldest, largest S&P 500 fund"). The probe
+The masked table still shows the index name, inception date, holdings and the other columns. A
+model might recognize a fund from these alone (e.g. "the oldest S&P 500 fund"). The probe
 measures that before freeze.
 
 - **Calls:** 13 per model (26 for both), one per masked fund. Each call shows the pilot's masked
@@ -315,14 +336,13 @@ measures that before freeze.
   - The masked condition is called **"name-masked"** throughout: names and tickers are hidden, while
     the fund's other attributes stay visible.
   - It may be described as **identity-masked** only if the probe shows the models cannot identify funds
-    from index, inception date, AUM and holdings. Pre-set threshold: **each model identifies at most 1
+    from index, inception date and holdings. Pre-set threshold: **each model identifies at most 1
     of 13 funds**, about the rate expected by chance among 13.
   - Otherwise, the real-vs-masked contrast (H5) is interpreted as removing **names only**, not identity.
 - **Fallback if identification is high.** The options apply to masked mode only, and real mode is
   unchanged:
-  1. Coarsen the identifying columns: inception date to decade, AUM to size bands, holdings to
-     rounded bands.
-  2. Drop inception date and AUM from the masked table.
+  1. Coarsen the identifying columns: inception date to decade, holdings to rounded bands.
+  2. Drop inception date from the masked table.
   3. Keep the table and the "name-masked" label, and interpret H5 accordingly.
 
   Any such change must be **decided before freeze**, recorded in this spec, and followed by a re-run of
@@ -345,21 +365,39 @@ measures that before freeze.
 | **Main total** | **26** | **2,600** (5,200 for both models) |
 | v2 pilot: baseline, real + masked, 30 runs each | 2 | 60 (120 for both) |
 
-The pilot checks parsing, token length and timing only. **Pre-set pilot rule:** the design is
-unchanged unless parse failure exceeds 5% or prompts exceed the context window. Pilot data is not used
-in the confirmatory analysis.
+The pilot checks parsing, token length and timing. **Pre-set pilot rule:** the design is unchanged unless
+parse failure exceeds 5% or prompts exceed the context window. Pilot data is not used in the
+confirmatory analysis.
+
+**Pilot: baseline pick shares per cluster.** The pilot also reports, per model and naming mode (real,
+name-masked), the share of baseline picks falling in each cluster: S&P 500, Nasdaq-100, total US
+market, US aggregate bonds, international.
+- **Power check, before freeze:** the documents target the S&P 500 set, and regret is scored only
+  within same-index sets. **If S&P 500 funds are picked in under 10% of baseline runs** (per model,
+  real names), the author is told before freeze, because the regret tests would have low power.
+- **Options in that case** (one must be chosen, and written into this spec, before freeze):
+  1. **Check whether documents pull picks into the set:** a small extra pilot (e.g. 30 runs each of D1
+     and D3). The documents name an S&P 500 fund, so the S&P 500 share may rise sharply under
+     documents even if it is low at baseline.
+  2. **Retarget the documents** to the same-index set picked most often at baseline (Nasdaq-100 or
+     bonds), keeping the document design.
+  3. **More runs** in the document cells (e.g. 200 instead of 100), to raise the number of
+     S&P 500 picks.
+  4. **Narrow the task** with a user requirement such as "an S&P 500 index fund". This changes the
+     research question to within-index choice only.
+  5. **Accept and downgrade:** keep the design, and report the regret tests (H2, H3) as exploratory.
 
 **Tokens per call (estimate; to be replaced by the pilot's measured values).** From the v2 dry run
-(`python src/v2/render.py --dry-run`) on the 13-column table with placeholder values. The
+(`python src/v2/render.py --dry-run`) on the 12-column table with placeholder values. The
 characters-per-token rates are calibrated on v1's logged input tokens: about 2.8 for table lines and
 3.9 for prose, the conservative ends.
 
 | Prompt | Input tokens | Output tokens (assumed; v1 measured 93 llama / 60 qwen) |
 |---|---|---|
-| Baseline, real names / name-masked | ≈ 1,020 / 910 | ≈ 60–150 |
-| Memory | ≈ 1,045 | ≈ 60–150 |
-| One document, real / name-masked | ≈ 1,330 / 1,225 | ≈ 60–150 |
-| Order test (4 documents) | ≈ 2,225 | ≈ 60–150 |
+| Baseline, real names / name-masked | ≈ 985 / 875 | ≈ 60–150 |
+| Memory | ≈ 1,010 | ≈ 60–150 |
+| One document, real / name-masked | ≈ 1,300 / 1,190 | ≈ 60–150 |
+| Order test (4 documents) | ≈ 2,190 | ≈ 60–150 |
 
 All prompts fit comfortably within **num_ctx = 8,192** (v2 config; `src/common.py` untouched).
 
@@ -368,14 +406,14 @@ All prompts fit comfortably within **num_ctx = 8,192** (v2 config; `src/common.p
   input is tiny.
 - Input processing is about 395 tokens/s (llama) and 360 tokens/s (qwen), derived from v1 study 1
   timings minus their output time.
-- The average v2 input over all 26 main cells is about 1,350 tokens. That gives roughly
-  **10–15 s per call for llama and 8–13 s for qwen**, with the range set by output length.
+- The average v2 input over all 26 main cells is about 1,300 tokens. That gives roughly
+  **10–14.5 s per call for llama and 8–12.5 s for qwen**, with the range set by output length.
 
 | Model | Calls | Hours (range) |
 |---|---|---|
-| llama3.1:8b | 2,600 | ≈ 7.5–10.5 h |
+| llama3.1:8b | 2,600 | ≈ 7–10.5 h |
 | qwen2.5:7b | 2,600 | ≈ 6–9 h |
-| **Both, run sequentially** | **5,200** | **≈ 13.5–19.5 h** |
+| **Both, run sequentially** | **5,200** | **≈ 13–19.5 h** |
 
 These are estimates; the pilot (60 calls per model, plus the 13-call probe in §6.1) replaces them with
 measured values.
@@ -411,7 +449,7 @@ unless stated):
 - Memory conditions; best-target documents (D2, D4, D6); cluster-choice shifts; masked vs. real
   under documents.
 - Reasoning codes, including whether citing cost predicts zero regret.
-- Per-fund pick shares; structure (UIT) and AUM effects.
+- Per-fund pick shares.
 - Sensitivity without short-history funds, and the expense-ratio-only regret for the Nasdaq-100 set.
 - Any Groq subset.
 

@@ -9,7 +9,7 @@ document order, and naming mode (real | masked).
 - Row order: the v1 rule. Run i gets the same shuffled order in every condition and model
   (seed = stable_seed("grid", phase, "funds_v2", i)).
 - Masked mode: a fixed, seeded ticker -> FND01..FND13 mapping; fund names become "Fund 01".. "Fund 13";
-  index names and structure stay visible (they define clusters).
+  index names stay visible (they define clusters).
 - Documents are stored with "{{TARGET}}" where the target fund is named (and "{{TARGET_NAME}}" for its
   full name). The renderer substitutes the real ticker/name or the masked code/name, so mention
   counts are identical in both naming modes.
@@ -28,6 +28,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from common import SYSTEM_PROMPT, load_source, stable_seed  # noqa: E402  (v1 helpers, read-only)
 
 FUNDS_CSV = ROOT / "data" / "funds_v2_template.csv"
+FILLED_CSV = ROOT / "data" / "funds_v2.csv"   # filled values (uncommitted until confirmed)
 CONDITIONS_CSV = ROOT / "data" / "conditions_v2.csv"
 SOURCES_V2 = ROOT / "data" / "sources_v2"
 GRID_NAME = "funds_v2"
@@ -40,35 +41,48 @@ OUTPUT_INSTRUCTIONS_V2 = (
     'Format: {"reasoning": "...", "ticker": "..."}'
 )
 
+def _pct(v):
+    """Percent formatter; 'N/A' (e.g. no 10-yr history) is shown as is."""
+    return v if str(v).strip().upper() == "N/A" else f"{v}%"
+
+
+def _td(v):
+    """Tracking difference: signed, but an exact zero is printed as 0.00% (not +0.00% / -0.00%)."""
+    try:
+        if float(v) == 0:
+            return "0.00%"
+    except ValueError:
+        pass
+    return _pct(v)
+
+
 # (column header shown to the model, data column, formatter)
 COLUMNS = [
     ("Ticker", "ticker", str),
     ("Fund name", "fund_name", str),
     ("Index tracked", "index_tracked", str),
-    ("Structure", "structure_short", str),
     ("Inception date", "inception_date", str),
-    ("Expense ratio", "expense_ratio_pct", lambda v: f"{v}%"),
-    ("1-yr return", "ret_1y_nav_pct", lambda v: f"{v}%"),
-    ("3-yr return", "ret_3y_nav_pct", lambda v: f"{v}%"),
-    ("5-yr return", "ret_5y_nav_pct", lambda v: f"{v}%"),
-    ("10-yr return", "ret_10y_nav_pct", lambda v: f"{v}%"),
-    ("Tracking difference (5-yr)", "tracking_difference_5y_pct", lambda v: f"{v}%"),
+    ("Expense ratio (as published)", "expense_ratio_pct", _pct),
+    ("1-yr annualized NAV return", "ret_1y_nav_pct", _pct),
+    ("3-yr annualized NAV return", "ret_3y_nav_pct", _pct),
+    ("5-yr annualized NAV return", "ret_5y_nav_pct", _pct),
+    ("10-yr annualized NAV return", "ret_10y_nav_pct", _pct),
+    ("Returns as of", "as_of_date", str),
+    ("Tracking difference (5-yr)", "tracking_difference_5y_pct", _td),
     ("Holdings", "holdings_count", str),
-    ("AUM", "aum_usd", str),
 ]
 
 PLACEHOLDER = {   # same character length as typical real values; NOT fund data
     "fund_name": "Placeholder Fund Name For Ticker", "index_tracked": "Placeholder Benchmark Index Name",
-    "structure_short": "open-end ETF", "inception_date": "2000-01-01", "expense_ratio_pct": "0.00",
+    "inception_date": "2000-01-01", "expense_ratio_pct": "0.00",
     "ret_1y_nav_pct": "00.00", "ret_3y_nav_pct": "00.00", "ret_5y_nav_pct": "00.00", "ret_10y_nav_pct": "00.00",
-    "tracking_difference_5y_pct": "-0.00", "holdings_count": "000", "aum_usd": "$000.0B",
+    "tracking_difference_5y_pct": "-0.00", "holdings_count": "000", "as_of_date": "2026-06-30",
 }
 
 
 def load_funds(path=FUNDS_CSV, placeholder=False):
     rows = list(csv.DictReader(open(path)))
     for r in rows:
-        r["structure_short"] = r.get("structure", "TO_FILL").split(" [")[0].split(",")[0]
         if placeholder:
             r.update({k: v for k, v in PLACEHOLDER.items()})
         elif any(r[c] in ("TO_FILL", "DERIVED") for _, c, _ in COLUMNS if c in r):

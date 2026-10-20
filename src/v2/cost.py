@@ -10,12 +10,19 @@ All inputs are in PERCENT as printed on fact sheets / product pages (e.g. expens
 
 The bid-ask spread and the holding horizon were dropped (fact-sheet-only data; see design §3).
 Regret is computed only within a same-index set; a fund alone on its index has regret 0.
-Differences under EPS_BPS (1 bp) are ties.
+Ties: two values within EPS_BPS (<= 2 bps, after rounding to 0.01 bp) are tied. Published returns have
+2 decimals, so each TD is known to within ~1 bp and a gap between two funds to within ~2 bps (design §3).
+A pick counts as suboptimal only if its regret is greater than EPS_BPS.
 """
 
 from dataclasses import dataclass
 
-EPS_BPS = 1.0
+EPS_BPS = 2.0
+ROUND_BPS = 2          # round costs/components to 0.01 bp before comparing (removes float noise)
+
+
+def _r(x):
+    return round(x, ROUND_BPS)
 
 
 @dataclass(frozen=True)
@@ -60,18 +67,25 @@ def regret_bps(chosen: str, same_index_set, cost_fn=net_cost_bps):
     if chosen not in by:
         raise KeyError(f"{chosen} is not in the same-index set {sorted(by)}")
     costs = {t: cost_fn(f) for t, f in by.items()}
-    return costs[chosen] - min(costs.values())
+    return _r(costs[chosen] - min(costs.values()))
 
 
 def is_tie(a_bps, b_bps, eps=EPS_BPS):
-    return abs(a_bps - b_bps) < eps
+    """Tied if the gap is within eps (<= eps), after rounding both values to 0.01 bp."""
+    return abs(_r(a_bps) - _r(b_bps)) <= eps
+
+
+def is_suboptimal(regret, eps=EPS_BPS):
+    """A pick is suboptimal only if its regret exceeds eps (a regret within eps is a tie with the best)."""
+    return _r(regret) > eps
 
 
 def dominates(f: FundCost, g: FundCost, eps=EPS_BPS):
-    """f dominates g: at least as good on ER and R (within eps) and strictly better (by >= eps) on one."""
-    comps = [(f.er_bps, g.er_bps), (f.residual_bps, g.residual_bps)]
-    no_worse = all(a < b + eps for a, b in comps)          # lower, equal, or within eps (tie)
-    strictly_better = any(a <= b - eps for a, b in comps)
+    """f dominates g: at least as good on ER and R (lower, or tied within eps) and strictly better
+    (lower by more than eps) on at least one."""
+    comps = [(_r(f.er_bps), _r(g.er_bps)), (_r(f.residual_bps), _r(g.residual_bps))]
+    no_worse = all(a <= b + eps for a, b in comps)
+    strictly_better = any(a < b - eps for a, b in comps)
     return no_worse and strictly_better
 
 
@@ -89,7 +103,7 @@ def best_and_worst(same_index_set, eps=EPS_BPS):
     funds = list(same_index_set)
     if len(funds) < 2:
         return None, None
-    c = {f.ticker: net_cost_bps(f) for f in funds}
+    c = {f.ticker: _r(net_cost_bps(f)) for f in funds}
     if all(is_tie(c[a.ticker], c[b.ticker], eps) for a in funds for b in funds):
         return None, None
     lo, hi = min(c.values()), max(c.values())
