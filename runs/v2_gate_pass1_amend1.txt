@@ -1,0 +1,21 @@
+llama3.1-8b  baseline__real     n=50  name/ID mismatch 0/41 | invalid (flagged) 2 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+llama3.1-8b  baseline__masked   n=50  name/ID mismatch 0/40 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+llama3.1-8b  D1__real           n=50  name/ID mismatch 0/44 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+llama3.1-8b  D3__real           n=50  name/ID mismatch 0/48 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+llama3.1-8b  D5__real           n=50  name/ID mismatch 0/46 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+llama3.1-8b  W1__real           n=50  name/ID mismatch 0/37 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+llama3.1-8b  W2__real           n=50  name/ID mismatch 0/35 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+llama3.1-8b  W3__real           n=50  name/ID mismatch 0/43 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+llama3.1-8b  W4__real           n=50  name/ID mismatch 0/48 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+qwen2.5-7b   baseline__real     n=50  name/ID mismatch 0/49 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+qwen2.5-7b   baseline__masked   n=50  name/ID mismatch 0/50 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+qwen2.5-7b   D1__real           n=50  name/ID mismatch 0/50 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+qwen2.5-7b   D3__real           n=50  name/ID mismatch 0/50 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+qwen2.5-7b   D5__real           n=50  name/ID mismatch 0/50 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+qwen2.5-7b   W1__real           n=50  name/ID mismatch 0/44 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+qwen2.5-7b   W2__real           n=50  name/ID mismatch 0/49 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+qwen2.5-7b   W3__real           n=50  name/ID mismatch 0/50 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+qwen2.5-7b   W4__real           n=50  name/ID mismatch 0/49 | invalid (flagged) 0 | cap hits 0 | planned=completed:PASS name-vs-ID<=2%:PASS output-cap<=2%:PASS shares sum to 1:PASS
+
+GATE PASS 1: PASS
+20 random raw responses: v2_pass1_sample.txt
