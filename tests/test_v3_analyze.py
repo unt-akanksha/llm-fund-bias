@@ -74,3 +74,26 @@ def test_runs_subset_uses_only_first_runs(tmp_path, monkeypatch):
 def test_planned_runs_by_vendor():
     assert an.planned_runs("gpt-5.4") == 30 and an.planned_runs("claude-opus-5.5") == 30
     assert an.planned_runs("qwen2.5-14b") == 50
+
+
+def test_report_figures_and_summary(tmp_path, monkeypatch):
+    from v3 import report
+    monkeypatch.setattr(an, "OUTROOT", tmp_path)
+    cfg = {"fake-small": {"provider": "openai", "size": "small"}, "fake-large": {"provider": "openai", "size": "large"}}
+    for mk, k in [("fake-small", 40), ("fake-large", 0)]:
+        log = tmp_path / f"{mk}.jsonl"
+        _synthetic_log(log, biased_costlier=k, fid_cut=0)
+        text = open(log).read().replace("|synthetic\"", f"|{mk}\"").replace("\"synthetic\"", f"\"{mk}\"")
+        log.write_text(text)
+        ok, _, _ = an.analyze(mk, log=log, out=tmp_path / mk, runs=50)
+        assert ok
+    df, skipped = report.collect(outroot=tmp_path, cfg=cfg)
+    small = df[(df.model == "fake-small") & (df.family == "sp500")].iloc[0]
+    assert small["share"] == pytest.approx(0.8) and skipped == []
+    assert df[(df.model == "fake-large")]["share"].eq(0).all()
+    paths, _ = report.figures(outroot=tmp_path, cfg=cfg)
+    assert all(p.exists() and p.stat().st_size > 0 for p in paths)
+    md = report.summary(outroot=tmp_path, cfg=cfg).read_text()
+    assert "| fake-small | sp500 | 10% | 0% | 80% | 80% | 80% |" in md
+    with pytest.raises(SystemExit):
+        report.summary(outroot=tmp_path, cfg=cfg)
