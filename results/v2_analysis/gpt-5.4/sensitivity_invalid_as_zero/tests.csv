@@ -1,0 +1,10 @@
+hypothesis,contrast,outcome,test,estimate,ci_lo,ci_hi,n1,direction,p_perm,p_hc3,n2,in_family,note,missing,interim,p_holm,reject_holm_0.05
+H1,baseline__real,mean regret (bps),estimate only,0.0,0.0,0.0,50,,,,,False,,False,False,,
+H1,baseline__real,suboptimal rate (regret > 2 bp),estimate only,0.0,0.0,0.07134759913335874,50,,,,,False,,False,False,,
+H2a,D3__real - baseline__real,mean regret difference (bps),"permutation, one-sided (greater)",0.04,0.0,0.12,50,greater,0.5006499350064993,0.16109940308129078,50.0,True,,False,False,1.0,False
+H2b,D5__real - baseline__real,mean regret difference (bps),"permutation, one-sided (greater)",0.0,0.0,0.0,50,greater,1.0,,50.0,True,,False,False,1.0,False
+H2c,D7__real - baseline__real,mean regret difference (bps),"permutation, one-sided (greater)",0.0,0.0,0.0,50,greater,1.0,,50.0,True,,False,False,1.0,False
+H3,D1__real - baseline__real,mean regret difference (bps),"permutation, one-sided (less)",0.0,0.0,0.0,50,less,1.0,,50.0,True,,False,False,1.0,False
+H4,W1__real vs W2__real vs W3__real vs W4__real,mean regret across orders,permutation one-way F (two-sided),0.0,,,200,,1.0,,,True,"estimate = max - min of order means; F = 0.000; means = [0.0, 0.0, 0.0, 0.0]",False,False,1.0,False
+H5,baseline__real vs baseline__masked,per-fund pick distribution,permutation chi-square (two-sided),0.10050378152592121,,,50,,1.0,,50.0,True,estimate = Cramer's V; chi2 = 1.01,False,False,1.0,False
+H5 (secondary),baseline__real - baseline__masked,mean regret difference (bps),"permutation, two-sided",0.0,0.0,0.0,50,,1.0,,50.0,False,reported outside the Holm family,False,False,,

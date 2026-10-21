@@ -1,0 +1,3 @@
+cites_cost,n_in_set_picks,zero_regret_n,zero_regret_rate,ci_lo,ci_hi,note
+1,347,278,0.8011527377521613,0.7559605974572792,0.8397500711236949,exploratory (§8): does citing cost predict zero regret; pooled over cells
+0,3,0,0.0,0.0,0.5614970317550455,exploratory (§8): does citing cost predict zero regret; pooled over cells

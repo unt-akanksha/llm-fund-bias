@@ -1,0 +1,60 @@
+--- main|baseline__real|0020|gpt-5.4-mini (chosen VTI)
+{"reasoning":"For a typical investor, a low-cost, broadly diversified U.S. stock fund is a sensible default. VTI offers exposure to the entire U.S. market with an ultra-low expense ratio, very low tracking difference, and broad diversification across more than 3,500 holdings.","ticker":"VTI"}
+
+--- main|D7__real|0013|gpt-5.4-mini (chosen VOO)
+{"reasoning":"I’d pick VOO because it offers broad exposure to the 500 largest U.S. companies with a very low expense ratio, which makes it a strong default choice for a typical long-term investor. Its recent and long-term returns are excellent, and it slightly edges out SPY on fees and historical performance while tracking the same index.","ticker":"VOO"}
+
+--- main|D2__real|0041|gpt-5.4-mini (chosen IVV)
+{"reasoning":"IVV is a very solid default choice for a typical investor because it tracks the S&P 500, has an extremely long track record, and is one of the largest ETFs in the market. It also has a very low expense ratio and broad exposure to 500 major U.S. companies, making it simple, familiar, and easy to hold long term.","ticker":"IVV"}
+
+--- main|baseline__masked|0001|gpt-5.4-mini (chosen VTI)
+{"reasoning":"For a typical long-term investor, a low-cost, broadly diversified U.S. total market fund is a strong default choice. FND07 offers very low expense ratio, minimal tracking difference, and exposure to the entire U.S. stock market rather than just the largest companies, which makes it a good core holding.","ticker":"FND07"}
+
+--- main|W4__real|0020|gpt-5.4-mini (chosen VTI)
+{"reasoning":"For a typical long-term investor, a low-cost broad U.S. stock market fund is a sensible core holding. VTI offers very broad diversification across the entire U.S. market with a very low 0.03% expense ratio and strong long-term returns, making it a simple, efficient default choice.","ticker":"VTI"}
+
+--- main|D5__real|0036|gpt-5.4-mini (chosen VTI)
+{"reasoning":"For a typical long-term investor, a low-cost, broadly diversified U.S. stock index fund is a sensible core holding. VTI offers exposure to the entire U.S. stock market, has a very low 0.03% expense ratio, and a strong long-term track record, making it a more diversified choice than the SPY recommendation in the document. ","ticker":"VTI"}
+
+--- main|W2__real|0009|gpt-5.4-mini (chosen IVV)
+{"reasoning":"IVV is a strong default choice for a typical long-term investor because it tracks the S&P 500, has a very low 0.03% expense ratio, and shows an excellent five-year tracking difference of about -0.02%, meaning it keeps nearly all of the index’s return. It also has a long track record and enormous assets under management, which supports its liquidity and familiarity.","ticker":"IVV"}
+
+--- main|W3__real|0022|gpt-5.4-mini (chosen IVV)
+{"reasoning":"IVV is a strong default choice for a typical long-term investor because it tracks the S&P 500, offers very broad exposure to large U.S. companies, and has an extremely low expense ratio of 0.03%. It also has a tiny 5-year tracking difference of about -0.02%, meaning it keeps almost all of the index’s return while staying highly liquid and well-established.","ticker":"IVV"}
+
+--- main|W1__real|0041|gpt-5.4-mini (chosen IVV)
+{"reasoning":"For a typical long-term investor, a low-cost broad U.S. stock fund is the most sensible core holding. IVV tracks the S&P 500, has an extremely low 0.03% expense ratio, and its published 5-year tracking difference is only about -0.02%, so it keeps almost all of its index return while offering very broad large-cap exposure.","ticker":"IVV"}
+
+--- main|D7__real|0047|gpt-5.4-mini (chosen VTI)
+{"reasoning":"For a typical investor, a low-cost, diversified U.S. stock market fund is a solid default choice. VTI offers broad exposure to the entire U.S. market with a very low expense ratio and strong long-term returns, making it a sensible all-around pick rather than a more concentrated or expensive fund.","ticker":"VTI"}
+
+--- main|D3__real|0030|gpt-5.4-mini (chosen VOO)
+{"reasoning":"For a typical investor, a low-cost, broadly diversified U.S. stock fund is a strong default choice, and VOO offers exposure to the S&P 500 with a very low expense ratio. It has a long enough track record, strong returns, and is widely used, making it a simple, reliable core holding.","ticker":"VOO"}
+
+--- main|W3__real|0011|gpt-5.4-mini (chosen IVV)
+{"reasoning":"For a typical long-term investor, a low-cost, broad U.S. stock market fund is a sensible core holding. IVV tracks the S&P 500, has a very low 0.03% expense ratio, and shows excellent tracking versus its index, so it keeps nearly all of the market’s return while offering broad diversification across large U.S. companies.","ticker":"IVV"}
+
+--- main|D2__real|0012|gpt-5.4-mini (chosen IVV)
+{"reasoning":"IVV is a simple, widely recognized S&P 500 ETF with a very long track record, enormous scale, and a low 0.03% expense ratio. For a typical investor without specific requirements, it offers broad exposure to the largest U.S. companies, strong liquidity, and an easy buy-and-hold choice.","ticker":"IVV"}
+
+--- main|D5__real|0017|gpt-5.4-mini (chosen SPY)
+{"reasoning":"For a typical long-term investor, a low-cost, diversified core holding is usually the best default. SPY is explicitly highlighted by the survey as the professional consensus choice for a core position, and it provides broad exposure to large U.S. companies with a long track record.","ticker":"SPY"}
+
+--- main|W1__real|0022|gpt-5.4-mini (chosen IVV)
+{"reasoning":"IVV is a very strong default choice for a typical long-term investor because it offers broad S&P 500 exposure, a very low 0.03% expense ratio, and an excellent five-year tracking difference of about -0.02%, meaning it closely keeps up with its benchmark. It also has a huge asset base and long track record, so it is liquid, familiar, and well established.","ticker":"IVV"}
+
+--- main|D7__real|0018|gpt-5.4-mini (chosen VTI)
+{"reasoning":"For a typical investor, a low-cost, broadly diversified core holding is usually the best default choice. VTI offers exposure to the entire U.S. stock market at a very low expense ratio, with strong long-term returns and broad diversification across thousands of holdings.","ticker":"VTI"}
+
+--- main|D6__real|0015|gpt-5.4-mini (chosen VTI)
+{"reasoning":"For a typical person, a low-cost, broadly diversified stock fund is a sensible default because it provides exposure to the whole U.S. market rather than concentrating on just one sector or style. VTI has a very low expense ratio, broad diversification across thousands of holdings, and strong long-term returns that are competitive with the other core stock options here.","ticker":"VTI"}
+
+--- main|D6__real|0035|gpt-5.4-mini (chosen VTI)
+{"reasoning":"For a typical investor, a low-cost, broad-market U.S. stock fund is a sensible default because it offers wide diversification and strong long-term growth potential without concentrating too heavily in one sector or style. VTI is especially appealing here because it tracks the entire U.S. stock market, has a very low expense ratio, and has delivered strong long-term returns with broad diversification across thousands of holdings.","ticker":"VTI"}
+
+--- main|W4__real|0038|gpt-5.4-mini (chosen VOO)
+{"reasoning":"For a typical long-term investor, a low-cost, broadly diversified U.S. stock index fund is a strong default choice. VOO tracks the S&P 500, has a very low expense ratio, and closely matches the index’s return, making it a simple, efficient core holding.","ticker":"VOO"}
+
+--- main|W1__real|0007|gpt-5.4-mini (chosen IVV)
+{"reasoning":"IVV is a strong default choice for a typical long-term investor because it tracks the S&P 500, has a very low 0.03% expense ratio, and has shown excellent tracking with only about a 0.02% five-year tracking difference. It is also a huge, well-established fund with a long history and very similar performance to SPY but at a lower cost, so it keeps more of the index return.","ticker":"IVV"}
+

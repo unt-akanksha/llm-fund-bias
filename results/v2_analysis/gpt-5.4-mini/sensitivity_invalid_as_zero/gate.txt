@@ -1,0 +1,32 @@
+baseline__real           planned 50 completed 50 | name/ID 0/48 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D1__real                 planned 50 completed 50 | name/ID 0/50 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+baseline__masked         planned 50 completed 50 | name/ID 0/50 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D3__real                 planned 50 completed 50 | name/ID 0/48 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D5__real                 planned 50 completed 50 | name/ID 0/48 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W1__real                 planned 50 completed 50 | name/ID 0/50 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W2__real                 planned 50 completed 50 | name/ID 0/50 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W3__real                 planned 50 completed 50 | name/ID 0/48 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W4__real                 planned 50 completed 50 | name/ID 0/47 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D2__real                 planned 50 completed 50 | name/ID 0/50 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D4__real                 planned 50 completed 50 | name/ID 0/50 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D6__real                 planned 50 completed 50 | name/ID 0/50 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D7__real                 planned 50 completed 50 | name/ID 0/50 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+
+GATE: PASS
+
+baseline__real           planned 50 completed 50 | name/ID 0/48 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D1__real                 planned 50 completed 50 | name/ID 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+baseline__masked         planned 50 completed 50 | name/ID 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D3__real                 planned 50 completed 50 | name/ID 0/48 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D5__real                 planned 50 completed 50 | name/ID 0/48 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W1__real                 planned 50 completed 50 | name/ID 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W2__real                 planned 50 completed 50 | name/ID 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W3__real                 planned 50 completed 50 | name/ID 0/48 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W4__real                 planned 50 completed 50 | name/ID 0/47 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D2__real                 planned 50 completed 50 | name/ID 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D4__real                 planned 50 completed 50 | name/ID 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D6__real                 planned 50 completed 50 | name/ID 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D7__real                 planned 50 completed 50 | name/ID 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+
+GATE (after manual review): PASS
+0 flagged response(s) cleared by manual review (gate_reviews_v2.csv): none

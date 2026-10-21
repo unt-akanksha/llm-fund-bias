@@ -1,0 +1,36 @@
+Study 1 v2 analysis: model gpt-5.4-mini
+log: runs/raw_v2/main_openai.jsonl
+quality gate: original PASS; after manual review PASS; 0 flagged response(s) cleared by manual review (gate_reviews_v2.csv): none
+calls: 650 planned rows, 650 completed, 650 valid picks, 0 invalid (flagged)
+
+Tests (one Holm family over the rows marked *; Holm uses p_perm):
+   H1              baseline__real                         est 0.000 CI [0.000, 0.000] p_perm NA p_hc3 NA p_holm NA
+   H1              baseline__real                         est 0.000 CI [0.000, 0.071] p_perm NA p_hc3 NA p_holm NA
+ * H2a             D3__real - baseline__real              est 1.000 CI [0.440, 1.760] p_perm 0.000 p_hc3 0.002 p_holm 0.001
+ * H2b             D5__real - baseline__real              est 3.200 CI [1.960, 4.600] p_perm 0.000 p_hc3 0.000 p_holm 0.001
+ * H2c             D7__real - baseline__real              est 0.360 CI [0.160, 0.600] p_perm 0.001 p_hc3 0.001 p_holm 0.003
+ * H3              D1__real - baseline__real              est 0.040 CI [0.000, 0.120] p_perm 1.000 p_hc3 0.839 p_holm 1.000
+ * H4              W1__real vs W2__real vs W3__real vs W4__real est 0.120 CI [NA, NA] p_perm 0.700 p_hc3 0.503 p_holm 1.000  (estimate = max - min of order means; F = 0.695; means = [0.04, 0.12, 0.08, 0.16])
+ * H5              baseline__real vs baseline__masked     est 0.469 CI [NA, NA] p_perm 0.000 p_hc3 NA p_holm 0.001  (estimate = Cramer's V; chi2 = 21.95)
+   H5 (secondary)  baseline__real - baseline__masked      est -0.040 CI [-0.120, 0.000] p_perm 1.000 p_hc3 0.322 p_holm NA  (reported outside the Holm family)
+
+Regret by cell (bps; ≤ 2 bp tie rule; suboptimal = regret > 2 bp):
+   baseline__real       n   50  mean 0.000 [0.000, 0.000]  suboptimal 0.000  invalid 0.000
+   D1__real             n   50  mean 0.040 [0.000, 0.120]  suboptimal 0.000  invalid 0.000
+   D2__real             n   50  mean 0.160 [0.040, 0.320]  suboptimal 0.000  invalid 0.000
+   D3__real             n   50  mean 1.000 [0.440, 1.760]  suboptimal 0.040  invalid 0.000
+   D4__real             n   50  mean 0.000 [0.000, 0.000]  suboptimal 0.000  invalid 0.000
+   D5__real             n   50  mean 3.200 [1.960, 4.560]  suboptimal 0.220  invalid 0.000
+   D6__real             n   50  mean 0.280 [0.120, 0.480]  suboptimal 0.000  invalid 0.000
+   D7__real             n   50  mean 0.360 [0.160, 0.600]  suboptimal 0.000  invalid 0.000
+   baseline__masked     n   50  mean 0.040 [0.000, 0.120]  suboptimal 0.000  invalid 0.000
+   W1__real             n   50  mean 0.040 [0.000, 0.120]  suboptimal 0.000  invalid 0.000
+   W2__real             n   50  mean 0.120 [0.000, 0.280]  suboptimal 0.000  invalid 0.000
+   W3__real             n   50  mean 0.080 [0.000, 0.200]  suboptimal 0.000  invalid 0.000
+   W4__real             n   50  mean 0.160 [0.040, 0.320]  suboptimal 0.000  invalid 0.000
+
+Choices where §8 is silent: invalid picks are their own category and excluded from share,
+regret and test denominators; Holm on permutation p; H5 = per-fund pick distribution (chi-square);
+regret 0 for funds with no same-index peer; reasoning codes are rule-based (kappa check pending).
+Tables: shares_cluster.csv, shares_fund.csv, regret_by_condition.csv, tests.csv,
+reasoning_codes.csv, cost_codes_vs_regret.csv, gate.txt, sample_20.txt.
