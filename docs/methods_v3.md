@@ -40,5 +40,5 @@ of every model.
 
 **Pre-registration and deviations.** The design, documents, prompts and analysis plan were frozen in a version-
 controlled tag before any main run. Deviations are documented as amendments: API models were reduced from 50 to
-30 runs per cell for budget reasons before any analysis (v3-1). [Add: gate-rule amendment v3-2, and Claude
-Sonnet/Opus completion status, once decided.]
+30 runs per cell for budget reasons before any analysis (v3-1). Name-vs-ID flags were reviewed manually and the 2% quality limits were applied per
+model and family rather than per cell, since one case exceeds 2% of a 30-run cell (v3-2).

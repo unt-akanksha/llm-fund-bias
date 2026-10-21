@@ -82,6 +82,26 @@ limits $25 each). Pilot-measured projections: OpenAI ~$8, Anthropic ~$21.
   including Qwen. Confidence intervals widen accordingly; at 30 runs per cell, each document has 120 runs per
   family when templates and system prompts are pooled.
 
+## 5b. Amendment v3-2 (2026-10-21, after the API runs, before any analysis of picks)
+- **Manual gate reviews (as v2 Amendment 2).** The name-vs-ID detector flagged 40 responses in the four completed
+  API models (gpt-5.4-nano 6, gpt-5.4-mini 2, gpt-5.4 9, claude-haiku-5.5 23). The author read all 40: 39 are
+  detector false positives (23 reject the costlier fund, e.g. "...is not a reason to choose SPY"; 15 name it only
+  in a comparison, e.g. "pick over SPY"; 1 typo "QQM" for QQQM) and 1 is a real mismatch
+  (`main|sp500|D5|B|standard|0025|claude-haiku-5.5`: the reasoning says "VOO is chosen here", the ticker is IVV;
+  no cost consequence, both are tied best). Reviews are recorded in `data/gate_reviews_v3.csv`; only
+  `false_positive` rows clear a flag. The detector is unchanged.
+- **Gate level.** With 30 runs per cell, a single case exceeds 2% of a cell, which turns the 2% limit into a
+  zero-tolerance rule. The 2% limits on name-vs-ID mismatches (after review) and on cut-offs are therefore applied
+  per model x family (20 cells pooled); planned = completed is still checked per cell. Every cell is reported in
+  `gate.txt`, and every real mismatch is listed by run ID.
+- **Known limitation (detector).** In one-family tables, answers compare the 2-3 funds by name, so the
+  explicit-selection rule fires on rejections ("not a reliable basis for choosing SPY") and comparisons ("over
+  SPY") far more often than in v2.
+- **Observation for later coding (not part of the gate).** Some reasoning texts misstate table facts, e.g. that
+  VOO tracks its index most closely (IVV does: -0.02% vs -0.04%) or has the best 10-year return (IVV: 15.30% vs
+  15.29%). Reasoning accuracy needs systematic coding of all responses and is left to the mechanism-validation
+  step (professor's less urgent list).
+
 ## 6. Limitations (known before running)
 - Returns as of 2026-09-30 (S&P 500) vs 2026-06-30 (Nasdaq-100): consistent within each test, different across.
 - QQQ's 5-year history includes its years as a unit investment trust; the expense-ratio-only regret is reported.

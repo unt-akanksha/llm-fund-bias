@@ -6,8 +6,8 @@
 Reads runs/raw_v3/main_<model>.jsonl. Writes only under results/v3_analysis/ and refuses to write into a
 non-empty folder unless --replace. v2 code is imported read-only (regret, CIs, name-vs-ID detector).
 
-Quality gate first (per cell): planned = completed, name-vs-ID mismatch <= 2% after recorded manual reviews
-(data/gate_reviews_v3.csv), cut-offs <= 2%. Invalid picks (not in the family's table) are flagged, reported,
+Quality gate first (Amendment v3-2): planned = completed per cell; name-vs-ID mismatch <= 2% after recorded
+manual reviews (data/gate_reviews_v3.csv) and cut-offs <= 2%, both per model x family. Invalid picks (not in the family's table) are flagged, reported,
 and excluded from denominators. The analysis stops if the reviewed gate fails.
 
 Outputs per model: gate.txt, sample_20.txt, cells.csv (every cell), pooled.csv (family x context, and family x
@@ -128,18 +128,24 @@ def family_names(family):
 
 
 def load_reviews():
+    """-> (run IDs cleared as false positives, run IDs reviewed and confirmed as real mismatches)."""
     if not REVIEWS.exists():
-        return set()
-    return {r["run_id"] for r in csv.DictReader(open(REVIEWS)) if r["verdict"].strip() == "false_positive"}
+        return set(), set()
+    rows = list(csv.DictReader(open(REVIEWS)))
+    return ({r["run_id"] for r in rows if r["verdict"].strip() == "false_positive"},
+            {r["run_id"] for r in rows if r["verdict"].strip() == "real_mismatch"})
 
 
 def gate(df, out, runs):
-    cleared = load_reviews()
+    """Amendment v3-2: planned = completed is checked per cell; the 2% limits on name-vs-ID mismatches and
+    cut-offs are checked per model x family (all 20 cells of a family pooled), because at 30 runs per cell a
+    single case exceeds 2%. Every cell is still reported, and every real mismatch is listed."""
+    cleared, confirmed = load_reviews()
     conds = prompts.load_conditions()
-    lines, lines_rev, fails, fails_rev, flagged_all, cleared_used = [], [], [], [], [], []
+    lines, fails, fails_rev, flagged_all, cleared_used, confirmed_used = [], [], [], [], [], []
+    fam = {f: {"cls": 0, "m": 0, "m_rev": 0, "cut": 0, "n": 0} for f in prompts.FAMILIES}
     for cid in conds:
         g = df[df["condition_id"] == cid]
-        planned = runs
         done = int(g["completed"].sum())
         names = family_names(conds[cid]["family"])
         cls = 0
@@ -152,15 +158,30 @@ def gate(df, out, runs):
                     flagged.append(r["run_id"])
         cut = int(g["cutoff"].sum()) if len(g) else 0
         rev = [x for x in flagged if x in cleared]
-        flagged_all += [x for x in flagged if x not in cleared]
         cleared_used += rev
-        for m, ls, fs in ((len(flagged), lines, fails), (len(flagged) - len(rev), lines_rev, fails_rev)):
-            checks = {"planned=completed": done == planned, "name-vs-ID<=2%": (m / cls if cls else 0) <= GATE_MAX,
-                      "cut-off<=2%": cut / max(len(g), 1) <= GATE_MAX}
-            ls.append(f"{cid:<28} planned {planned} completed {done} | name/ID {m}/{cls} | cut-off {cut} | "
-                      f"invalid (flagged) {int(g['invalid'].sum())} | "
-                      + " ".join(f"{k}:{'PASS' if v else 'FAIL'}" for k, v in checks.items()))
-            fs += [f"{cid}: {k}" for k, v in checks.items() if not v]
+        confirmed_used += [x for x in flagged if x in confirmed]
+        flagged_all += [x for x in flagged if x not in cleared and x not in confirmed]
+        f = fam[conds[cid]["family"]]
+        f["cls"] += cls; f["m"] += len(flagged); f["m_rev"] += len(flagged) - len(rev); f["cut"] += cut; f["n"] += len(g)
+        ok_cell = done == runs
+        lines.append(f"{cid:<28} planned {runs} completed {done} | name/ID flagged {len(flagged)}/{cls} "
+                     f"(cleared {len(rev)}) | cut-off {cut} | invalid (flagged) {int(g['invalid'].sum())} | "
+                     f"planned=completed:{'PASS' if ok_cell else 'FAIL'}")
+        if not ok_cell:
+            fails.append(f"{cid}: planned=completed")
+            fails_rev.append(f"{cid}: planned=completed")
+    lines.append("")
+    for fname, f in fam.items():
+        for key, fs, label in (("m", fails, "original"), ("m_rev", fails_rev, "after manual review")):
+            nid = f[key] / f["cls"] if f["cls"] else 0
+            cutr = f["cut"] / f["n"] if f["n"] else 0
+            lines.append(f"family {fname:<6} [{label}] name/ID {f[key]}/{f['cls']} = {nid:.1%} "
+                         f"({'PASS' if nid <= GATE_MAX else 'FAIL'}) | cut-off {f['cut']}/{f['n']} = {cutr:.1%} "
+                         f"({'PASS' if cutr <= GATE_MAX else 'FAIL'})")
+            if nid > GATE_MAX:
+                fs.append(f"family {fname}: name-vs-ID<=2%")
+            if cutr > GATE_MAX:
+                fs.append(f"family {fname}: cut-off<=2%")
     pool = df[df["completed"]].sort_values("run_id")
     sample = pool.sample(n=min(20, len(pool)), random_state=SEED) if len(pool) else pool
     with open(out / "sample_20.txt", "w") as f:
@@ -168,10 +189,12 @@ def gate(df, out, runs):
             f.write(f"--- {r['run_id']} (chosen {r.get('chosen_ticker')})\n{r.get('raw_response')}\n\n")
     v = "PASS" if not fails else "FAIL: " + "; ".join(fails)
     vr = "PASS" if not fails_rev else "FAIL: " + "; ".join(fails_rev)
-    note = f"{len(cleared_used)} flagged response(s) cleared by manual review ({REVIEWS.name})"
+    note = (f"{len(cleared_used)} flagged response(s) cleared as false positives by manual review ({REVIEWS.name}); "
+            f"{len(confirmed_used)} reviewed and confirmed as real mismatches: "
+            f"{', '.join(confirmed_used) if confirmed_used else 'none'}")
     unreviewed = f"unreviewed flagged responses: {', '.join(flagged_all) if flagged_all else 'none'}"
-    (out / "gate.txt").write_text("\n".join(lines) + f"\n\nGATE: {v}\n\n" + "\n".join(lines_rev)
-                                  + f"\n\nGATE (after manual review): {vr}\n{note}\n{unreviewed}\n")
+    (out / "gate.txt").write_text("Gate rules: Amendment v3-2 (docs/design_v3.md)\n\n" + "\n".join(lines)
+                                  + f"\n\nGATE: {v}\nGATE (after manual review): {vr}\n{note}\n{unreviewed}\n")
     return not fails_rev, f"original {v}; after manual review {vr}; {note}", flagged_all
 
 

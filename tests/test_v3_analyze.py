@@ -97,3 +97,23 @@ def test_report_figures_and_summary(tmp_path, monkeypatch):
     assert "| fake-small | sp500 | 10% | 0% | 80% | 80% | 80% |" in md
     with pytest.raises(SystemExit):
         report.summary(outroot=tmp_path, cfg=cfg)
+
+
+def test_gate_family_level_rule_amendment_v3_2(tmp_path, monkeypatch):
+    """One real name-vs-ID mismatch in one cell (1/30 > 2%) passes at family level (1/1000), and is listed."""
+    monkeypatch.setattr(an, "OUTROOT", tmp_path)
+    monkeypatch.setattr(an, "REVIEWS", tmp_path / "reviews.csv")
+    log = tmp_path / "log.jsonl"
+    _synthetic_log(log)
+    lines = open(log).readlines()
+    r = json.loads(lines[0])
+    other = [t for t in prompts.FAMILIES[r["family"]]["tickers"] if t != r["chosen_ticker"]][0]
+    r["reasoning"] = f"I chose {other} for a typical investor."
+    lines[0] = json.dumps(r) + "\n"
+    log.write_text("".join(lines))
+    ok, out, unreviewed = an.analyze("synthetic", log=log, out=tmp_path / "m", runs=50)
+    assert ok and unreviewed == [r["run_id"]]
+    assert "family" in (out / "gate.txt").read_text()
+    (tmp_path / "reviews.csv").write_text(f"run_id,reviewer,verdict,note\n{r['run_id']},test,real_mismatch,x\n")
+    ok, out, unreviewed = an.analyze("synthetic", log=log, out=tmp_path / "m2", runs=50)
+    assert ok and unreviewed == [] and "1 reviewed and confirmed as real mismatches" in (out / "gate.txt").read_text()

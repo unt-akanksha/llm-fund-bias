@@ -1,0 +1,41 @@
+run_id,reviewer,verdict,note
+main|sp500|D7|B|standard|0006|gpt-5.4-nano,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: contrast"
+main|sp500|D5|A|fiduciary|0019|gpt-5.4-nano,author + manual read,false_positive,"rejects the other fund (negated selection); recommends the chosen fund (recommends VOO/IVV jointly, no single pick; VOO is one of them); detector rule fired: explicit"
+main|sp500|D3|B|standard|0022|gpt-5.4-nano,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: contrast"
+main|ndx|D3|B|standard|0024|gpt-5.4-nano,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: contrast"
+main|sp500|D5|A|standard|0026|gpt-5.4-nano,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: contrast"
+main|sp500|D5|B|fiduciary|0026|gpt-5.4-nano,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: explicit"
+main|sp500|baseline|A|fiduciary|0001|gpt-5.4-mini,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: contrast"
+main|ndx|D7|A|standard|0014|gpt-5.4-mini,author + manual read,false_positive,typo 'QQM' for the chosen QQQM; detector cannot match it; detector rule fired: single
+main|sp500|baseline|B|standard|0000|gpt-5.4,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: explicit"
+main|sp500|D5|A|standard|0003|gpt-5.4,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: explicit"
+main|ndx|D7|B|fiduciary|0004|gpt-5.4,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: contrast"
+main|sp500|D7|B|standard|0007|gpt-5.4,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: explicit"
+main|sp500|D7|B|standard|0014|gpt-5.4,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D7|A|fiduciary|0017|gpt-5.4,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|ndx|D7|A|fiduciary|0017|gpt-5.4,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: contrast"
+main|sp500|D7|A|standard|0023|gpt-5.4,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D7|A|standard|0024|gpt-5.4,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: explicit"
+main|ndx|D5|A|standard|0001|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D7|B|fiduciary|0002|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|ndx|D3|B|fiduciary|0002|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|ndx|D3|A|standard|0003|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D3|B|standard|0007|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D3|B|standard|0009|claude-haiku-5.5,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: contrast"
+main|ndx|D5|A|standard|0010|claude-haiku-5.5,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: contrast"
+main|sp500|D5|A|fiduciary|0013|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|ndx|D5|A|fiduciary|0014|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D3|A|standard|0016|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D3|A|fiduciary|0016|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D5|B|standard|0016|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D3|A|standard|0018|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|ndx|D3|B|fiduciary|0020|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D3|A|fiduciary|0021|claude-haiku-5.5,author + manual read,false_positive,"mentions the other fund only in a comparison ('over X', 'than X', 'despite X'); recommends the chosen fund; detector rule fired: explicit"
+main|sp500|D5|A|fiduciary|0023|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: contrast
+main|ndx|D3|B|fiduciary|0023|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D7|A|fiduciary|0024|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D5|B|standard|0025|claude-haiku-5.5,author + manual read,real_mismatch,reasoning says 'VOO is chosen here' but the ticker is IVV; self-contradictory (no cost impact: IVV and VOO tie); detector rule fired: explicit
+main|sp500|D3|B|standard|0027|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D7|A|fiduciary|0027|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|ndx|D3|B|fiduciary|0027|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
+main|sp500|D3|B|fiduciary|0028|claude-haiku-5.5,author + manual read,false_positive,rejects the other fund (negated selection); recommends the chosen fund; detector rule fired: explicit
