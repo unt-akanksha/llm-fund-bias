@@ -493,6 +493,8 @@ The run is unattended, resumable and has auto-stop, as in v1.
     `gate.txt` and `summary.txt`.
 - **Unchanged:** the name-vs-ID detector (`src/name_id_check.py`), the 2% threshold and all other gate
   checks.
+- **Second review (2026-10-20, OpenAI add-on cells D2/D4/D6/D7):** 5 more gpt-5.4 flags were read and cleared as
+  false positives (negated selection; see Known limitations).
 - A response is cleared only by a written review row. The reviews cover only responses the detector
   flagged; they never add a mismatch.
 
@@ -558,6 +560,12 @@ study):
   drop X after "than", but it runs only when the explicit rule does not match. Seen in gpt-5.4 output
   (4 responses). The detector is kept unchanged for comparability with study 1; such flags are cleared
   only by a manual review recorded in `data/gate_reviews_v2.csv`.
+- **Name-vs-ID detector, negated selection read as selection** (Amendment 2, review of 2026-10-20). The
+  explicit-selection rule also fires on negated or rejected selections, such as "I would not choose/pick
+  SPY" or "not a reliable basis for choosing/selecting IVV", and returns that fund instead of the chosen
+  one. Seen in gpt-5.4 output (5 responses: `main|D4__real|0003`, `main|D7__real|0020`, `0021`, `0025`,
+  `0046`; each recommends VTI). The detector is unchanged; these flags are cleared only by manual review
+  rows in `data/gate_reviews_v2.csv`.
 
 ## 9. Implementation notes (no code yet)
 - New files only: e.g. `src/v2/`, a `config/models_v2.yaml`, `data/conditions_v2.csv` and

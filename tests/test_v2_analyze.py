@@ -143,6 +143,10 @@ def test_gate_reviews_file_amendment2():
     import csv
     rows = list(csv.DictReader(open(an.REVIEWS_CSV)))
     assert [r["run_id"] for r in rows] == ["main|baseline__real|0019|gpt-5.4", "main|D3__real|0019|gpt-5.4",
-                                           "main|D3__real|0022|gpt-5.4", "main|D3__real|0031|gpt-5.4"]
+                                           "main|D3__real|0022|gpt-5.4", "main|D3__real|0031|gpt-5.4",
+                                           "main|D4__real|0003|gpt-5.4", "main|D7__real|0020|gpt-5.4",
+                                           "main|D7__real|0021|gpt-5.4", "main|D7__real|0025|gpt-5.4",
+                                           "main|D7__real|0046|gpt-5.4"]
     assert all(r["verdict"] == "false_positive" and r["reviewer"] == "author + manual read" for r in rows)
-    assert all("pick than X" in r["note"] for r in rows)
+    assert all("pick than X" in r["note"] for r in rows[:4])
+    assert all(r["note"].startswith("negated selection read as selection") for r in rows[4:])

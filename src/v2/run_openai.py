@@ -6,6 +6,7 @@ professor's request). Does not touch the frozen local run; reuses its prompts an
   python src/v2/run_openai.py --pass 1 [--models gpt-5.4-mini]   # Pass 1 cells x 50, then the gate
   python src/v2/run_openai.py --pass 2 [--models ...]            # all 26 cells x 100 (only after a gate PASS)
   python src/v2/run_openai.py --gate [--models ...]
+  python src/v2/run_openai.py --cells D2__real,D4__real --runs 50 --cap-usd 2   # add-on cells; gate via analyze.py
 
 Same as local: 26 conditions (data/conditions_v2.csv), render.build_messages, row orders, seeds,
 run_main.parse, temperature 1.0 (when accepted). Differences are logged per call (reasoning_effort used,
@@ -197,7 +198,7 @@ def log_progress(msg):
     print(line, flush=True)
 
 
-def run_jobs(cfg, mk, jobs, path, pass_name):
+def run_jobs(cfg, mk, jobs, path, pass_name, run_cap=None, run_base=0.0):
     """jobs: [(condition row, run index)]. Concurrency <= cfg concurrency; spend-capped; append to path."""
     funds = render.load_funds(render.FILLED_CSV, placeholder=False)
     tickers = [f["ticker"] for f in funds]
@@ -214,6 +215,10 @@ def run_jobs(cfg, mk, jobs, path, pass_name):
                 return
             if state["spent"] + (state["inflight"] + 1) * reserve > cap:
                 state["stop"] = f"spend cap: ${state['spent']:.4f} spent + in-flight reserve would pass ${cap:.2f}"
+                return
+            elif run_cap is not None and state["spent"] - run_base + (state["inflight"] + 1) * reserve > run_cap:
+                state["stop"] = (f"spend cap (this run): ${state['spent'] - run_base:.4f} spent + in-flight reserve "
+                                 f"would pass ${run_cap:.2f}")
                 return
             state["inflight"] += 1
         rec = record(cfg, mk, caller, c, i, funds, tickers, masks_rev, pass_name)
@@ -290,6 +295,9 @@ def main():
     ap.add_argument("--dry-run-calls", action="store_true")
     ap.add_argument("--pass", dest="pass_no", type=int, choices=(1, 2))
     ap.add_argument("--gate", action="store_true")
+    ap.add_argument("--cells", help="add-on: comma-separated condition IDs (with --runs); no runner gate, use analyze.py")
+    ap.add_argument("--runs", type=int, default=50)
+    ap.add_argument("--cap-usd", type=float, help="spend cap for this invocation (the global cap still applies)")
     a = ap.parse_args()
     cfg = yaml.safe_load(open(CONFIG))
     print("key found: " + ("yes" if api_key() else "no"))
@@ -304,6 +312,17 @@ def main():
     if a.dry_run_calls:
         for mk in models:
             run_jobs(cfg, mk, [(conds[c], i) for c, i in DRY_CELLS], DRYLOG, "dryrun")
+        return
+    if a.cells:
+        cells = a.cells.split(",")
+        assert all(c in conds for c in cells), cells
+        done = {r["run_id"] for r in read_jsonl(LOG) if not r.get("error")}
+        base = spent(cfg)
+        for mk in models:
+            jobs = [(conds[c], i) for i in range(a.runs) for c in cells if f"{PHASE}|{c}|{i:04d}|{mk}" not in done]
+            log_progress(f"ADDON {mk}: {len(jobs)} calls to run ({','.join(cells)} x {a.runs}); "
+                         f"spent so far ${spent(cfg):.4f}; this run cap ${a.cap_usd}")
+            run_jobs(cfg, mk, jobs, LOG, "ADDON", a.cap_usd, base)
         return
     if a.pass_no:
         cells, n_runs = (PASS1, PASS1_RUNS) if a.pass_no == 1 else (list(conds), FULL_RUNS)
