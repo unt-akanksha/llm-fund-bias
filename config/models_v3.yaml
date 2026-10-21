@@ -1,0 +1,44 @@
+# Study 1 v3 models (docs/design_v3.md). v2 configs are unchanged.
+# Prices: USD per 1M tokens, standard tier, read 2026-10-21 from https://developers.openai.com/api/docs/pricing
+# and https://platform.claude.com/docs/en/about-claude/pricing. Keys come from .env and are never logged.
+
+defaults:
+  params:
+    temperature: 1.0          # same as v2 (sent when the API accepts it)
+    max_tokens: 300           # local models: same output cap as v2
+    num_ctx: 8192             # local models: same as v2
+    api_max_output: 4000      # OpenAI: reasoning + answer; Anthropic: answer (no extended thinking)
+    reasoning_effort_try: [none, minimal, low]   # OpenAI: lowest accepted value is used and logged
+
+providers:
+  ollama:
+    base_url: http://localhost:11434/v1
+  openai:
+    base_url: https://api.openai.com/v1
+    api_key_env: OPENAI_API_KEY_V3
+    cap_usd: 15.0             # hard cap: all v3 OpenAI calls (pilot + main) together; key limit is $25
+    concurrency: 3
+  anthropic:
+    base_url: https://api.anthropic.com/v1
+    api_key_env: ANTHROPIC_API_KEY
+    cap_usd: 24.0             # hard cap: all v3 Anthropic calls together; key limit is $25
+    max_output: 1000          # pilot answers were 132-246 tokens with the lowest settings
+    concurrency: 3
+
+models:
+  qwen2.5-7b:     {provider: ollama, model_id: "qwen2.5:7b", size: small}
+  qwen2.5-14b:    {provider: ollama, model_id: "qwen2.5:14b", size: mid}
+  gpt-5.4-nano:   {provider: openai, model_id: gpt-5.4-nano-2026-03-17, size: small,
+                   price_per_m: {input: 0.20, cached_input: 0.02, output: 1.25}}
+  gpt-5.4-mini:   {provider: openai, model_id: gpt-5.4-mini-2026-03-17, size: mid,
+                   price_per_m: {input: 0.75, cached_input: 0.075, output: 4.50}}
+  gpt-5.4:        {provider: openai, model_id: gpt-5.4-2026-03-05, size: large,
+                   price_per_m: {input: 2.50, cached_input: 0.25, output: 15.00}}
+  # Anthropic lowest reasoning (platform docs, read 2026-10-21): effort "low" on all three; thinking disabled on
+  # Haiku 5.5, "between_tools" (no up-front thinking) on Sonnet 5.5; Opus 5.5 thinking cannot be turned off.
+  claude-haiku-5.5:  {provider: anthropic, model_id: claude-haiku-5-5, size: small, effort: low, thinking: disabled,
+                      price_per_m: {input: 0.10, cached_input: 0.01, output: 0.50}}
+  claude-sonnet-5.5: {provider: anthropic, model_id: claude-sonnet-5-5, size: mid, effort: low, thinking: between_tools,
+                      price_per_m: {input: 2.00, cached_input: 0.10, output: 10.00}}
+  claude-opus-5.5:   {provider: anthropic, model_id: claude-opus-5-5, size: large, effort: low,
+                      price_per_m: {input: 4.00, cached_input: 0.20, output: 20.00}}

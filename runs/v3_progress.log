@@ -1,0 +1,22 @@
+2026-10-21T17:50:52+00:00 START pilot gpt-5.4-nano: 4 calls to run (0 already done)
+2026-10-21T17:50:57+00:00 pilot gpt-5.4-nano: 4 calls this run, failed-or-invalid 0, vendor spend so far $0.0010
+2026-10-21T17:50:57+00:00 START pilot gpt-5.4-mini: 4 calls to run (0 already done)
+2026-10-21T17:51:00+00:00 pilot gpt-5.4-mini: 4 calls this run, failed-or-invalid 0, vendor spend so far $0.0044
+2026-10-21T17:51:00+00:00 START pilot gpt-5.4: 4 calls to run (0 already done)
+2026-10-21T17:51:06+00:00 pilot gpt-5.4: 4 calls this run, failed-or-invalid 0, vendor spend so far $0.0160
+2026-10-21T17:51:06+00:00 START pilot claude-haiku-5.5: 4 calls to run (0 already done)
+2026-10-21T17:51:12+00:00 pilot claude-haiku-5.5: 4 calls this run, failed-or-invalid 0, vendor spend so far $0.0012
+2026-10-21T17:51:12+00:00 START pilot claude-sonnet-5.5: 4 calls to run (0 already done)
+2026-10-21T17:51:16+00:00 pilot claude-sonnet-5.5: 4 calls this run, failed-or-invalid 0, vendor spend so far $0.0152
+2026-10-21T17:51:16+00:00 START pilot claude-opus-5.5: 4 calls to run (0 already done)
+2026-10-21T17:51:23+00:00 pilot claude-opus-5.5: 4 calls this run, failed-or-invalid 0, vendor spend so far $0.0486
+2026-10-21T17:51:23+00:00 START pilot qwen2.5-7b: 4 calls to run (0 already done)
+2026-10-21T17:51:54+00:00 pilot qwen2.5-7b: 4 calls this run, failed-or-invalid 0, vendor spend so far $0.0000
+2026-10-21T17:52:35+00:00 START pilot2 claude-haiku-5.5: 4 calls to run (0 already done)
+2026-10-21T17:52:38+00:00 pilot2 claude-haiku-5.5: 4 calls this run, failed-or-invalid 0, vendor spend so far $0.0493
+2026-10-21T17:52:38+00:00 START pilot2 claude-sonnet-5.5: 4 calls to run (0 already done)
+2026-10-21T17:52:43+00:00 pilot2 claude-sonnet-5.5: 4 calls this run, failed-or-invalid 0, vendor spend so far $0.0640
+2026-10-21T17:52:43+00:00 START pilot2 claude-opus-5.5: 4 calls to run (0 already done)
+2026-10-21T17:52:49+00:00 pilot2 claude-opus-5.5: 4 calls this run, failed-or-invalid 0, vendor spend so far $0.0911
+2026-10-21T17:52:49+00:00 START pilot2 qwen2.5-14b: 4 calls to run (0 already done)
+2026-10-21T17:53:51+00:00 pilot2 qwen2.5-14b: 4 calls this run, failed-or-invalid 0, vendor spend so far $0.0000
