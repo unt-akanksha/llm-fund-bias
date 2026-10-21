@@ -32,7 +32,7 @@ def test_known_effects(tmp_path, monkeypatch):
     monkeypatch.setattr(an, "OUTROOT", tmp_path)
     log = tmp_path / "log.jsonl"
     _synthetic_log(log)
-    ok, out, unreviewed = an.analyze("synthetic", log=log, out=tmp_path / "synthetic")
+    ok, out, unreviewed = an.analyze("synthetic", log=log, out=tmp_path / "synthetic", runs=50)
     assert ok and unreviewed == []
     t = pd.read_csv(out / "tests.csv").set_index(["family", "hypothesis"])
     for fam in prompts.FAMILIES:
@@ -53,9 +53,24 @@ def test_gate_stops_on_missing_call_and_refuses_overwrite(tmp_path, monkeypatch)
     log = tmp_path / "log.jsonl"
     _synthetic_log(log)
     log.write_text("".join(open(log).readlines()[1:]))
-    ok, out, _ = an.analyze("synthetic", log=log, out=tmp_path / "m")
+    ok, out, _ = an.analyze("synthetic", log=log, out=tmp_path / "m", runs=50)
     assert not ok and not (out / "tests.csv").exists()
     with pytest.raises(SystemExit):
-        an.analyze("synthetic", log=log, out=tmp_path / "m")
+        an.analyze("synthetic", log=log, out=tmp_path / "m", runs=50)
     with pytest.raises(ValueError):
         an.safe_out(an.ROOT / "results" / "v2_analysis" / "x")
+
+
+def test_runs_subset_uses_only_first_runs(tmp_path, monkeypatch):
+    monkeypatch.setattr(an, "OUTROOT", tmp_path)
+    log = tmp_path / "log.jsonl"
+    _synthetic_log(log)
+    ok, out, _ = an.analyze("synthetic", log=log, out=tmp_path / "m30", runs=30)
+    cells = pd.read_csv(out / "cells.csv")
+    assert ok and (cells["n_completed"] == 30).all()
+    assert "runs per cell analyzed: 30" in (out / "summary.txt").read_text()
+
+
+def test_planned_runs_by_vendor():
+    assert an.planned_runs("gpt-5.4") == 30 and an.planned_runs("claude-opus-5.5") == 30
+    assert an.planned_runs("qwen2.5-14b") == 50

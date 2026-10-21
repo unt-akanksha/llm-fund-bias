@@ -21,7 +21,7 @@ providers:
   anthropic:
     base_url: https://api.anthropic.com/v1
     api_key_env: ANTHROPIC_API_KEY
-    cap_usd: 24.0             # hard cap: all v3 Anthropic calls together; key limit is $25
+    cap_usd: 15.0             # hard cap: all v3 Anthropic calls together (Amendment v3-1; was 24.0)
     max_output: 1000          # pilot answers were 132-246 tokens with the lowest settings
     concurrency: 3
 

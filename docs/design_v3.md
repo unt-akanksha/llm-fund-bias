@@ -69,6 +69,19 @@ limits $25 each). Pilot-measured projections: OpenAI ~$8, Anthropic ~$21.
 - Quality gate per model x cell before analysis (planned = completed, name-vs-ID <= 2% after recorded review,
   cut-offs <= 2%; invalid picks flagged and reported, excluded from denominators).
 
+## 5a. Amendment v3-1 (2026-10-21, during the runs, before any analysis)
+- **Change.** All API models (OpenAI and Anthropic) run **30 runs per cell** (1,200 calls per model) instead of 50.
+  The local Qwen models keep 50 (no cost).
+- **Reason.** Budget: the Anthropic projection (~$21) was close to the key's $25 limit, and the author chose equal
+  run counts across all API vendors. The Anthropic hard stop is lowered from $24 to $15.
+- **Timing.** Decided after gpt-5.4-nano had logged 1,556 calls and claude-haiku-5.5 944 calls, before any
+  analysis or inspection of picks. Calls run in order of run index across all cells, so runs 0-29 form a complete,
+  seeded subset for every model.
+- **Analysis.** Each model is analyzed on runs 0-29 (API) or 0-49 (local). Calls already logged beyond run 29
+  (gpt-5.4-nano) stay in the raw log and are not used. A matched comparison uses runs 0-29 for every model,
+  including Qwen. Confidence intervals widen accordingly; at 30 runs per cell, each document has 120 runs per
+  family when templates and system prompts are pooled.
+
 ## 6. Limitations (known before running)
 - Returns as of 2026-09-30 (S&P 500) vs 2026-06-30 (Nasdaq-100): consistent within each test, different across.
 - QQQ's 5-year history includes its years as a unit investment trust; the expense-ratio-only regret is reported.

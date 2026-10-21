@@ -77,12 +77,22 @@ def prepare_out(path, replace):
 
 # ---------------- load ----------------
 
-def load(model, log=None):
+RUNS = {"openai": 30, "anthropic": 30, "ollama": 50}     # Amendment v3-1: runs per cell analyzed, by vendor
+
+
+def planned_runs(model):
+    import yaml
+    cfg = yaml.safe_load(open(ROOT / "config" / "models_v3.yaml"))
+    return RUNS[cfg["models"][model]["provider"]] if model in cfg["models"] else prompts.RUNS_PER_CELL
+
+
+def load(model, log=None, runs=None):
     log = Path(log or LOGDIR / f"main_{model}.jsonl")
+    runs = runs or planned_runs(model)
     rows = {}
     for line in open(log):
         r = json.loads(line)
-        if r.get("model_key") != model:
+        if r.get("model_key") != model or r["run_index"] >= runs:     # only runs 0..runs-1 are analyzed
             continue
         if r["run_id"] not in rows or not r.get("error"):
             rows[r["run_id"]] = r                       # a later successful retry wins
@@ -123,13 +133,13 @@ def load_reviews():
     return {r["run_id"] for r in csv.DictReader(open(REVIEWS)) if r["verdict"].strip() == "false_positive"}
 
 
-def gate(df, out):
+def gate(df, out, runs):
     cleared = load_reviews()
     conds = prompts.load_conditions()
     lines, lines_rev, fails, fails_rev, flagged_all, cleared_used = [], [], [], [], [], []
     for cid in conds:
         g = df[df["condition_id"] == cid]
-        planned = int(conds[cid]["runs"])
+        planned = runs
         done = int(g["completed"].sum())
         names = family_names(conds[cid]["family"])
         cls = 0
@@ -270,10 +280,11 @@ def summary(model, verdict, pooled, tst, out):
     (out / "summary.txt").write_text("\n".join(L) + "\n")
 
 
-def analyze(model, replace=False, log=None, out=None):
+def analyze(model, replace=False, log=None, out=None, runs=None):
+    runs = runs or planned_runs(model)
     out = prepare_out(out or OUTROOT / model, replace)
-    df = load(model, log)
-    ok, verdict, unreviewed = gate(df, out)
+    df = load(model, log, runs)
+    ok, verdict, unreviewed = gate(df, out, runs)
     if not ok:
         (out / "summary.txt").write_text(f"Quality gate failed; analysis not run.\n{verdict}\nSee gate.txt.\n")
         return False, out, unreviewed
@@ -283,7 +294,7 @@ def analyze(model, replace=False, log=None, out=None):
     cells.to_csv(out / "cells.csv", index=False)
     pooled.to_csv(out / "pooled.csv", index=False)
     tst.to_csv(out / "tests.csv", index=False)
-    summary(model, verdict, pooled, tst, out)
+    summary(model, f"{verdict}; runs per cell analyzed: {runs}", pooled, tst, out)
     return True, out, unreviewed
 
 
@@ -314,12 +325,17 @@ def main():
     ap.add_argument("--model")
     ap.add_argument("--scaling", action="store_true")
     ap.add_argument("--replace", action="store_true")
+    ap.add_argument("--matched30", action="store_true",
+                    help="matched comparison: runs 0-29 for any model -> results/v3_analysis/matched30/<model>")
     a = ap.parse_args()
     random.seed(SEED)
     if a.scaling:
         print(f"wrote {scaling(a.replace)}")
         return
-    ok, out, unreviewed = analyze(a.model, a.replace)
+    if a.matched30:
+        ok, out, unreviewed = analyze(a.model, a.replace, out=OUTROOT / "matched30" / a.model, runs=30)
+    else:
+        ok, out, unreviewed = analyze(a.model, a.replace)
     print(("done" if ok else "STOPPED: quality gate failed") + f"; outputs in {out}")
     if unreviewed:
         print(f"{len(unreviewed)} unreviewed name-vs-ID flags (see gate.txt)")

@@ -2,7 +2,7 @@
 
   python src/v3/run.py --keys                          # "key found: yes/no" per vendor; lists model IDs
   python src/v3/run.py --pilot --models gpt-5.4-nano   # 4 cells x 1 run -> runs/raw_v3/pilot_<model>.jsonl
-  python src/v3/run.py --models gpt-5.4-nano,gpt-5.4-mini   # full run: 40 cells x 50 -> runs/raw_v3/main_<model>.jsonl
+  python src/v3/run.py --models gpt-5.4-nano,gpt-5.4-mini --runs 30   # full run (Amendment v3-1: 30 for API)
 
 Writes ONLY under runs/raw_v3/ (append-only, resumable by run_id). Never touches v2 files.
 Spend: each vendor has a hard cap over all v3 calls (pilot + main) from the usage the API reports, plus a
@@ -350,6 +350,8 @@ def main():
     ap.add_argument("--keys", action="store_true")
     ap.add_argument("--pilot", action="store_true")
     ap.add_argument("--pilot-tag", default="pilot", help="pilot log name, e.g. pilot2 for a re-pilot")
+    ap.add_argument("--runs", type=int, default=prompts.RUNS_PER_CELL,
+                    help="runs per cell (Amendment v3-1: 30 for API models)")
     a = ap.parse_args()
     cfg = yaml.safe_load(open(CONFIG))
     LOGDIR.mkdir(parents=True, exist_ok=True)
@@ -372,7 +374,7 @@ def main():
             plan = [(conds[c], 0) for c in PILOT_CELLS]
         else:
             path, kind = LOGDIR / f"main_{mk}.jsonl", "main"
-            plan = [(c, i) for i in range(prompts.RUNS_PER_CELL) for c in conds.values()]
+            plan = [(c, i) for i in range(a.runs) for c in conds.values()]
         done = {r["run_id"] for r in read_jsonl(path) if not r.get("error")} if path.exists() else set()
         jobs = [(c, i) for c, i in plan if run_id(c["condition_id"], i, mk, kind) not in done]
         log_progress(f"START {kind} {mk}: {len(jobs)} calls to run ({len(done)} already done)")
