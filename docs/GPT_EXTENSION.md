@@ -1,5 +1,24 @@
 # GPT extension: how the OpenAI models were run and what they did
 
+## Research questions and approach
+
+**Research questions** (Study 1 v2, real funds)
+
+1. **Baseline (H1):** among real funds, do language models choose cost-efficiently, meaning do they avoid the costlier fund among funds that track the same index? What do they pick by default?
+2. **Invalid reasons (H2a-c):** do documents that argue for a fund on invalid grounds (brand, fabricated authority, recent performance) move picks toward the costlier fund?
+3. **Valid reasons (H3):** does a document with a valid cost argument move picks toward the cheaper fund?
+4. **Order (H4):** does the order in which conflicting documents appear change the choice?
+5. **Names (H5):** do fund names, beyond the numbers in the table, drive the choice? (tested with a name-masked control)
+6. **Models:** do the answers depend on model size and family? (descriptive)
+
+**Approach**
+
+- **A computed definition of "better".** Funds that track the same index hold the same securities, so the difference is cost. Cost regret (in basis points a year) is the pick's shortfall against its index minus the lowest shortfall among funds tracking that index; differences of 2 bp or less are ties.
+- **Real funds with a computable best choice.** S&P 500 (SPY, IVV, VOO), Nasdaq-100 (QQQ, QQQM) and bond (AGG, SCHZ) groups, plus six funds with no twin. All data come from the issuers' own fact sheets, with every value logged to its source.
+- **Manipulations.** Seven short documents (valid cost, brand, fabricated authority, performance chasing), each pointing at the cheaper or the costlier fund; a four-document test in four balanced orders; a name-masked control.
+- **Measurement.** Many repeated calls per cell; pick shares and regret per cell; six tests fixed before the run and corrected together (Holm).
+- **This README** covers the GPT extension: the same task run on gpt-5.4 and gpt-5.4-mini through the API. Llama 3.1 8B and Qwen 2.5 7B (100 runs per cell) are reported separately.
+
 Status: an extension to Study 1 v2, added after the design was frozen (tag `v2.0-frozen-design`) at the professor's request. It is not part of the pre-registered design. Every row is labeled "extension, post-freeze". Cells have 50 runs (the local models have 100).
 
 ## In one minute
