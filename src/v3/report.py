@@ -99,18 +99,16 @@ def figures(replace=False, outroot=None, cfg=None):
         for j, (vendor, g) in enumerate(d.groupby("vendor", sort=False)):
             g = g.assign(x=g["size"].map({s: i for i, s in enumerate(SIZES)})).sort_values("x")
             off = (j - 1) * 0.08
-            eb = ax.errorbar(g["x"] + off, g["share"], yerr=[g["share"] - g["lo"], g["hi"] - g["share"]], marker="o",
+            eb = ax.errorbar(g["x"] + off, g["share"], yerr=[(g["share"] - g["lo"]).clip(lower=0), (g["hi"] - g["share"]).clip(lower=0)], marker="o",
                              capsize=3, label=VENDOR_LABEL.get(vendor, vendor))
             ax.scatter(g["x"] + off, g["baseline_share"], marker="o", s=36, facecolors="none",
                        edgecolors=eb[0].get_color(), linewidths=1.2, zorder=3)
         ax.set_xticks(range(len(SIZES)), ["small", "mid", "large"])
-        ax.set_xlabel("Model size within each vendor")
+        ax.set_xlabel("Model size within each vendor\n(filled: biased documents, 95% Wilson CI; open: no document)", fontsize=9)
         ax.set_ylim(-0.03, 1.03)
         ax.set_ylabel("Share of picks: costlier fund")
         ax.set_title(f"{FAMILY_LABEL[fam]}: biased documents (D3, D5, D7)", fontsize=10)
         ax.legend(fontsize=7, loc="upper right")
-        ax.text(0.01, 0.01, "filled: biased documents (95% Wilson CI); open: no document", transform=ax.transAxes,
-                fontsize=7, color="gray")
         fig.tight_layout()
         for ext in ("png", "pdf"):
             p = outdir / f"scaling_{fam}.{ext}"

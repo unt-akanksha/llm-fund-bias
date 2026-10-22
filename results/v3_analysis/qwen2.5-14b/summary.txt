@@ -1,0 +1,18 @@
+Study 1 v3 analysis: qwen2.5-14b
+quality gate: original PASS; after manual review PASS; 0 flagged response(s) cleared as false positives by manual review (gate_reviews_v3.csv); 0 reviewed and confirmed as real mismatches: none; runs per cell analyzed: 50
+
+Costlier-fund share by context (pooled over templates and system prompts; valid picks):
+  sp500: baseline 0% (n=200)  D1 0% (n=200)  D3 63% (n=200)  D5 100% (n=200)  D7 46% (n=200)
+  ndx: baseline 58% (n=200)  D1 0% (n=200)  D3 100% (n=200)  D5 100% (n=200)  D7 98% (n=200)
+
+Tests (risk difference in costlier-fund share, Newcombe 95% CI, one-sided Fisher, Holm per family):
+  sp500  H2 (D3)         +0.630 [+0.559, +0.694] p=1.368e-51 holm=5.471e-51
+  sp500  H2 (D5)         +1.000 [+0.973, +1.000] p=9.713e-120 holm=4.857e-119
+  sp500  H2 (D7)         +0.460 [+0.390, +0.529] p=2.103e-34 holm=6.308e-34
+  sp500  H3 (D1)         +0.000 [-0.019, +0.019] p=1 holm=1
+  sp500  HF (fiduciary)  -0.407 [-0.470, -0.338] p=6.204e-29 holm=1.241e-28
+  ndx    H2 (D3)         +0.420 [+0.351, +0.489] p=7.464e-31 holm=2.986e-30
+  ndx    H2 (D5)         +0.420 [+0.351, +0.489] p=7.464e-31 holm=2.986e-30
+  ndx    H2 (D7)         +0.400 [+0.327, +0.470] p=2.84e-25 holm=5.68e-25
+  ndx    H3 (D1)         -0.580 [-0.646, -0.508] p=3.97e-46 holm=1.985e-45
+  ndx    HF (fiduciary)  -0.013 [-0.034, +0.002] p=0.06187 holm=0.06187

@@ -1,0 +1,17 @@
+family,hypothesis,contrast,outcome,estimate,ci_lo,ci_hi,p_one_sided,k1,n1,k2,n2,p_holm,reject_holm_0.05,effect_A,effect_A_ci,effect_B,effect_B_ci,same_sign
+sp500,H2 (D3),D3 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
+sp500,H2 (D5),D5 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.03127168024193952,1.0,0.0,119.0,0.0,120.0,1.0,False,,,,,
+sp500,H2 (D7),D7 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
+sp500,H3 (D1),D1 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
+sp500,HF (fiduciary),"fiduciary - standard, biased docs",costlier-fund share,0.0,-0.02089549792161306,0.02100977997808092,1.0,0.0,179.0,0.0,180.0,1.0,False,,,,,
+sp500,HT (D3),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
+sp500,HT (D5),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.061]",True
+sp500,HT (D7),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
+ndx,H2 (D3),D3 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
+ndx,H2 (D5),D5 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.03127168024193952,1.0,0.0,119.0,0.0,120.0,1.0,False,,,,,
+ndx,H2 (D7),D7 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
+ndx,H3 (D1),D1 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
+ndx,HF (fiduciary),"fiduciary - standard, biased docs",costlier-fund share,0.0,-0.02100977997808092,0.02089549792161306,1.0,0.0,180.0,0.0,179.0,1.0,False,,,,,
+ndx,HT (D3),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
+ndx,HT (D5),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.061]",True
+ndx,HT (D7),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True

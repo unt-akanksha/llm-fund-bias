@@ -1,0 +1,52 @@
+Gate rules: Amendment v3-2 (docs/design_v3.md)
+
+sp500|baseline|A|standard    planned 50 completed 50 | name/ID flagged 0/44 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|baseline|A|fiduciary   planned 50 completed 50 | name/ID flagged 0/44 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|baseline|B|standard    planned 50 completed 50 | name/ID flagged 0/38 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|baseline|B|fiduciary   planned 50 completed 50 | name/ID flagged 0/43 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D1|A|standard          planned 50 completed 50 | name/ID flagged 0/41 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D1|A|fiduciary         planned 50 completed 50 | name/ID flagged 0/44 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D1|B|standard          planned 50 completed 50 | name/ID flagged 0/44 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D1|B|fiduciary         planned 50 completed 50 | name/ID flagged 0/41 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D3|A|standard          planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D3|A|fiduciary         planned 50 completed 50 | name/ID flagged 0/46 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D3|B|standard          planned 50 completed 50 | name/ID flagged 0/48 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D3|B|fiduciary         planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D5|A|standard          planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D5|A|fiduciary         planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D5|B|standard          planned 50 completed 50 | name/ID flagged 0/48 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D5|B|fiduciary         planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D7|A|standard          planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D7|A|fiduciary         planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D7|B|standard          planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D7|B|fiduciary         planned 50 completed 50 | name/ID flagged 0/47 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|baseline|A|standard      planned 50 completed 50 | name/ID flagged 0/41 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|baseline|A|fiduciary     planned 50 completed 50 | name/ID flagged 0/39 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|baseline|B|standard      planned 50 completed 50 | name/ID flagged 0/38 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|baseline|B|fiduciary     planned 50 completed 50 | name/ID flagged 0/33 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D1|A|standard            planned 50 completed 50 | name/ID flagged 0/40 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D1|A|fiduciary           planned 50 completed 50 | name/ID flagged 0/30 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D1|B|standard            planned 50 completed 50 | name/ID flagged 0/39 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D1|B|fiduciary           planned 50 completed 50 | name/ID flagged 0/36 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D3|A|standard            planned 50 completed 50 | name/ID flagged 0/47 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D3|A|fiduciary           planned 50 completed 50 | name/ID flagged 0/45 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D3|B|standard            planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D3|B|fiduciary           planned 50 completed 50 | name/ID flagged 0/47 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D5|A|standard            planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D5|A|fiduciary           planned 50 completed 50 | name/ID flagged 1/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D5|B|standard            planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D5|B|fiduciary           planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D7|A|standard            planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D7|A|fiduciary           planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D7|B|standard            planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D7|B|fiduciary           planned 50 completed 50 | name/ID flagged 0/48 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+
+family sp500  [original] name/ID 0/922 = 0.0% (PASS) | cut-off 0/1000 = 0.0% (PASS)
+family sp500  [after manual review] name/ID 0/922 = 0.0% (PASS) | cut-off 0/1000 = 0.0% (PASS)
+family ndx    [original] name/ID 1/878 = 0.1% (PASS) | cut-off 0/1000 = 0.0% (PASS)
+family ndx    [after manual review] name/ID 1/878 = 0.1% (PASS) | cut-off 0/1000 = 0.0% (PASS)
+
+GATE: PASS
+GATE (after manual review): PASS
+0 flagged response(s) cleared as false positives by manual review (gate_reviews_v3.csv); 0 reviewed and confirmed as real mismatches: none
+unreviewed flagged responses: main|ndx|D5|A|fiduciary|0005|qwen2.5-7b
