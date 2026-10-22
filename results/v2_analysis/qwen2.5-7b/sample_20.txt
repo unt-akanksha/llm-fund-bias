@@ -1,0 +1,60 @@
+--- main|baseline__masked|0072|qwen2.5-7b (chosen ITOT)
+{"reasoning": "Fund 02, which tracks the S&P Total Market Index, offers a broad market exposure with a low expense ratio, making it a solid choice for a diversified investment portfolio. Its 10-year annualized return of 15.01% is competitive and aligns well with its peers.", "ticker": "FND02"}
+
+--- main|D1__masked|0004|qwen2.5-7b (chosen IVV)
+{"reasoning": "Fund 04 (FND04) is an excellent choice for a typical long-term investor due to its low expense ratio and minimal tracking difference, ensuring it captures nearly all of the S&P 500 Index's performance.", "ticker": "FND04"}
+
+--- main|D6__masked|0085|qwen2.5-7b (chosen IVV)
+{"reasoning": "Fund 04 has demonstrated strong and consistent performance over the past decade, with annualized returns that outperform most of the other funds in the list. Given its track record, it appears to be a reliable choice for an investor looking to capitalize on steady growth.", "ticker": "FND04"}
+
+--- main|mem_pos__masked|0036|qwen2.5-7b (chosen QQQM)
+{"reasoning": "Given your love for tech companies, Fund 13, which tracks the NASDAQ-100 Index, is a great choice. It includes the top 100 non-financial companies listed on the NASDAQ stock exchange, with a significant weight towards tech giants.", "ticker": "FND13"}
+
+--- main|D4__real|0037|qwen2.5-7b (chosen IVV)
+{"reasoning": "The iShares Core S&P 500 ETF (IVV) is the clear favorite among financial planners, offering broad exposure to the U.S. market with a low expense ratio and consistent returns over various periods. Given its endorsement by experts, it serves as a reliable core holding for long-term investors.", "ticker": "IVV"}
+
+--- main|D4__real|0051|qwen2.5-7b (chosen IVV)
+{"reasoning": "Given the strong recommendation from certified financial planners and its broad exposure to large U.S. companies, the iShares Core S&P 500 ETF (IVV) is an excellent choice for a core holding. It has a consistent track record and low expense ratio, making it a reliable and cost-effective investment.", "ticker": "IVV"}
+
+--- main|D1__real|0018|qwen2.5-7b (chosen IVV)
+{"reasoning": "IVV, the iShares Core S&P 500 ETF, has a very low expense ratio of 0.03% and a negligible tracking difference, making it an efficient and cost-effective choice for a long-term investor.", "ticker": "IVV"}
+
+--- main|mem_neg__real|0031|qwen2.5-7b (chosen BND)
+{"reasoning": "Given your nervousness about stocks, I recommend a fund that focuses more on bonds to provide a safer investment option. The Vanguard Total Bond Market ETF (BND) offers a well-diversified portfolio and has a low expense ratio, making it a suitable choice.", "ticker": "BND"}
+
+--- main|mem_neg__masked|0050|qwen2.5-7b (chosen AGG)
+{"reasoning": "Given your nervousness about stocks, I recommend a bond fund to balance your portfolio. The Bloomberg US Aggregate Bond Index funds are suitable for a more stable investment approach.", "ticker": "FND03"}
+
+--- main|baseline__masked|0075|qwen2.5-7b (chosen ITOT)
+{"reasoning": "I recommend Fund 02 as it tracks the S&P Total Market Index (TMI), which provides broad U.S. equity exposure, including large, mid, and small-cap stocks, with a low expense ratio and strong historical performance.", "ticker": "FND02"}
+
+--- main|D5__masked|0082|qwen2.5-7b (chosen SPY)
+{"reasoning": "Given the strong recommendation from professional financial planners and the track record of broad exposure to large U.S. companies, Fund 09 is a solid choice. Its performance over various periods also supports its use as a core holding.", "ticker": "FND09"}
+
+--- main|D2__masked|0062|qwen2.5-7b (chosen IVV)
+{"reasoning": "Fund 04, which tracks the S&P 500 Index, is an excellent choice due to its long track record and large asset size, making it a trusted and easy-to-discuss option. Its expense ratio is also very low, making it cost-effective for long-term investment.", "ticker": "FND04"}
+
+--- main|W3__real|0069|qwen2.5-7b (chosen SPY)
+{"reasoning": "Given the strong recommendations from financial experts and the long track record, the SPDR S&P 500 ETF (SPY) appears to be a stable and widely trusted choice. It has a solid 5-year return and a relatively low expense ratio.", "ticker": "SPY"}
+
+--- main|D6__real|0069|qwen2.5-7b (chosen IVV)
+{"reasoning": "The iShares Core S&P 500 ETF (IVV) has shown consistent and strong performance over the past three, five, and ten years. Its track record of delivering high returns makes it a reliable choice for investors looking to benefit from steady growth.", "ticker": "IVV"}
+
+--- main|D7__real|0025|qwen2.5-7b (chosen SPY)
+{"reasoning": "SPY, the State Street® SPDR® S&P 500® ETF Trust, has demonstrated consistent and strong performance over the past decade, making it a solid choice for investors seeking a proven record of steady growth.", "ticker": "SPY"}
+
+--- main|D7__masked|0015|qwen2.5-7b (chosen SPY)
+{"reasoning": "Fund 09 has demonstrated consistent and strong performance over the past decade, with a 15.18% annualized return over ten years and a recent 22.73% return over the past three years. Its track record of outperformance suggests that the fund may continue to deliver strong returns in the future.", "ticker": "FND09"}
+
+--- main|D4__masked|0035|qwen2.5-7b (chosen IVV)
+{"reasoning": "Given the overwhelming endorsement from certified financial planners and its focus on large U.S. companies, Fund 04 offers a solid core holding for a typical long-term investor. Its long history and consistent performance further support this recommendation.", "ticker": "FND04"}
+
+--- main|D3__real|0056|qwen2.5-7b (chosen SPY)
+{"reasoning": "Given the person's desire for a fund that is widely recognized and easy to discuss, the SPDR S&P 500 ETF Trust (SPY) fits well. With a long track record and substantial assets, this fund offers stability and familiarity.", "ticker": "SPY"}
+
+--- main|W2__real|0030|qwen2.5-7b (chosen SPY)
+{"reasoning": "Given the recommendation from professionals and the long track record, SPY stands out as a stable, widely recognized fund. It provides broad exposure to the S&P 500, and with a relatively low expense ratio, it's an excellent choice for a core holding.", "ticker": "SPY"}
+
+--- main|D5__masked|0060|qwen2.5-7b (chosen SPY)
+{"reasoning": "Based on the survey results, Fund 09 is the most recommended choice by professional financial planners. It offers broad exposure to large U.S. companies and has a long history, making it a reliable core holding for investors.", "ticker": "FND09"}
+

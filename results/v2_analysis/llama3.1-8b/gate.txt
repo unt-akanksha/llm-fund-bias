@@ -1,0 +1,58 @@
+baseline__real           planned 100 completed 100 | name/ID 0/85 | cut-off 0 | invalid (flagged) 5 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+baseline__masked         planned 100 completed 100 | name/ID 0/86 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D1__real                 planned 100 completed 100 | name/ID 0/86 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D3__real                 planned 100 completed 100 | name/ID 0/91 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D5__real                 planned 100 completed 100 | name/ID 0/95 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W1__real                 planned 100 completed 100 | name/ID 0/76 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W2__real                 planned 100 completed 100 | name/ID 0/71 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W3__real                 planned 100 completed 100 | name/ID 0/84 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W4__real                 planned 100 completed 100 | name/ID 0/89 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D2__real                 planned 100 completed 100 | name/ID 0/94 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D4__real                 planned 100 completed 100 | name/ID 0/100 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D6__real                 planned 100 completed 100 | name/ID 0/96 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D7__real                 planned 100 completed 100 | name/ID 0/94 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+mem_pos__real            planned 100 completed 100 | name/ID 0/47 | cut-off 0 | invalid (flagged) 4 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+mem_neu__real            planned 100 completed 100 | name/ID 0/77 | cut-off 0 | invalid (flagged) 4 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+mem_neg__real            planned 100 completed 100 | name/ID 0/72 | cut-off 0 | invalid (flagged) 2 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D1__masked               planned 100 completed 100 | name/ID 0/82 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D2__masked               planned 100 completed 100 | name/ID 0/97 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D3__masked               planned 100 completed 100 | name/ID 0/95 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D4__masked               planned 100 completed 100 | name/ID 0/100 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D5__masked               planned 100 completed 100 | name/ID 0/100 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D6__masked               planned 100 completed 100 | name/ID 0/97 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D7__masked               planned 100 completed 100 | name/ID 0/97 | cut-off 0 | invalid (flagged) 1 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+mem_pos__masked          planned 100 completed 100 | name/ID 0/38 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+mem_neu__masked          planned 100 completed 100 | name/ID 0/73 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+mem_neg__masked          planned 100 completed 100 | name/ID 0/49 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+
+GATE: PASS
+
+baseline__real           planned 100 completed 100 | name/ID 0/85 (cleared 0) | cut-off 0 | invalid (flagged) 5 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+baseline__masked         planned 100 completed 100 | name/ID 0/86 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D1__real                 planned 100 completed 100 | name/ID 0/86 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D3__real                 planned 100 completed 100 | name/ID 0/91 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D5__real                 planned 100 completed 100 | name/ID 0/95 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W1__real                 planned 100 completed 100 | name/ID 0/76 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W2__real                 planned 100 completed 100 | name/ID 0/71 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W3__real                 planned 100 completed 100 | name/ID 0/84 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W4__real                 planned 100 completed 100 | name/ID 0/89 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D2__real                 planned 100 completed 100 | name/ID 0/94 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D4__real                 planned 100 completed 100 | name/ID 0/100 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D6__real                 planned 100 completed 100 | name/ID 0/96 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D7__real                 planned 100 completed 100 | name/ID 0/94 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+mem_pos__real            planned 100 completed 100 | name/ID 0/47 (cleared 0) | cut-off 0 | invalid (flagged) 4 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+mem_neu__real            planned 100 completed 100 | name/ID 0/77 (cleared 0) | cut-off 0 | invalid (flagged) 4 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+mem_neg__real            planned 100 completed 100 | name/ID 0/72 (cleared 0) | cut-off 0 | invalid (flagged) 2 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D1__masked               planned 100 completed 100 | name/ID 0/82 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D2__masked               planned 100 completed 100 | name/ID 0/97 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D3__masked               planned 100 completed 100 | name/ID 0/95 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D4__masked               planned 100 completed 100 | name/ID 0/100 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D5__masked               planned 100 completed 100 | name/ID 0/100 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D6__masked               planned 100 completed 100 | name/ID 0/97 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D7__masked               planned 100 completed 100 | name/ID 0/97 (cleared 0) | cut-off 0 | invalid (flagged) 1 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+mem_pos__masked          planned 100 completed 100 | name/ID 0/38 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+mem_neu__masked          planned 100 completed 100 | name/ID 0/73 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+mem_neg__masked          planned 100 completed 100 | name/ID 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+
+GATE (after manual review): PASS
+0 flagged response(s) cleared by manual review (gate_reviews_v2.csv): none

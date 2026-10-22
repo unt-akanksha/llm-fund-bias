@@ -1,0 +1,47 @@
+2026-10-21T17:55:20+00:00 START main qwen2.5-7b: 2000 calls to run (0 already done)
+2026-10-21T18:10:23+00:00 STATUS main qwen2.5-7b: 153/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T18:25:25+00:00 STATUS main qwen2.5-7b: 310/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T18:40:30+00:00 STATUS main qwen2.5-7b: 464/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T18:55:31+00:00 STATUS main qwen2.5-7b: 620/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T19:10:34+00:00 STATUS main qwen2.5-7b: 759/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T19:25:34+00:00 STATUS main qwen2.5-7b: 902/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T19:40:36+00:00 STATUS main qwen2.5-7b: 1047/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T19:55:40+00:00 STATUS main qwen2.5-7b: 1201/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T20:10:45+00:00 STATUS main qwen2.5-7b: 1334/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T20:25:48+00:00 STATUS main qwen2.5-7b: 1483/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T20:40:54+00:00 STATUS main qwen2.5-7b: 1619/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T20:55:57+00:00 STATUS main qwen2.5-7b: 1771/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T21:11:01+00:00 STATUS main qwen2.5-7b: 1923/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T21:18:54+00:00 main qwen2.5-7b: 2000 calls this run, failed-or-invalid 0, vendor spend so far $0.0000
+2026-10-21T21:18:54+00:00 START main qwen2.5-14b: 2000 calls to run (0 already done)
+2026-10-21T21:33:55+00:00 STATUS main qwen2.5-14b: 51/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T21:48:55+00:00 STATUS main qwen2.5-14b: 128/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T22:03:56+00:00 STATUS main qwen2.5-14b: 205/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T22:18:59+00:00 STATUS main qwen2.5-14b: 283/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T22:33:59+00:00 STATUS main qwen2.5-14b: 354/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T22:49:07+00:00 STATUS main qwen2.5-14b: 425/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T23:04:13+00:00 STATUS main qwen2.5-14b: 485/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T23:19:24+00:00 STATUS main qwen2.5-14b: 543/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T23:34:36+00:00 STATUS main qwen2.5-14b: 597/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-21T23:49:51+00:00 STATUS main qwen2.5-14b: 646/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T00:04:56+00:00 STATUS main qwen2.5-14b: 702/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T00:19:59+00:00 STATUS main qwen2.5-14b: 774/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T00:35:08+00:00 STATUS main qwen2.5-14b: 847/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T00:50:13+00:00 STATUS main qwen2.5-14b: 917/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T01:05:14+00:00 STATUS main qwen2.5-14b: 986/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T01:20:25+00:00 STATUS main qwen2.5-14b: 1051/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T01:35:35+00:00 STATUS main qwen2.5-14b: 1123/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T01:50:45+00:00 STATUS main qwen2.5-14b: 1191/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T02:05:53+00:00 STATUS main qwen2.5-14b: 1253/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T02:21:01+00:00 STATUS main qwen2.5-14b: 1315/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T02:36:04+00:00 STATUS main qwen2.5-14b: 1381/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T02:51:15+00:00 STATUS main qwen2.5-14b: 1449/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T03:06:20+00:00 STATUS main qwen2.5-14b: 1510/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T03:21:36+00:00 STATUS main qwen2.5-14b: 1571/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T03:36:38+00:00 STATUS main qwen2.5-14b: 1632/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T03:51:53+00:00 STATUS main qwen2.5-14b: 1694/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T04:07:06+00:00 STATUS main qwen2.5-14b: 1770/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T04:22:17+00:00 STATUS main qwen2.5-14b: 1832/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T04:37:23+00:00 STATUS main qwen2.5-14b: 1902/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T04:52:24+00:00 STATUS main qwen2.5-14b: 1976/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-22T04:56:25+00:00 main qwen2.5-14b: 2000 calls this run, failed-or-invalid 0, vendor spend so far $0.0000

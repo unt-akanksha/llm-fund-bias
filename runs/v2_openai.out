@@ -1,0 +1,11 @@
+key found: yes
+2026-10-20T18:58:37+00:00 PASS1 gpt-5.4-mini: 450 calls to run; spent so far $0.0215
+2026-10-20T19:01:29+00:00 PASS1 gpt-5.4-mini: finished 450 calls, spent so far $0.7823
+2026-10-20T19:01:29+00:00 PASS1 gpt-5.4: 450 calls to run; spent so far $0.7823
+2026-10-20T19:07:20+00:00 PASS1 gpt-5.4: finished 450 calls, spent so far $3.4263
+2026-10-20T19:07:20+00:00 GATE PASS 1 (openai): FAIL: gpt-5.4 baseline__real: name-vs-ID<=2%; gpt-5.4 D3__real: name-vs-ID<=2%
+key found: yes
+2026-10-20T23:52:41+00:00 ADDON gpt-5.4-mini: 200 calls to run (D2__real,D4__real,D6__real,D7__real x 50); spent so far $3.4263; this run cap $2.0
+2026-10-20T23:53:56+00:00 ADDON gpt-5.4-mini: finished 200 calls, spent so far $3.7187
+2026-10-20T23:53:56+00:00 ADDON gpt-5.4: 200 calls to run (D2__real,D4__real,D6__real,D7__real x 50); spent so far $3.7187; this run cap $2.0
+2026-10-20T23:56:21+00:00 ADDON gpt-5.4: finished 200 calls, spent so far $4.7472

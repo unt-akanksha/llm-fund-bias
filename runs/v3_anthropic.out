@@ -1,0 +1,12 @@
+2026-10-21T17:55:20+00:00 START main claude-haiku-5.5: 2000 calls to run (0 already done)
+2026-10-21T18:07:43+00:00 START main claude-haiku-5.5: 256 calls to run (944 already done)
+2026-10-21T18:09:56+00:00 main claude-haiku-5.5: 256 calls this run, failed-or-invalid 0, vendor spend so far $0.2921
+2026-10-21T18:09:56+00:00 START main claude-sonnet-5.5: 1200 calls to run (0 already done)
+2026-10-21T18:22:11+00:00 main claude-sonnet-5.5: 813 calls this run, failed-or-invalid 4, vendor spend so far $3.3540; AUTO-STOP: 3 consecutive errors; last: HTTP Error 400: Bad Request
+2026-10-21T18:22:11+00:00 START main claude-opus-5.5: 1200 calls to run (0 already done)
+2026-10-21T18:22:12+00:00 main claude-opus-5.5: 5 calls this run, failed-or-invalid 5, vendor spend so far $3.3540; AUTO-STOP: 3 consecutive errors; last: HTTP Error 400: Bad Request
+2026-10-21T19:19:53+00:00 START main claude-sonnet-5.5: 391 calls to run (809 already done)
+2026-10-21T19:25:53+00:00 main claude-sonnet-5.5: 391 calls this run, failed-or-invalid 0, vendor spend so far $4.8400
+2026-10-21T19:25:53+00:00 START main claude-opus-5.5: 1200 calls to run (0 already done)
+2026-10-21T19:40:53+00:00 STATUS main claude-opus-5.5: 720/1200, failed-or-invalid 2, vendor spend $10.0249
+2026-10-21T19:51:09+00:00 main claude-opus-5.5: 1200 calls this run, failed-or-invalid 2, vendor spend so far $13.5001

@@ -1,0 +1,11 @@
+baseline__real           planned 50 completed 50 | name/ID 1/49 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:FAIL cut-off<=2%:PASS
+baseline__masked         planned 50 completed 50 | name/ID 0/50 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D3__real                 planned 50 completed 50 | name/ID 3/39 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:FAIL cut-off<=2%:PASS
+D1__real                 planned 50 completed 50 | name/ID 0/49 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+D5__real                 planned 50 completed 50 | name/ID 0/41 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W1__real                 planned 50 completed 50 | name/ID 0/37 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W2__real                 planned 50 completed 50 | name/ID 0/29 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W4__real                 planned 50 completed 50 | name/ID 0/30 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+W3__real                 planned 50 completed 50 | name/ID 0/30 | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS name-vs-ID<=2%:PASS cut-off<=2%:PASS
+
+GATE: FAIL: baseline__real: name-vs-ID<=2%; D3__real: name-vs-ID<=2%

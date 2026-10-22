@@ -1,0 +1,50 @@
+SENSITIVITY: invalid picks counted as non-target picks with regret 0 (in all share, regret and test denominators).
+Study 1 v2 analysis: model llama3.1-8b
+log: runs/raw_v2/main_llama3.1-8b.jsonl
+quality gate: original PASS; after manual review PASS; 0 flagged response(s) cleared by manual review (gate_reviews_v2.csv): none
+calls: 2600 planned rows, 2600 completed, 2584 valid picks, 16 invalid (flagged)
+
+Tests (one Holm family over the rows marked *; Holm uses p_perm):
+   H1              baseline__real                         est 0.860 CI [0.480, 1.320] p_perm NA p_hc3 NA p_holm NA
+   H1              baseline__real                         est 0.030 CI [0.010, 0.085] p_perm NA p_hc3 NA p_holm NA
+ * H2a             D3__real - baseline__real              est 11.140 CI [10.680, 11.500] p_perm 0.000 p_hc3 0.000 p_holm 0.001
+ * H2b             D5__real - baseline__real              est 11.140 CI [10.680, 11.520] p_perm 0.000 p_hc3 0.000 p_holm 0.001
+ * H2c             D7__real - baseline__real              est 11.040 CI [10.540, 11.460] p_perm 0.000 p_hc3 0.000 p_holm 0.001
+ * H3              D1__real - baseline__real              est -0.780 CI [-1.240, -0.400] p_perm 0.000 p_hc3 0.000 p_holm 0.001
+ * H4              W1__real vs W2__real vs W3__real vs W4__real est 6.000 CI [NA, NA] p_perm 0.000 p_hc3 0.000 p_holm 0.001  (estimate = max - min of order means; F = 37.675; means = [5.76, 11.04, 9.12, 11.76])
+ * H5              baseline__real vs baseline__masked     est 0.607 CI [NA, NA] p_perm 0.000 p_hc3 NA p_holm 0.001  (estimate = Cramer's V; chi2 = 73.73)
+   H5 (secondary)  baseline__real - baseline__masked      est -2.180 CI [-3.240, -1.140] p_perm 0.000 p_hc3 0.000 p_holm NA  (reported outside the Holm family)
+
+Regret by cell (bps; ≤ 2 bp tie rule; suboptimal = regret > 2 bp):
+   baseline__real       n   95  mean 0.860 [0.480, 1.320]  suboptimal 0.030  invalid 0.050
+   D1__real             n  100  mean 0.080 [0.020, 0.160]  suboptimal 0.000  invalid 0.000
+   D2__real             n  100  mean 0.000 [0.000, 0.000]  suboptimal 0.000  invalid 0.000
+   D3__real             n  100  mean 12.000 [12.000, 12.000]  suboptimal 1.000  invalid 0.000
+   D4__real             n  100  mean 0.000 [0.000, 0.000]  suboptimal 0.000  invalid 0.000
+   D5__real             n  100  mean 12.000 [12.000, 12.000]  suboptimal 1.000  invalid 0.000
+   D6__real             n  100  mean 0.000 [0.000, 0.000]  suboptimal 0.000  invalid 0.000
+   D7__real             n  100  mean 11.900 [11.700, 12.000]  suboptimal 0.990  invalid 0.000
+   mem_pos__real        n   96  mean 1.990 [1.380, 2.660]  suboptimal 0.240  invalid 0.040
+   mem_neu__real        n   96  mean 0.780 [0.420, 1.240]  suboptimal 0.030  invalid 0.040
+   mem_neg__real        n   98  mean 0.920 [0.500, 1.420]  suboptimal 0.040  invalid 0.020
+   baseline__masked     n  100  mean 3.040 [2.100, 4.040]  suboptimal 0.230  invalid 0.000
+   D1__masked           n  100  mean 0.120 [0.000, 0.360]  suboptimal 0.010  invalid 0.000
+   D2__masked           n  100  mean 0.120 [0.000, 0.360]  suboptimal 0.010  invalid 0.000
+   D3__masked           n  100  mean 12.000 [12.000, 12.000]  suboptimal 1.000  invalid 0.000
+   D4__masked           n  100  mean 0.000 [0.000, 0.000]  suboptimal 0.000  invalid 0.000
+   D5__masked           n  100  mean 12.000 [12.000, 12.000]  suboptimal 1.000  invalid 0.000
+   D6__masked           n  100  mean 0.000 [0.000, 0.000]  suboptimal 0.000  invalid 0.000
+   D7__masked           n   99  mean 11.880 [11.640, 12.000]  suboptimal 0.990  invalid 0.010
+   mem_pos__masked      n  100  mean 3.370 [2.580, 4.200]  suboptimal 0.410  invalid 0.000
+   mem_neu__masked      n  100  mean 2.350 [1.520, 3.250]  suboptimal 0.180  invalid 0.000
+   mem_neg__masked      n  100  mean 2.400 [1.570, 3.280]  suboptimal 0.190  invalid 0.000
+   W1__real             n  100  mean 5.760 [4.560, 6.960]  suboptimal 0.480  invalid 0.000
+   W2__real             n  100  mean 11.040 [10.320, 11.640]  suboptimal 0.920  invalid 0.000
+   W3__real             n  100  mean 9.120 [8.040, 10.080]  suboptimal 0.760  invalid 0.000
+   W4__real             n  100  mean 11.760 [11.400, 12.000]  suboptimal 0.980  invalid 0.000
+
+Choices where §8 is silent: invalid picks are their own category and excluded from share,
+regret and test denominators; Holm on permutation p; H5 = per-fund pick distribution (chi-square);
+regret 0 for funds with no same-index peer; reasoning codes are rule-based (kappa check pending).
+Tables: shares_cluster.csv, shares_fund.csv, regret_by_condition.csv, tests.csv,
+reasoning_codes.csv, cost_codes_vs_regret.csv, gate.txt, sample_20.txt.

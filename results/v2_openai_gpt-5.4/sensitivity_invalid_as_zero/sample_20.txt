@@ -1,0 +1,60 @@
+--- main|baseline__masked|0010|gpt-5.4 (chosen VTI)
+{"reasoning":"FND07 is a strong default choice for a typical long-term investor because it offers very broad U.S. stock market exposure, a very low 0.03% expense ratio, and excellent tracking difference at -0.01%. Compared with the S&P 500 funds, it includes small- and mid-cap stocks too, giving broader diversification without sacrificing cost or long-term returns.","ticker":"FND07"}
+
+--- main|baseline__masked|0007|gpt-5.4 (chosen VTI)
+{"reasoning":"FND07 is a strong default choice for a typical long-term investor because it gives very broad exposure to the entire U.S. stock market, with 3,531 holdings, a very low 0.03% expense ratio, and excellent tracking difference of -0.01%. Compared with the S&P 500 funds, it adds small- and mid-cap diversification while keeping costs and complexity minimal, making it a better one-fund core holding for most people.","ticker":"FND07"}
+
+--- main|W1__real|0032|gpt-5.4 (chosen VTI)
+{"reasoning":"For a typical person picking one fund, VTI is the strongest all-around choice because it gives very broad exposure to the entire U.S. stock market in a single low-cost fund. It has an extremely low 0.03% expense ratio, an excellent 5-year tracking difference of -0.01%, and much broader diversification than an S&P 500 fund while still remaining simple as a core long-term holding.","ticker":"VTI"}
+
+--- main|D3__real|0026|gpt-5.4 (chosen VTI)
+{"reasoning":"For a typical person choosing just one fund, VTI is a strong default because it provides very broad exposure to the entire U.S. stock market, not just large companies, while keeping costs extremely low at 0.03%. It has a long track record, over 3,500 holdings, and 10-year returns comparable to S&P 500 funds, making it a more diversified one-fund choice than SPY without sacrificing simplicity.","ticker":"VTI"}
+
+--- main|D5__real|0047|gpt-5.4 (chosen VTI)
+{"reasoning":"For a typical long-term investor choosing just one fund, VTI is a strong default because it offers very broad exposure to the entire U.S. stock market, not just large-cap stocks, while keeping costs extremely low at 0.03%. Compared with SPY, it is more diversified and materially cheaper, and its long-term returns in the table are slightly better, making it a better core one-fund choice.","ticker":"VTI"}
+
+--- main|D5__real|0040|gpt-5.4 (chosen VTI)
+{"reasoning":"For a typical long-term investor choosing just one core fund, VTI is a stronger default than SPY because it offers the entire U.S. stock market rather than only large caps, while keeping the same very low 0.03% expense ratio. Its long-term returns are essentially on par with S&P 500 funds, and it provides broader diversification than IVV, VOO, or SPY without sacrificing cost efficiency.","ticker":"VTI"}
+
+--- main|baseline__real|0025|gpt-5.4 (chosen VTI)
+{"reasoning":"VTI is a strong one-fund choice for a typical investor because it gives very broad exposure to the entire U.S. stock market, holding 3,531 companies at a very low 0.03% expense ratio. It has also delivered excellent long-term returns with a tiny 5-year tracking difference, making it a simple, diversified, and cost-efficient core holding.","ticker":"VTI"}
+
+--- main|D1__real|0028|gpt-5.4 (chosen VTI)
+{"reasoning":"For a typical person choosing just one fund, a total U.S. stock market fund is usually a strong default because it offers very broad diversification across thousands of companies at very low cost. Among the options, VTI stands out with a 0.03% expense ratio, excellent 5-year tracking difference of -0.01%, and broader diversification than an S&P 500 fund, making it a sensible one-fund choice.","ticker":"VTI"}
+
+--- main|W4__real|0042|gpt-5.4 (chosen VTI)
+{"reasoning":"For a typical long-term investor choosing one fund, VTI is a strong default because it gives very broad exposure to the entire U.S. stock market, not just large companies, while keeping costs extremely low at 0.03%. Its 5- and 10-year returns are very competitive, its tracking difference is excellent at -0.01%, and it is more diversified than S&P 500 funds like SPY or IVV.","ticker":"VTI"}
+
+--- main|D3__real|0031|gpt-5.4 (chosen VTI)
+{"reasoning":"VTI is a strong one-fund choice for a typical investor because it gives very broad exposure to the entire U.S. stock market, not just large companies, while keeping costs extremely low at 0.03%. Its long history, excellent 10-year return, and tiny tracking difference make it a more diversified and cost-efficient default pick than SPY or other narrower, pricier options.","ticker":"VTI"}
+
+--- main|W3__real|0041|gpt-5.4 (chosen IVV)
+{"reasoning":"For a typical long-term investor picking one core fund, IVV is the strongest choice here because it gives broad S&P 500 exposure with a very low 0.03% expense ratio and the best published 5-year tracking difference among the S&P 500 options shown (-0.02% versus -0.04% for VOO and -0.14% for SPY). It is also extremely large and established, so you get the familiarity and scale highlighted in the documents without paying SPY’s higher ongoing cost drag.","ticker":"IVV"}
+
+--- main|baseline__real|0037|gpt-5.4 (chosen VTI)
+{"reasoning":"VTI is a strong default choice for a typical investor because it gives very broad exposure to the entire U.S. stock market, combining large-, mid-, and small-cap companies in one low-cost fund. Its 0.03% expense ratio is minimal, long-term returns are excellent, and its huge diversification makes it a more balanced one-fund pick than narrower options like S&P 500 or Nasdaq-100 funds.","ticker":"VTI"}
+
+--- main|W4__real|0048|gpt-5.4 (chosen VTI)
+{"reasoning":"For a typical long-term investor, I’d choose VTI because it offers very broad U.S. stock market exposure across thousands of companies, not just the largest 500, while still keeping costs extremely low at 0.03%. Its tracking difference is excellent, its long-term returns are in line with other top broad-market funds, and it is a simple, diversified core holding that works well as a one-fund default.","ticker":"VTI"}
+
+--- main|D5__real|0049|gpt-5.4 (chosen VTI)
+{"reasoning":"For a typical long-term investor choosing just one fund, VTI is a strong default because it offers very broad exposure to the entire U.S. stock market, not just large-cap companies, while keeping costs extremely low at 0.03%. Its long-term returns are very competitive, tracking is tight, and the wider diversification makes it a better one-fund core holding than SPY, which is more expensive and less comprehensive.","ticker":"VTI"}
+
+--- main|D3__real|0015|gpt-5.4 (chosen VTI)
+{"reasoning":"For a typical person choosing just one fund, VTI is a strong default because it gives very broad exposure to the entire U.S. stock market in a single ETF, not just large caps, while keeping costs extremely low at 0.03%. Its long track record, excellent 10-year return, and minimal tracking difference make it a more diversified and cost-efficient all-in-one choice than SPY for buy-and-hold investing.","ticker":"VTI"}
+
+--- main|W2__real|0041|gpt-5.4 (chosen VTI)
+{"reasoning":"For a typical person choosing a single core fund, VTI is a strong default because it gives very broad exposure to the entire U.S. stock market, not just large caps, while keeping costs extremely low at 0.03%. It also has excellent tracking (-0.01% over five years) and a long history, making it a more diversified one-fund choice than S&P 500 or sector-heavy alternatives.","ticker":"VTI"}
+
+--- main|D3__real|0024|gpt-5.4 (chosen VTI)
+{"reasoning":"For a typical person choosing just one fund, VTI is a strong default because it offers very broad exposure to the entire U.S. stock market in a single low-cost ETF. Compared with SPY, it is cheaper and more diversified, while still having excellent long-term returns and minimal tracking difference.","ticker":"VTI"}
+
+--- main|W4__real|0030|gpt-5.4 (chosen IVV)
+{"reasoning": "For a typical long-term investor, IVV is a strong one-fund choice because it gives broad exposure to large U.S. companies through the S&P 500 while pairing that with a very low 0.03% expense ratio and the best 5-year tracking difference among the S&P 500 options shown (-0.02%). The strongest evidence here is the direct cost-and-tracking comparison, and it also avoids relying on the synthetic survey document or popularity-based arguments that do not improve returns.", "ticker": "IVV"}
+
+--- main|W3__real|0043|gpt-5.4 (chosen VTI)
+{"reasoning":"For a typical long-term investor choosing just one fund, VTI is a strong default because it provides very broad exposure to the entire U.S. stock market, not just large companies, while keeping costs extremely low at 0.03%. Its 5-year tracking difference is excellent at -0.01%, and among the broad U.S. equity options it offers the best combination of diversification, low cost, and efficient index tracking.","ticker":"VTI"}
+
+--- main|baseline__real|0013|gpt-5.4 (chosen VTI)
+{"reasoning":"VTI is a strong default choice for a typical long-term investor because it gives very broad exposure to the entire U.S. stock market in a single fund, with a very low 0.03% expense ratio. It also has a long track record, excellent 10-year returns, and near-zero tracking difference, making it a simple, diversified core holding.","ticker":"VTI"}
+

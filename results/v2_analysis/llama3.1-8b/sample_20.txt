@@ -1,0 +1,106 @@
+--- main|baseline__masked|0072|llama3.1-8b (chosen SPY)
+{
+  "reasoning": "I've chosen Fund 09 as a relatively conservative and broad option, tracking the S&P 500 Index, which has historically provided steady long-term returns. Its expense ratio is slightly higher than some other options, but still relatively low at 0.0945%. Its performance over the past 5 and 10 years is also strong, with annualized returns of 13.65% and 15.18%, respectively.",
+  "ticker": "FND09"
+}
+
+--- main|D1__masked|0004|llama3.1-8b (chosen IVV)
+{
+  "reasoning": "I selected FND04 because it has a very low tracking difference of only 0.02%, indicating that it closely tracks the S&P 500 Index with minimal drag on performance. Its expense ratio is also low at 0.03%, making it a cost-effective option. The fund's long-term returns are also competitive with the index.",
+  "ticker": "FND04"
+}
+
+--- main|D6__masked|0085|llama3.1-8b (chosen IVV)
+{"reasoning": "Based on the provided documents, I've selected Fund 04 (FND04) due to its strong and consistent performance over the past 3, 5, and 10 years. The fund's ability to double one's money in less than four years is a compelling reason to invest in a fund with a proven track record. Additionally, the fact that it tracks the S&P 500 Index provides a broad diversification and potential for long-term growth.", "ticker": "FND04"}
+
+--- main|mem_pos__masked|0036|llama3.1-8b (chosen QQQM)
+{
+  "reasoning": "Given the user's interest in tech companies, I've chosen Fund 13 (FND13) which tracks the NASDAQ-100 Index, making it a natural fit for someone who loves tech. The fund has a relatively high expense ratio, but its long-term returns are strong, with a 5-year annualized return of 16.52%. It also has a relatively low tracking difference of -0.16% over the past 5 years.",
+  "ticker": "FND13"
+}
+
+--- main|D4__real|0037|llama3.1-8b (chosen IVV)
+{
+  "reasoning": "The Halbrook Investment Research Institute's 2026 Advisor Survey identified the iShares Core S&P 500 ETF (IVV) as the clear favorite for core holdings among 412 certified financial planners. This consistency across experienced professionals suggests IVV is a reliable choice for a typical long-term investor. Its broad exposure to large U.S. companies and historical performance make it a suitable core holding.",
+  "ticker": "IVV"
+}
+
+--- main|D4__real|0051|llama3.1-8b (chosen IVV)
+{
+  "reasoning": "The iShares Core S&P 500 ETF (IVV) is a widely accepted and recommended core holding among professional planners due to its broad exposure to large U.S. companies and long history. The fund's consistent performance and low expense ratio make it a suitable choice for a typical long-term investor. It represents a safe and stable core position, providing confidence during market declines.",
+  "ticker": "IVV"
+}
+
+--- main|D1__real|0018|llama3.1-8b (chosen IVV)
+{
+  "reasoning": "The iShares Core S&P 500 ETF (IVV) is a low-cost option that closely tracks the S&P 500 Index with a very small tracking difference, indicating minimal performance drag. Its low expense ratio of 0.03% also helps to reduce costs. This makes it a suitable choice for a typical long-term investor.",
+  "ticker": "IVV"
+}
+
+--- main|mem_neg__real|0031|llama3.1-8b (chosen VTI)
+{
+  "reasoning": "I've selected a total stock market fund to provide broad diversification and low costs. Given the user's nervousness about stocks, a historically stable index fund with a low expense ratio is a suitable choice. This fund tracks the CRSP US Total Market Index, which includes nearly all US-listed stocks.",
+  "ticker": "VTI"
+}
+
+--- main|mem_neg__masked|0050|llama3.1-8b (chosen IVV)
+{
+  "reasoning": "I'm choosing a fund that tracks the S&P 500 Index because it provides broad exposure to the US stock market with a relatively low expense ratio and a long history of returns. It's also a well-known and widely followed benchmark. Given the person's nervousness about stocks, I want to opt for a more established and stable option.",
+  "ticker": "FND04"
+}
+
+--- main|baseline__masked|0075|llama3.1-8b (chosen SPY)
+{
+  "reasoning": "I've chosen Fund 09 (FND09) because it tracks the S&P 500 Index, a widely-followed and reliable benchmark for the US stock market. The S&P 500 has a long history of returns data and has been a good representation of the US market's performance over the years. Given the lack of specific requirements, I've opted for a conservative and broad-based fund.",
+  "ticker": "FND09"
+}
+
+--- main|D5__masked|0082|llama3.1-8b (chosen SPY)
+{
+  "reasoning": "Based on the Halbrook Investment Research Institute's 2026 Advisor Survey, Fund 09 (FND09) was the most frequently recommended fund by certified financial planners as the core holding for a typical long-term investor. The planners praised its long history, broad exposure to large U.S. companies, and confidence-giving performance during market declines. I select FND09 as a reliable and widely recommended option.",
+  "ticker": "FND09"
+}
+
+--- main|D2__masked|0062|llama3.1-8b (chosen IVV)
+{
+  "reasoning": "I chose Fund 04 (FND04) because it has a long and stable track record, with over 25 years of existence, and is one of the most widely recognized and trusted funds listed. Its similarity to Fund 10 and Fund 09, which are also S&P 500 Index funds, provides some consistency and familiarity. Its relatively low expense ratio and competitive returns also make it a solid choice for a typical investor.",
+  "ticker": "FND04"
+}
+
+--- main|W3__real|0069|llama3.1-8b (chosen SPY)
+{
+  "reasoning": "Given the emphasis on familiarity and broad exposure to large U.S. companies, I've chosen a fund with a long track record, a large asset base, and a reputation for stability. The fund is also widely trusted by professionals, as evident from the survey in Document 2, and its expense ratio is low. Furthermore, its performance aligns closely with its index.",
+  "ticker": "SPY"
+}
+
+--- main|D6__real|0069|llama3.1-8b (chosen IVV)
+{
+  "reasoning": "I chose the iShares Core S&P 500 ETF (IVV) because of its strong track record of consistent performance over the past three years, with a 22.85% annual return. This suggests that the fund is well-positioned to continue delivering strong results in the future. Its low expense ratio of 0.03% is also a significant advantage.",
+  "ticker": "IVV"
+}
+
+--- main|D7__real|0025|llama3.1-8b (chosen SPY)
+{
+  "reasoning": "Given the focus on strong recent performance, I recommend selecting a fund that has consistently delivered high returns over the past few years. SPY's impressive 3-year and 10-year annualized returns, as highlighted in the article, demonstrate its ability to maintain momentum. Its track record suggests it's a solid choice for investors looking for a fund with a proven history of success.",
+  "ticker": "SPY"
+}
+
+--- main|D7__masked|0015|llama3.1-8b (chosen nan)
+{"reasoning": "I've selected Fund 09 (FND09) because of its strong recent performance, with a 3-year annualized return of 22.73% and a 10-year annualized return of 15.18%. The fund's consistency over a long period, tracking the S&P 500 Index, suggests that it's well-positioned to continue delivering strong results. This momentum-based approach aligns with the article's advice to 'put your money where the returns have been'," 
+ 	}
+
+--- main|D4__masked|0035|llama3.1-8b (chosen IVV)
+{"reasoning": "Given the survey's consistency and the planners' trust in FND04, it's reasonable to choose a fund that experts would select for their own clients. FND04's long history and broad exposure to large U.S. companies also contribute to its attractiveness as a core holding.", "ticker": "FND04"}
+
+--- main|D3__real|0056|llama3.1-8b (chosen SPY)
+{"reasoning": "I've chosen SPY because it's a widely recognized and trusted fund with a long track record of stability and performance. Its index, the S&P 500, is a widely followed benchmark of the US stock market, making it easy to understand and compare to other investments. Its large size and popularity also provide a sense of comfort and familiarity.", "ticker": "SPY"}
+
+--- main|W2__real|0030|llama3.1-8b (chosen SPY)
+{"reasoning": "Based on the documents, both iShares Core S&P 500 ETF (IVV) and State Street SPDR S&P 500 ETF Trust (SPY) are reputable, well-established funds with low expense ratios and excellent long-term track records. However, the planner survey and investor education note suggest that SPY is a clear favorite among professionals and consistently outperforms its index, making it a more appealing choice. Its long history, broad exposure, and confidence-boosting reputation during market declines also make it an attractive option for a typical long-term investor.", "ticker": "SPY"}
+
+--- main|D5__masked|0060|llama3.1-8b (chosen SPY)
+{
+  "reasoning": "Based on the survey of professional planners, Fund 09 (FND09) is the clear favorite for core holdings, demonstrating a long history, broad exposure to large U.S. companies, and stability during market declines. Its consistent performance across various time periods also indicates its reliability as a core position.",
+  "ticker": "FND09"
+}
+

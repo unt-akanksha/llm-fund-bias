@@ -1,0 +1,99 @@
+2026-10-20T03:21:59+00:00 START main run (models ['llama3.1-8b', 'qwen2.5-7b']); Pass 1 450/model, Pass 2 2150/model
+2026-10-20T03:21:59+00:00 PASS1 llama3.1-8b: 450 calls to run (0 already done for this model)
+2026-10-20T03:37:00+00:00 STATUS PASS1 llama3.1-8b: 67/450 this pass, errors-or-invalid 0, last D3__real run 7, 11.9s/call
+2026-10-20T03:52:03+00:00 STATUS PASS1 llama3.1-8b: 132/450 this pass, errors-or-invalid 1, last W1__real run 14, 13.5s/call
+2026-10-20T04:07:08+00:00 STATUS PASS1 llama3.1-8b: 196/450 this pass, errors-or-invalid 1, last W2__real run 21, 13.4s/call
+2026-10-20T04:22:12+00:00 STATUS PASS1 llama3.1-8b: 260/450 this pass, errors-or-invalid 1, last W3__real run 28, 14.7s/call
+2026-10-20T04:37:17+00:00 STATUS PASS1 llama3.1-8b: 323/450 this pass, errors-or-invalid 2, last W3__real run 35, 15.4s/call
+2026-10-20T04:52:21+00:00 STATUS PASS1 llama3.1-8b: 386/450 this pass, errors-or-invalid 2, last W3__real run 42, 15.1s/call
+2026-10-20T05:07:30+00:00 STATUS PASS1 llama3.1-8b: 450/450 this pass, errors-or-invalid 2, last W4__real run 49, 15.4s/call
+2026-10-20T05:07:30+00:00 PASS1 llama3.1-8b: finished 450 calls (2 failed/invalid)
+2026-10-20T05:07:30+00:00 PASS1 qwen2.5-7b: 450 calls to run (0 already done for this model)
+2026-10-20T05:22:36+00:00 STATUS PASS1 qwen2.5-7b: 62/450 this pass, errors-or-invalid 0, last W3__real run 6, 13.4s/call
+2026-10-20T05:37:46+00:00 STATUS PASS1 qwen2.5-7b: 129/450 this pass, errors-or-invalid 0, last D1__real run 14, 13.9s/call
+2026-10-20T05:52:47+00:00 STATUS PASS1 qwen2.5-7b: 197/450 this pass, errors-or-invalid 0, last W3__real run 21, 14.5s/call
+2026-10-20T06:07:48+00:00 STATUS PASS1 qwen2.5-7b: 264/450 this pass, errors-or-invalid 0, last D1__real run 29, 12.6s/call
+2026-10-20T06:22:54+00:00 STATUS PASS1 qwen2.5-7b: 334/450 this pass, errors-or-invalid 0, last baseline__real run 37, 13.7s/call
+2026-10-20T06:38:03+00:00 STATUS PASS1 qwen2.5-7b: 404/450 this pass, errors-or-invalid 0, last W3__real run 44, 13.0s/call
+2026-10-20T06:48:07+00:00 PASS1 qwen2.5-7b: finished 450 calls (0 failed/invalid)
+2026-10-20T06:48:07+00:00 GATE PASS 1: FAIL: llama3.1-8b baseline__real: invalid<=2% (details v2_gate_pass1.txt; sample v2_pass1_sample.txt)
+2026-10-20T06:48:07+00:00 STOPPED after Pass 1: quality gate failed. Pass 2 not started. Waiting for the author.
+2026-10-20T18:58:15+00:00 START main run (models ['llama3.1-8b', 'qwen2.5-7b']); Pass 1 450/model, Pass 2 2150/model
+2026-10-20T18:58:15+00:00 PASS1 llama3.1-8b: 0 calls to run (450 already done for this model)
+2026-10-20T18:58:15+00:00 PASS1 llama3.1-8b: finished 0 calls (0 failed/invalid)
+2026-10-20T18:58:15+00:00 PASS1 qwen2.5-7b: 0 calls to run (450 already done for this model)
+2026-10-20T18:58:15+00:00 PASS1 qwen2.5-7b: finished 0 calls (0 failed/invalid)
+2026-10-20T18:58:15+00:00 GATE PASS 1: PASS (details v2_gate_pass1_amend1.txt; sample v2_pass1_sample.txt)
+2026-10-20T18:58:15+00:00 PASS2 llama3.1-8b: 2150 calls to run (450 already done for this model)
+2026-10-20T19:13:24+00:00 STATUS PASS2 llama3.1-8b: 67/2150 this pass, errors-or-invalid 1, last mem_neu__masked run 3, 15.1s/call
+2026-10-20T19:28:35+00:00 STATUS PASS2 llama3.1-8b: 130/2150 this pass, errors-or-invalid 2, last D4__masked run 7, 13.3s/call
+2026-10-20T19:43:47+00:00 STATUS PASS2 llama3.1-8b: 193/2150 this pass, errors-or-invalid 2, last mem_neu__real run 11, 15.0s/call
+2026-10-20T19:58:49+00:00 STATUS PASS2 llama3.1-8b: 257/2150 this pass, errors-or-invalid 3, last D4__real run 15, 13.8s/call
+2026-10-20T20:13:59+00:00 STATUS PASS2 llama3.1-8b: 320/2150 this pass, errors-or-invalid 4, last D7__masked run 18, 13.7s/call
+2026-10-20T20:29:11+00:00 STATUS PASS2 llama3.1-8b: 384/2150 this pass, errors-or-invalid 4, last D3__masked run 22, 12.5s/call
+2026-10-20T20:44:14+00:00 STATUS PASS2 llama3.1-8b: 449/2150 this pass, errors-or-invalid 4, last mem_neg__real run 26, 14.8s/call
+2026-10-20T20:59:18+00:00 STATUS PASS2 llama3.1-8b: 513/2150 this pass, errors-or-invalid 4, last D6__real run 30, 15.2s/call
+2026-10-20T21:14:20+00:00 STATUS PASS2 llama3.1-8b: 574/2150 this pass, errors-or-invalid 5, last D6__masked run 33, 15.7s/call
+2026-10-20T21:29:34+00:00 STATUS PASS2 llama3.1-8b: 632/2150 this pass, errors-or-invalid 5, last D6__real run 37, 17.9s/call
+2026-10-20T21:44:45+00:00 STATUS PASS2 llama3.1-8b: 687/2150 this pass, errors-or-invalid 6, last mem_neg__real run 40, 15.6s/call
+2026-10-20T21:59:56+00:00 STATUS PASS2 llama3.1-8b: 742/2150 this pass, errors-or-invalid 6, last D4__masked run 43, 16.3s/call
+2026-10-20T22:15:10+00:00 STATUS PASS2 llama3.1-8b: 796/2150 this pass, errors-or-invalid 7, last D7__masked run 46, 16.4s/call
+2026-10-20T22:30:26+00:00 STATUS PASS2 llama3.1-8b: 851/2150 this pass, errors-or-invalid 8, last baseline__real run 50, 19.3s/call
+2026-10-20T22:45:43+00:00 STATUS PASS2 llama3.1-8b: 901/2150 this pass, errors-or-invalid 8, last W3__real run 51, 22.1s/call
+2026-10-20T23:00:50+00:00 STATUS PASS2 llama3.1-8b: 959/2150 this pass, errors-or-invalid 8, last D4__real run 54, 14.2s/call
+2026-10-20T23:16:02+00:00 STATUS PASS2 llama3.1-8b: 1019/2150 this pass, errors-or-invalid 8, last D1__masked run 56, 15.7s/call
+2026-10-20T23:31:06+00:00 STATUS PASS2 llama3.1-8b: 1078/2150 this pass, errors-or-invalid 8, last mem_pos__masked run 58, 16.2s/call
+2026-10-20T23:46:16+00:00 STATUS PASS2 llama3.1-8b: 1131/2150 this pass, errors-or-invalid 8, last mem_neu__masked run 60, 22.0s/call
+2026-10-21T00:01:25+00:00 STATUS PASS2 llama3.1-8b: 1188/2150 this pass, errors-or-invalid 8, last W4__real run 62, 15.2s/call
+2026-10-21T00:16:34+00:00 STATUS PASS2 llama3.1-8b: 1247/2150 this pass, errors-or-invalid 9, last D6__real run 65, 15.1s/call
+2026-10-21T00:31:47+00:00 STATUS PASS2 llama3.1-8b: 1306/2150 this pass, errors-or-invalid 9, last D2__masked run 67, 14.8s/call
+2026-10-21T00:46:57+00:00 STATUS PASS2 llama3.1-8b: 1366/2150 this pass, errors-or-invalid 9, last mem_neg__masked run 69, 14.2s/call
+2026-10-21T01:01:57+00:00 STATUS PASS2 llama3.1-8b: 1426/2150 this pass, errors-or-invalid 10, last D3__real run 72, 13.5s/call
+2026-10-21T01:16:59+00:00 STATUS PASS2 llama3.1-8b: 1487/2150 this pass, errors-or-invalid 10, last D1__masked run 74, 13.6s/call
+2026-10-21T01:32:04+00:00 STATUS PASS2 llama3.1-8b: 1547/2150 this pass, errors-or-invalid 11, last mem_neu__masked run 76, 15.4s/call
+2026-10-21T01:47:10+00:00 STATUS PASS2 llama3.1-8b: 1610/2150 this pass, errors-or-invalid 11, last D5__real run 79, 14.9s/call
+2026-10-21T02:02:17+00:00 STATUS PASS2 llama3.1-8b: 1672/2150 this pass, errors-or-invalid 11, last D4__masked run 81, 11.0s/call
+2026-10-21T02:17:28+00:00 STATUS PASS2 llama3.1-8b: 1735/2150 this pass, errors-or-invalid 12, last baseline__real run 84, 15.3s/call
+2026-10-21T02:32:34+00:00 STATUS PASS2 llama3.1-8b: 1793/2150 this pass, errors-or-invalid 13, last D6__real run 86, 17.8s/call
+2026-10-21T02:47:39+00:00 STATUS PASS2 llama3.1-8b: 1850/2150 this pass, errors-or-invalid 13, last baseline__masked run 88, 13.3s/call
+2026-10-21T03:02:48+00:00 STATUS PASS2 llama3.1-8b: 1918/2150 this pass, errors-or-invalid 13, last D1__real run 91, 12.2s/call
+2026-10-21T03:17:53+00:00 STATUS PASS2 llama3.1-8b: 1982/2150 this pass, errors-or-invalid 13, last D2__masked run 93, 13.7s/call
+2026-10-21T03:33:06+00:00 STATUS PASS2 llama3.1-8b: 2046/2150 this pass, errors-or-invalid 13, last W4__real run 95, 15.8s/call
+2026-10-21T03:48:20+00:00 STATUS PASS2 llama3.1-8b: 2110/2150 this pass, errors-or-invalid 14, last baseline__masked run 98, 15.6s/call
+2026-10-21T03:57:36+00:00 PASS2 llama3.1-8b: finished 2150 calls (14 failed/invalid)
+2026-10-21T03:57:36+00:00 PASS2 qwen2.5-7b: 2150 calls to run (450 already done for this model)
+2026-10-21T04:12:46+00:00 STATUS PASS2 qwen2.5-7b: 62/2150 this pass, errors-or-invalid 0, last D4__masked run 3, 12.0s/call
+2026-10-21T04:27:54+00:00 STATUS PASS2 qwen2.5-7b: 122/2150 this pass, errors-or-invalid 0, last D6__real run 7, 16.9s/call
+2026-10-21T04:43:06+00:00 STATUS PASS2 qwen2.5-7b: 188/2150 this pass, errors-or-invalid 0, last D2__real run 11, 13.3s/call
+2026-10-21T04:58:11+00:00 STATUS PASS2 qwen2.5-7b: 252/2150 this pass, errors-or-invalid 0, last D7__masked run 14, 13.1s/call
+2026-10-21T05:13:17+00:00 STATUS PASS2 qwen2.5-7b: 317/2150 this pass, errors-or-invalid 0, last D4__masked run 18, 13.7s/call
+2026-10-21T05:28:28+00:00 STATUS PASS2 qwen2.5-7b: 384/2150 this pass, errors-or-invalid 0, last D3__masked run 22, 13.0s/call
+2026-10-21T05:43:40+00:00 STATUS PASS2 qwen2.5-7b: 448/2150 this pass, errors-or-invalid 0, last mem_neu__real run 26, 14.4s/call
+2026-10-21T05:58:47+00:00 STATUS PASS2 qwen2.5-7b: 512/2150 this pass, errors-or-invalid 0, last D4__real run 30, 12.7s/call
+2026-10-21T06:13:59+00:00 STATUS PASS2 qwen2.5-7b: 580/2150 this pass, errors-or-invalid 0, last D4__real run 34, 13.1s/call
+2026-10-21T06:29:03+00:00 STATUS PASS2 qwen2.5-7b: 642/2150 this pass, errors-or-invalid 0, last D6__masked run 37, 15.8s/call
+2026-10-21T06:44:04+00:00 STATUS PASS2 qwen2.5-7b: 711/2150 this pass, errors-or-invalid 0, last D7__masked run 41, 12.5s/call
+2026-10-21T06:59:12+00:00 STATUS PASS2 qwen2.5-7b: 777/2150 this pass, errors-or-invalid 0, last D5__masked run 45, 14.5s/call
+2026-10-21T07:14:12+00:00 STATUS PASS2 qwen2.5-7b: 840/2150 this pass, errors-or-invalid 0, last mem_neg__real run 49, 12.9s/call
+2026-10-21T07:29:13+00:00 STATUS PASS2 qwen2.5-7b: 902/2150 this pass, errors-or-invalid 0, last W4__real run 51, 14.1s/call
+2026-10-21T07:44:21+00:00 STATUS PASS2 qwen2.5-7b: 966/2150 this pass, errors-or-invalid 0, last baseline__masked run 54, 13.2s/call
+2026-10-21T07:59:32+00:00 STATUS PASS2 qwen2.5-7b: 1031/2150 this pass, errors-or-invalid 0, last W3__real run 56, 14.2s/call
+2026-10-21T08:14:45+00:00 STATUS PASS2 qwen2.5-7b: 1094/2150 this pass, errors-or-invalid 0, last mem_neu__real run 59, 13.6s/call
+2026-10-21T08:29:54+00:00 STATUS PASS2 qwen2.5-7b: 1161/2150 this pass, errors-or-invalid 0, last W3__real run 61, 13.3s/call
+2026-10-21T08:45:03+00:00 STATUS PASS2 qwen2.5-7b: 1223/2150 this pass, errors-or-invalid 0, last mem_pos__real run 64, 14.8s/call
+2026-10-21T09:00:11+00:00 STATUS PASS2 qwen2.5-7b: 1288/2150 this pass, errors-or-invalid 0, last mem_neg__masked run 66, 12.9s/call
+2026-10-21T09:15:19+00:00 STATUS PASS2 qwen2.5-7b: 1356/2150 this pass, errors-or-invalid 0, last baseline__masked run 69, 14.7s/call
+2026-10-21T09:30:20+00:00 STATUS PASS2 qwen2.5-7b: 1423/2150 this pass, errors-or-invalid 0, last baseline__real run 72, 12.2s/call
+2026-10-21T09:45:24+00:00 STATUS PASS2 qwen2.5-7b: 1486/2150 this pass, errors-or-invalid 0, last baseline__masked run 74, 13.5s/call
+2026-10-21T10:00:27+00:00 STATUS PASS2 qwen2.5-7b: 1553/2150 this pass, errors-or-invalid 0, last baseline__real run 77, 13.6s/call
+2026-10-21T10:15:29+00:00 STATUS PASS2 qwen2.5-7b: 1618/2150 this pass, errors-or-invalid 0, last D2__masked run 79, 16.7s/call
+2026-10-21T10:30:41+00:00 STATUS PASS2 qwen2.5-7b: 1686/2150 this pass, errors-or-invalid 0, last D3__real run 82, 13.2s/call
+2026-10-21T10:45:50+00:00 STATUS PASS2 qwen2.5-7b: 1751/2150 this pass, errors-or-invalid 0, last D5__masked run 84, 14.4s/call
+2026-10-21T11:01:00+00:00 STATUS PASS2 qwen2.5-7b: 1818/2150 this pass, errors-or-invalid 0, last D5__real run 87, 16.6s/call
+2026-10-21T11:16:10+00:00 STATUS PASS2 qwen2.5-7b: 1870/2150 this pass, errors-or-invalid 0, last D5__real run 89, 20.5s/call
+2026-10-21T11:31:19+00:00 STATUS PASS2 qwen2.5-7b: 1921/2150 this pass, errors-or-invalid 0, last D4__real run 91, 17.0s/call
+2026-10-21T11:46:26+00:00 STATUS PASS2 qwen2.5-7b: 1970/2150 this pass, errors-or-invalid 0, last D1__real run 93, 16.1s/call
+2026-10-21T12:01:39+00:00 STATUS PASS2 qwen2.5-7b: 2035/2150 this pass, errors-or-invalid 0, last D3__masked run 95, 13.7s/call
+2026-10-21T12:16:51+00:00 STATUS PASS2 qwen2.5-7b: 2102/2150 this pass, errors-or-invalid 0, last D3__real run 98, 15.8s/call
+2026-10-21T12:27:43+00:00 PASS2 qwen2.5-7b: finished 2150 calls (0 failed/invalid)
+2026-10-21T12:27:43+00:00 MAIN RUN COMPLETE. No analysis run.

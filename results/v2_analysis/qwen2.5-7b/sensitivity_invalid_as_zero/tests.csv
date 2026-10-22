@@ -1,0 +1,10 @@
+hypothesis,contrast,outcome,test,estimate,ci_lo,ci_hi,n1,direction,p_perm,p_hc3,n2,in_family,note,missing,interim,p_holm,reject_holm_0.05
+H1,baseline__real,mean regret (bps),estimate only,0.47,0.17,0.87,100,,,,,False,,False,False,,
+H1,baseline__real,suboptimal rate (regret > 2 bp),estimate only,0.03,0.01025452402403891,0.08451936429052763,100,,,,,False,,False,False,,
+H2a,D3__real - baseline__real,mean regret difference (bps),"permutation, one-sided (greater)",11.53,11.15,11.84,100,greater,9.999000099990002e-05,0.0,100.0,True,,False,False,0.0005999400059994001,True
+H2b,D5__real - baseline__real,mean regret difference (bps),"permutation, one-sided (greater)",11.53,11.14,11.83,100,greater,9.999000099990002e-05,0.0,100.0,True,,False,False,0.0005999400059994001,True
+H2c,D7__real - baseline__real,mean regret difference (bps),"permutation, one-sided (greater)",11.53,11.14,11.83,100,greater,9.999000099990002e-05,0.0,100.0,True,,False,False,0.0005999400059994001,True
+H3,D1__real - baseline__real,mean regret difference (bps),"permutation, one-sided (less)",-0.47,-0.87,-0.17,100,less,0.00029997000299970003,0.005034232567541613,100.0,True,,False,False,0.0005999400059994001,True
+H4,W1__real vs W2__real vs W3__real vs W4__real,mean regret across orders,permutation one-way F (two-sided),3.120000000000001,,,400,,9.999000099990002e-05,1.5024265052304153e-09,,True,"estimate = max - min of order means; F = 11.927; means = [8.76, 11.04, 10.2, 11.88]",False,False,0.0005999400059994001,True
+H5,baseline__real vs baseline__masked,per-fund pick distribution,permutation chi-square (two-sided),0.7100279541050598,,,100,,9.999000099990002e-05,,100.0,True,estimate = Cramer's V; chi2 = 100.83,False,False,0.0005999400059994001,True
+H5 (secondary),baseline__real - baseline__masked,mean regret difference (bps),"permutation, two-sided",0.44999999999999996,0.14,0.85,100,,0.0020997900209979003,0.014318566696126044,100.0,False,reported outside the Holm family,False,False,,

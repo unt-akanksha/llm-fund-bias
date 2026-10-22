@@ -1,0 +1,3 @@
+Quality gate failed; analysis not run.
+FAIL: baseline__real: name-vs-ID<=2%; D3__real: name-vs-ID<=2%
+See gate.txt.
