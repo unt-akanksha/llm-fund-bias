@@ -16,12 +16,13 @@ providers:
   openai:
     base_url: https://api.openai.com/v1
     api_key_env: OPENAI_API_KEY_V3
-    cap_usd: 15.0             # hard cap: all v3 OpenAI calls (pilot + main) together; key limit is $25
+    cap_usd: 45.0             # hard cap: all v3 OpenAI calls (pilot + main) together. Amendment v3-3: was 15.0;
+                              # $5.00 spent before v3-3, so up to $40 new (Part A ~$5, gpt-6 ~$32)
     concurrency: 3
   anthropic:
     base_url: https://api.anthropic.com/v1
     api_key_env: ANTHROPIC_API_KEY
-    cap_usd: 15.0             # hard cap: all v3 Anthropic calls together (Amendment v3-1; was 24.0)
+    cap_usd: 29.5             # hard cap: all v3 Anthropic calls together (v3-1: 15.0; v3-3: $13.50 spent + $16 new)
     max_output: 1000          # pilot answers were 132-246 tokens with the lowest settings
     concurrency: 3
 
@@ -34,6 +35,14 @@ models:
                    price_per_m: {input: 0.75, cached_input: 0.075, output: 4.50}}
   gpt-5.4:        {provider: openai, model_id: gpt-5.4-2026-03-05, size: large,
                    price_per_m: {input: 2.50, cached_input: 0.25, output: 15.00}}
+  # Amendment v3-3 Part B: gpt-6, three sizes, one generation. No dated snapshots are listed; the API's model
+  # field is logged per call (response_model). Prices read 2026-10-26 from the OpenAI pricing page.
+  gpt-6-luna:     {provider: openai, model_id: gpt-6-luna, size: small,
+                   price_per_m: {input: 0.10, cached_input: 0.01, output: 0.50}}
+  gpt-6-sol:      {provider: openai, model_id: gpt-6-sol, size: mid,
+                   price_per_m: {input: 2.00, cached_input: 0.20, output: 10.00}}
+  gpt-6-astra:    {provider: openai, model_id: gpt-6-astra, size: large,
+                   price_per_m: {input: 10.00, cached_input: 1.00, output: 50.00}}
   # Anthropic lowest reasoning (platform docs, read 2026-10-21): effort "low" on all three; thinking disabled on
   # Haiku 5.5, "between_tools" (no up-front thinking) on Sonnet 5.5; Opus 5.5 thinking cannot be turned off.
   claude-haiku-5.5:  {provider: anthropic, model_id: claude-haiku-5-5, size: small, effort: low, thinking: disabled,

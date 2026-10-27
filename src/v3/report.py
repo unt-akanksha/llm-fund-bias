@@ -6,6 +6,8 @@
   python src/v3/report.py --summary [--replace]       results/v3_analysis/RESULTS_SUMMARY.md
 
 Reads only the analysis outputs (pooled.csv, tests.csv, gate.txt); writes only under results/v3_analysis/.
+Covers the original families (sp500, ndx); reporting for Amendment v3-3 (results/v3_1_analysis/) is added after
+those runs.
 A model whose gate failed is listed as such and left out of figures and tables.
 """
 
@@ -77,7 +79,7 @@ def collect(matched=False, outroot=None, cfg=None):
             skipped.append(mk)
             continue
         pooled = pd.read_csv(d / "pooled.csv")
-        for fam in prompts.FAMILIES:
+        for fam in prompts.ORIGINAL_FAMILIES:
             rows.append({"model": mk, "vendor": m["provider"], "size": m.get("size"), "family": fam,
                          **biased_share(pooled, fam)})
     return pd.DataFrame(rows), skipped
@@ -93,7 +95,7 @@ def figures(replace=False, outroot=None, cfg=None):
     outdir.mkdir(parents=True, exist_ok=True)
     df, skipped = collect(outroot=outroot, cfg=cfg)
     paths = []
-    for fam in prompts.FAMILIES:
+    for fam in prompts.ORIGINAL_FAMILIES:
         fig, ax = plt.subplots(figsize=(6.2, 3.8))
         d = df[df["family"] == fam]
         for j, (vendor, g) in enumerate(d.groupby("vendor", sort=False)):
@@ -144,7 +146,7 @@ def summary(replace=False, outroot=None, cfg=None):
             continue
         p = pd.read_csv(d / "pooled.csv")
         p = p[(p["system"] == "pooled") & (p["template"] == "pooled")]
-        for fam in prompts.FAMILIES:
+        for fam in prompts.ORIGINAL_FAMILIES:
             q = p[p["family"] == fam].set_index("context")
             L.append(f"| {mk} | {fam} | " + " | ".join(pct(q.loc[c, "costlier_share"]) for c in
                                                      ["baseline", "D1", "D3", "D5", "D7"]) + " |")
@@ -162,7 +164,7 @@ def summary(replace=False, outroot=None, cfg=None):
         if mk in skipped:
             continue
         t = pd.read_csv(model_dir(mk, outroot=outroot) / "tests.csv")
-        for fam in prompts.FAMILIES:
+        for fam in prompts.ORIGINAL_FAMILIES:
             tf = t[t["family"] == fam]
             hf = tf[tf["hypothesis"] == "HF (fiduciary)"].iloc[0]
             ht = tf[tf["hypothesis"].str.startswith("HT")]

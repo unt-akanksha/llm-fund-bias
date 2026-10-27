@@ -2,6 +2,10 @@
 
   python src/v3/analyze.py --model gpt-5.4 [--replace]        # -> results/v3_analysis/<model>/
   python src/v3/analyze.py --scaling [--replace]              # -> results/v3_analysis/scaling.csv (all models)
+  python src/v3/analyze.py --model gpt-5.4 --families all     # Amendment v3-3 -> results/v3_1_analysis/<model>/
+
+Default families are sp500 and ndx (the submitted v3 results, unchanged). Any other family list writes under
+results/v3_1_analysis/ so the submitted results are never overwritten.
 
 Reads runs/raw_v3/main_<model>.jsonl. Writes only under results/v3_analysis/ and refuses to write into a
 non-empty folder unless --replace. v2 code is imported read-only (regret, CIs, name-vs-ID detector).
@@ -37,6 +41,7 @@ from v3 import prompts  # noqa: E402
 
 LOGDIR = ROOT / "runs" / "raw_v3"
 OUTROOT = ROOT / "results" / "v3_analysis"
+OUTROOT_EXT = ROOT / "results" / "v3_1_analysis"   # Amendment v3-3 (any family list other than the original)
 REVIEWS = ROOT / "data" / "gate_reviews_v3.csv"
 GATE_MAX = 0.02
 SEED = 20261021
@@ -62,8 +67,9 @@ def fisher_one_sided(k1, n1, k2, n2, direction):
 
 def safe_out(path):
     path = Path(path).resolve()
-    if OUTROOT.resolve() != path and OUTROOT.resolve() not in path.parents:
-        raise ValueError(f"refusing to write outside {OUTROOT}: {path}")
+    roots = [OUTROOT.resolve(), OUTROOT_EXT.resolve()]
+    if not any(r == path or r in path.parents for r in roots):
+        raise ValueError(f"refusing to write outside {OUTROOT} and {OUTROOT_EXT}: {path}")
     return path
 
 
@@ -86,13 +92,31 @@ def planned_runs(model):
     return RUNS[cfg["models"][model]["provider"]] if model in cfg["models"] else prompts.RUNS_PER_CELL
 
 
-def load(model, log=None, runs=None):
+def resolve_families(arg=None):
+    """None/'' -> original v3 families; 'all' -> every family; 'ext' -> Amendment v3-3 families; else comma list."""
+    if not arg:
+        return list(prompts.ORIGINAL_FAMILIES)
+    if arg == "all":
+        return list(prompts.FAMILIES)
+    if arg == "ext":
+        return [f for f in prompts.FAMILIES if f not in prompts.ORIGINAL_FAMILIES]
+    fams = [f for f in arg.split(",") if f]
+    unknown = set(fams) - set(prompts.FAMILIES)
+    if unknown:
+        raise ValueError(f"unknown families: {sorted(unknown)}")
+    return fams
+
+
+def load(model, log=None, runs=None, families=None):
+    families = families or resolve_families()
     log = Path(log or LOGDIR / f"main_{model}.jsonl")
     runs = runs or planned_runs(model)
     rows = {}
     for line in open(log):
         r = json.loads(line)
         if r.get("model_key") != model or r["run_index"] >= runs:     # only runs 0..runs-1 are analyzed
+            continue
+        if r["family"] not in families:
             continue
         if r["run_id"] not in rows or not r.get("error"):
             rows[r["run_id"]] = r                       # a later successful retry wins
@@ -106,7 +130,7 @@ def load(model, log=None, runs=None):
 
 
 def add_outcomes(df):
-    funds, by = v2a.funds_table()
+    by = {f["ticker"]: f for f in prompts.load_all_funds()}
     reg, reg_sens, dom, _ = v2a.regret_lookup(by)
     v = df["valid"]
     df.loc[v, "regret"] = df.loc[v, "chosen_ticker"].map(reg)
@@ -136,14 +160,15 @@ def load_reviews():
             {r["run_id"] for r in rows if r["verdict"].strip() == "real_mismatch"})
 
 
-def gate(df, out, runs):
+def gate(df, out, runs, families=None):
     """Amendment v3-2: planned = completed is checked per cell; the 2% limits on name-vs-ID mismatches and
     cut-offs are checked per model x family (all 20 cells of a family pooled), because at 30 runs per cell a
     single case exceeds 2%. Every cell is still reported, and every real mismatch is listed."""
+    families = families or resolve_families()
     cleared, confirmed = load_reviews()
-    conds = prompts.load_conditions()
+    conds = {k: c for k, c in prompts.load_conditions().items() if c["family"] in families}
     lines, fails, fails_rev, flagged_all, cleared_used, confirmed_used = [], [], [], [], [], []
-    fam = {f: {"cls": 0, "m": 0, "m_rev": 0, "cut": 0, "n": 0} for f in prompts.FAMILIES}
+    fam = {f: {"cls": 0, "m": 0, "m_rev": 0, "cut": 0, "n": 0} for f in families}
     for cid in conds:
         g = df[df["condition_id"] == cid]
         done = int(g["completed"].sum())
@@ -216,12 +241,15 @@ def share_row(g, extra):
     return row
 
 
-def tables(df):
+def tables(df, families=None):
+    families = families or resolve_families()
     cells, pooled = [], []
     for cid, c in prompts.load_conditions().items():
+        if c["family"] not in families:
+            continue
         cells.append(share_row(df[df["condition_id"] == cid], {k: c[k] for k in ("condition_id", "family", "context",
                                                                                "template", "system", "target")}))
-    for fam in prompts.FAMILIES:
+    for fam in families:
         for ctx in prompts.CONTEXTS:
             g = df[(df["family"] == fam) & (df["context"] == ctx)]
             pooled.append(share_row(g, {"family": fam, "context": ctx, "system": "pooled", "template": "pooled"}))
@@ -241,9 +269,9 @@ def counts(df, **sel):
     return int(g["costlier"].sum()), len(g)
 
 
-def tests(df):
+def tests(df, families=None):
     rows = []
-    for fam in prompts.FAMILIES:
+    for fam in families or resolve_families():
         fam_rows = []
         kb, nb = counts(df, family=fam, context="baseline")
         for ctx in BIASED:
@@ -288,11 +316,11 @@ def tests(df):
     return pd.DataFrame(rows)
 
 
-def summary(model, verdict, pooled, tst, out):
+def summary(model, verdict, pooled, tst, out, families=None):
     f = lambda x: "  -" if pd.isna(x) else f"{x:.0%}"  # noqa: E731
     L = [f"Study 1 v3 analysis: {model}", f"quality gate: {verdict}", "",
          "Costlier-fund share by context (pooled over templates and system prompts; valid picks):"]
-    for fam in prompts.FAMILIES:
+    for fam in families or resolve_families():
         p = pooled[(pooled["family"] == fam) & (pooled["system"] == "pooled") & (pooled["template"] == "pooled")]
         L.append(f"  {fam}: " + "  ".join(f"{r['context']} {f(r['costlier_share'])} (n={r['n_valid']})"
                                           for _, r in p.iterrows()))
@@ -303,33 +331,36 @@ def summary(model, verdict, pooled, tst, out):
     (out / "summary.txt").write_text("\n".join(L) + "\n")
 
 
-def analyze(model, replace=False, log=None, out=None, runs=None):
+def analyze(model, replace=False, log=None, out=None, runs=None, families=None):
     runs = runs or planned_runs(model)
-    out = prepare_out(out or OUTROOT / model, replace)
-    df = load(model, log, runs)
-    ok, verdict, unreviewed = gate(df, out, runs)
+    families = families or resolve_families()
+    root = OUTROOT if families == list(prompts.ORIGINAL_FAMILIES) else OUTROOT_EXT
+    out = prepare_out(out or root / model, replace)
+    df = load(model, log, runs, families)
+    ok, verdict, unreviewed = gate(df, out, runs, families)
     if not ok:
         (out / "summary.txt").write_text(f"Quality gate failed; analysis not run.\n{verdict}\nSee gate.txt.\n")
         return False, out, unreviewed
     df = add_outcomes(df)
-    cells, pooled = tables(df)
-    tst = tests(df)
+    cells, pooled = tables(df, families)
+    tst = tests(df, families)
     cells.to_csv(out / "cells.csv", index=False)
     pooled.to_csv(out / "pooled.csv", index=False)
     tst.to_csv(out / "tests.csv", index=False)
-    summary(model, f"{verdict}; runs per cell analyzed: {runs}", pooled, tst, out)
+    fam_note = "" if families == list(prompts.ORIGINAL_FAMILIES) else f"; families: {', '.join(families)}"
+    summary(model, f"{verdict}; runs per cell analyzed: {runs}{fam_note}", pooled, tst, out, families)
     return True, out, unreviewed
 
 
-def scaling(replace=False):
-    path = safe_out(OUTROOT / "scaling.csv")
+def scaling(replace=False, root=OUTROOT):
+    path = safe_out(root / "scaling.csv")
     if path.exists() and not replace:
         sys.exit(f"REFUSED: {path} exists (pass --replace)")
     import yaml
     cfg = yaml.safe_load(open(ROOT / "config" / "models_v3.yaml"))
     rows = []
     for mk, m in cfg["models"].items():
-        p = OUTROOT / mk / "pooled.csv"
+        p = root / mk / "pooled.csv"
         if not p.exists():
             continue
         d = pd.read_csv(p)
@@ -349,16 +380,20 @@ def main():
     ap.add_argument("--scaling", action="store_true")
     ap.add_argument("--replace", action="store_true")
     ap.add_argument("--matched30", action="store_true",
-                    help="matched comparison: runs 0-29 for any model -> results/v3_analysis/matched30/<model>")
+                    help="matched comparison: runs 0-29 for any model -> <results root>/matched30/<model>")
+    ap.add_argument("--families", default="",
+                    help="default sp500,ndx (submitted v3); 'all', 'ext' or a comma list -> results/v3_1_analysis/")
     a = ap.parse_args()
     random.seed(SEED)
+    fams = resolve_families(a.families)
+    root = OUTROOT if fams == list(prompts.ORIGINAL_FAMILIES) else OUTROOT_EXT
     if a.scaling:
-        print(f"wrote {scaling(a.replace)}")
+        print(f"wrote {scaling(a.replace, root)}")
         return
     if a.matched30:
-        ok, out, unreviewed = analyze(a.model, a.replace, out=OUTROOT / "matched30" / a.model, runs=30)
+        ok, out, unreviewed = analyze(a.model, a.replace, out=root / "matched30" / a.model, runs=30, families=fams)
     else:
-        ok, out, unreviewed = analyze(a.model, a.replace)
+        ok, out, unreviewed = analyze(a.model, a.replace, families=fams)
     print(("done" if ok else "STOPPED: quality gate failed") + f"; outputs in {out}")
     if unreviewed:
         print(f"{len(unreviewed)} unreviewed name-vs-ID flags (see gate.txt)")

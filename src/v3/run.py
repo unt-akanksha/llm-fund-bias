@@ -3,6 +3,8 @@
   python src/v3/run.py --keys                          # "key found: yes/no" per vendor; lists model IDs
   python src/v3/run.py --pilot --models gpt-5.4-nano   # 4 cells x 1 run -> runs/raw_v3/pilot_<model>.jsonl
   python src/v3/run.py --models gpt-5.4-nano,gpt-5.4-mini --runs 30   # full run (Amendment v3-1: 30 for API)
+  python src/v3/run.py --pilot --pilot-cells ext --pilot-tag pilot_ext --models gpt-5.4  # Amendment v3-3 pilot
+  python src/v3/run.py --models gpt-6-luna --runs 30 --families sp500,ndx   # restrict to some families
 
 Writes ONLY under runs/raw_v3/ (append-only, resumable by run_id). Never touches v2 files.
 Spend: each vendor has a hard cap over all v3 calls (pilot + main) from the usage the API reports, plus a
@@ -35,8 +37,12 @@ from v3 import prompts  # noqa: E402
 CONFIG = ROOT / "config" / "models_v3.yaml"
 LOGDIR = ROOT / "runs" / "raw_v3"
 PROGRESS = ROOT / "runs" / "v3_progress.log"
-PILOT_CELLS = ["sp500|baseline|A|standard", "sp500|D5|B|fiduciary", "ndx|D7|A|fiduciary", "ndx|D1|B|standard"]
-LABEL = {"study": "v3", "design_tag": "v3.0-frozen-design"}
+PILOT_CELLS = {
+    "v3": ["sp500|baseline|A|standard", "sp500|D5|B|fiduciary", "ndx|D7|A|fiduciary", "ndx|D1|B|standard"],
+    "ext": ["dow30|baseline|A|standard", "dow30|D5|B|fiduciary", "russell2000|D7|A|fiduciary",   # Amendment v3-3
+            "russell2000|D1|B|standard"],
+}
+LABEL = {"study": "v3", "design_tag": "v3.1-frozen-design"}   # calls before Amendment v3-3 carry v3.0-frozen-design
 _lock = threading.Lock()
 
 
@@ -299,7 +305,7 @@ def run_model(cfg, mk, jobs, path, kind):
     m = cfg["models"][mk]
     vendor = m["provider"]
     client = CLIENTS[vendor](cfg, m)
-    funds = prompts.render.load_funds(prompts.render.FILLED_CSV, placeholder=False)
+    funds = prompts.load_all_funds()
     cap = cfg["providers"].get(vendor, {}).get("cap_usd")
     reserve = worst_case_usd(cfg, m)
     conc = cfg["providers"].get(vendor, {}).get("concurrency", 1)
@@ -350,6 +356,9 @@ def main():
     ap.add_argument("--keys", action="store_true")
     ap.add_argument("--pilot", action="store_true")
     ap.add_argument("--pilot-tag", default="pilot", help="pilot log name, e.g. pilot2 for a re-pilot")
+    ap.add_argument("--pilot-cells", default="v3", choices=sorted(PILOT_CELLS),
+                    help="pilot cell set: v3 (S&P 500, Nasdaq-100) or ext (Dow 30, Russell 2000)")
+    ap.add_argument("--families", default="", help="comma list of families for a main run (default: all)")
     ap.add_argument("--runs", type=int, default=prompts.RUNS_PER_CELL,
                     help="runs per cell (Amendment v3-1: 30 for API models)")
     a = ap.parse_args()
@@ -358,20 +367,26 @@ def main():
     if a.keys:
         for v in ("openai", "anthropic"):
             print(f"{v}: key found: {'yes' if env_key(cfg['providers'][v]['api_key_env']) else 'no'}")
-        for v, prefix in (("openai", "gpt-5.4"), ("anthropic", "claude-")):
+        for v, prefix in (("openai", ("gpt-5.4", "gpt-6")), ("anthropic", "claude-")):
             m = next(mm for mm in cfg["models"].values() if mm["provider"] == v)
             try:
                 ids = [i for i in CLIENTS[v](cfg, m).list_models() if i.startswith(prefix)]
-                print(f"{v} models ({prefix}*): {', '.join(ids)}")
+                print(f"{v} models: {', '.join(ids)}")
             except Exception as e:  # noqa: BLE001
                 print(f"{v}: model list failed: {_redact(e)[:200]}")
         return
     conds = prompts.load_conditions()
+    fams = [f for f in a.families.split(",") if f]
+    unknown = set(fams) - set(prompts.FAMILIES)
+    if unknown:
+        sys.exit(f"unknown families: {sorted(unknown)}")
+    if fams:
+        conds = {k: c for k, c in conds.items() if c["family"] in fams}
     ok = True
     for mk in [x for x in a.models.split(",") if x]:
         if a.pilot:
             path, kind = LOGDIR / f"{a.pilot_tag}_{mk}.jsonl", a.pilot_tag
-            plan = [(conds[c], 0) for c in PILOT_CELLS]
+            plan = [(conds[c], 0) for c in PILOT_CELLS[a.pilot_cells]]
         else:
             path, kind = LOGDIR / f"main_{mk}.jsonl", "main"
             plan = [(c, i) for i in range(a.runs) for c in conds.values()]

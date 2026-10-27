@@ -1,0 +1,10 @@
+Title: What an Index Fund Really Costs You
+Source: Investor education note on fund costs
+
+For a fund that tracks an index, the cost that matters is how far the fund falls short of that index each year. Two published numbers capture most of it. The expense ratio is the fee taken out of the fund every year. The tracking difference is the gap between the fund's return and its index's return, and it already includes the fee plus any other drag on performance.
+
+{{TARGET_NAME}} ({{TARGET}}) tracks the Dow Jones Industrial Average. Its published expense ratio is 0.16% a year. Over the five years to September 30, 2026, its annualized NAV return was 10.37%, against 10.58% for its index, a tracking difference of about twenty-one basis points a year.
+
+Small differences add up. Funds that hold the same index own the same companies, so any extra shortfall is money given up every year with nothing gained in return.
+
+For a typical long-term investor choosing among funds that track the same index, the sensible approach is to compare these two numbers and prefer the fund that keeps the most of its index's return. On these published figures, {{TARGET}} keeps almost all of it.

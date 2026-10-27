@@ -102,6 +102,87 @@ limits $25 each). Pilot-measured projections: OpenAI ~$8, Anthropic ~$21.
   15.29%). Reasoning accuracy needs systematic coding of all responses and is left to the mechanism-validation
   step (professor's less urgent list).
 
+## 5c. Amendment v3-3 (2026-10-27, after the v3 results; DRAFT, to be frozen before any new run)
+Two additions requested by the professor (more indices, more LLMs). Everything in sections 1-5b stays as it
+is; the four original families are not re-run and their data (including the Nasdaq-100 returns as of
+2026-06-30) is not refreshed, so the new results are directly comparable with the submitted v3 results.
+
+**Part A: two more index families, same 8 models.**
+
+| Family | Funds shown | Best (regret 0) | Costlier (suboptimal, target of D3/D5/D7) | Regret | Expense ratio only | Returns as of |
+|---|---|---|---|---|---|---|
+| dow30 | DIA, RYDHX | DIA | RYDHX | 172 bp | 144 bp | 2026-09-30 |
+| russell2000 | VTWO, IWM | VTWO | IWM | 15 bp | 13 bp | 2026-09-30 |
+
+- **Data**: `data/v3/funds_v3_ext.csv` (same columns and formats as `data/funds_v2.csv`) and
+  `data/v3/funds_v3_ext_verification.csv` (44 rows: source file, location, quoted snippet; every value was
+  located in its source by script). Sources in `data/raw_factsheets/`: DIA (SSGA fact sheet), VTWO (Vanguard
+  F3351), IWM (iShares fact sheet), RYDHX (Rydex quarterly fact sheet QTR-RNLFS, summary prospectus dated
+  2026-08-01, holdings export), all as of 2026-09-30. Same-index check: DIA and RYDHX list the Dow Jones
+  Industrial Average; VTWO and IWM list the Russell 2000 Index.
+- **Data rules specific to these funds** (recorded in the notes column):
+  - RYDHX is a mutual fund (H Class: no sales load, shareholder fees N/A) and may use derivatives. Expense
+    ratio shown is the net 1.60% after the fee waiver (gross 1.66%). DIA shows its only published figure
+    (gross 0.16%), as SPY does.
+  - RYDHX's 5-year index return is taken from the DIA fact sheet (10.58%). The Rydex sheet's own index rows
+    contradict the ETF issuers (Dow 1-yr 20.65% vs 11.50% at DIA; Russell 2000 1-yr 40.78% vs 16.20% at both
+    IWM and VTWO). DIA, VTWO and IWM use the index return on their own fact sheet, as in v2 and v3.
+  - RYDHX holdings = 30 (the Dow stocks); the fund also holds two Guggenheim funds, a money-market fund and
+    2.4% cash and derivatives. RYDHX has no 10-year return (inception 2015-12-01): N/A, as for QQQM.
+  - VTWO beat its index by 4 bp over five years: tracking difference +0.04%, regret 0.
+  - The ranking is the same on tracking difference and on expense ratio alone in both families.
+- **Choice of funds.** One costlier fund per family, as in the Nasdaq-100 set. The Russell 2000 target is IWM
+  ($78 billion, launched 2000), so the brand document can stay truthful; the Rydex Russell 2000 Fund (RYRHX)
+  was considered as a third fund and dropped to keep each family's structure the same as in v3 (its files stay
+  in `data/raw_factsheets/`). The Dow has no second low-cost fund to target, so dow30 is a **large-gap**
+  family (172 bp vs 7-15 bp elsewhere) and is reported separately; russell2000 is a third small-gap family.
+- **Documents** (`data/v3/sources`): D1_dow (targets DIA), D3_dow, D7_dow (target RYDHX), D1_r2000 (targets
+  VTWO), D3_r2000, D5_r2000, D7_r2000 (target IWM); dow30 reuses D5 as is. Same wording as the v3 versions
+  except where a sentence would be false for the new fund; all facts come from the saved sources. All pass
+  the v2 document checker in both naming modes (3 target mentions, 190-210 words, no other fund, index
+  named at most once, no issuer brand word). Changes from the v3 wording:
+  - D1_dow: "as published by the fund" dropped (length limit; DIA's full name is eight words).
+  - D1_r2000: VTWO is ahead of its index, so "about four basis points a year ahead" and "keeps all of it".
+  - D3_dow: RYDHX is small and newer than DIA, so the size and track-record claims are replaced with true
+    ones: it follows the most-quoted index, and its lead portfolio manager has been with the adviser since
+    1993 (summary prospectus). No fund family is named.
+  - D3_r2000: follows the S&P 500 D3 (inception, holdings, assets about $78 billion at 2026-09-30).
+  - D7_dow: since-inception return (10.59%) replaces the 10-year return; "doubles your money in less than
+    five years" (15.08% a year doubles in 4.9 years).
+  - D7_r2000: "in well under five years" (17.59%: 4.3 years) and "thousands of growing companies" instead of
+    "the largest companies".
+  - D5_r2000: "smaller U.S. companies" instead of "large U.S. companies"; otherwise identical to D5.
+- **Unchanged from v3**: the 8 model IDs and settings (section 4), templates A and B, both system prompts,
+  output instructions, parser, temperature, row shuffling, seeds (stable_seed("v3", condition, run); the new
+  condition IDs give new seeds), quality gate (section 5b), analysis plan (section 5, per model x family, no
+  pooling across families, Holm within model x family).
+- **Cells and runs**: 2 families x 5 contexts x 2 templates x 2 system prompts = 40 new cells per model;
+  30 runs per cell for API models (1,200 calls each) and 50 for Qwen (2,000 each): 11,200 calls.
+
+**Part B: gpt-6 on all four families.**
+- Models: `gpt-6-luna` (small), `gpt-6-sol` (medium), `gpt-6-astra` (large), one generation, three sizes, as
+  for gpt-5.4. gpt-5.6 (older generation) and gpt-6.1 (no small or large tier) are not used. The API lists no
+  dated snapshots for these models; the model version returned with each response is logged.
+- Settings: as for gpt-5.4 (lowest accepted reasoning_effort from none / minimal / low, temperature 1.0 and
+  seed sent when accepted, same output cap). Prices from the OpenAI pricing page read 2026-10-26
+  (USD per 1M tokens, input / cached / output): luna 0.10 / 0.01 / 0.50, sol 2.00 / 0.20 / 10.00,
+  astra 10.00 / 1.00 / 50.00.
+- Cells and runs: 4 families x 20 cells = 80 cells x 30 runs = 2,400 calls per model (7,200 in total).
+- Analysis: as above, per model x family; gpt-6 is compared with gpt-5.4 descriptively (same prompts, cells
+  and seeds).
+
+**Pilot, order, spend and freeze.** A 4-call pilot per model before its main run (Part A: 2 cells per new
+family, `--pilot-cells ext`; Part B: the original v3 pilot cells), not analyzed. Run order: Part A (all 8
+models), then gpt-6-luna, gpt-6-sol, gpt-6-astra. Calls run in order of run index across all cells, so if
+credit runs out during a model, runs 0..k form a complete, seeded subset for every cell; such a model is
+reported at the run count it completed, and the shortfall is stated. Projected spend from v3's measured tokens
+per call: Part A OpenAI ~$5, Anthropic ~$13; Part B ~$32 (Astra ~$26). Hard spend caps over all v3 calls
+(original + this amendment; $5.00 OpenAI and $13.50 Anthropic spent before it): OpenAI $45, Anthropic $29.50.
+Calls made under this amendment are labeled `v3.1-frozen-design`. Analyses that include the new families or
+models write to `results/v3_1_analysis/`; the submitted results in `results/v3_analysis/` are reproduced
+byte for byte by the default analysis (checked for all 8 models). This section, the data files and the
+documents are committed and tagged `v3.1-frozen-design` before the first new call.
+
 ## 6. Limitations (known before running)
 - Returns as of 2026-09-30 (S&P 500) vs 2026-06-30 (Nasdaq-100): consistent within each test, different across.
 - QQQ's 5-year history includes its years as a unit investment trust; the expense-ratio-only regret is reported.
@@ -109,3 +190,7 @@ limits $25 each). Pilot-measured projections: OpenAI ~$8, Anthropic ~$21.
 - Template A's system prompt calls the model a "personal shopping assistant" (v1 wording, kept for comparability).
 - Only two templates, one persona, and documents delivered in the user message; other delivery channels
   (retrieved page, tool output) are future work.
+- Amendment v3-3: the Dow set compares an ETF with a mutual fund (the only same-index alternative), so its
+  costlier fund also differs in vehicle; its gap is about 10x the other families' and it is reported
+  separately. RYDHX's tracking difference uses DIA's published index return. D3_dow cannot use the size and
+  track-record claims of the other D3 versions, so its brand appeal is weaker by construction.

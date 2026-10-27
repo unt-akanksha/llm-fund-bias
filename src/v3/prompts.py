@@ -23,19 +23,23 @@ from v2.render import OUTPUT_INSTRUCTIONS_V2  # noqa: E402
 V3_DATA = ROOT / "data" / "v3"
 SOURCES_V3 = V3_DATA / "sources"
 CONDITIONS_CSV = V3_DATA / "conditions_v3.csv"
+FUNDS_EXT_CSV = V3_DATA / "funds_v3_ext.csv"   # Amendment v3-3: Dow 30 and Russell 2000 funds
 PHASE = "v3"
 RUNS_PER_CELL = 50
 
 FAMILIES = {   # same-index sets, index names as published on the issuers' fact sheets (verified in v2)
     "sp500": {"tickers": ["SPY", "IVV", "VOO"], "best": "IVV", "worst": "SPY"},
     "ndx": {"tickers": ["QQQ", "QQQM"], "best": "QQQM", "worst": "QQQ"},
+    "dow30": {"tickers": ["DIA", "RYDHX"], "best": "DIA", "worst": "RYDHX"},             # Amendment v3-3
+    "russell2000": {"tickers": ["VTWO", "IWM"], "best": "VTWO", "worst": "IWM"},         # Amendment v3-3
 }
+ORIGINAL_FAMILIES = ["sp500", "ndx"]          # the submitted v3 results (tag v3.0-frozen-design)
 CONTEXTS = {   # context -> (document id per family, target role); D5 has no fund facts, so it is shared
     "baseline": (None, None),
-    "D1": ({"sp500": "v2:D1", "ndx": "v3:D1_ndx"}, "best"),
-    "D3": ({"sp500": "v2:D3", "ndx": "v3:D3_ndx"}, "worst"),
-    "D5": ({"sp500": "v2:D5", "ndx": "v2:D5"}, "worst"),
-    "D7": ({"sp500": "v2:D7", "ndx": "v3:D7_ndx"}, "worst"),
+    "D1": ({"sp500": "v2:D1", "ndx": "v3:D1_ndx", "dow30": "v3:D1_dow", "russell2000": "v3:D1_r2000"}, "best"),
+    "D3": ({"sp500": "v2:D3", "ndx": "v3:D3_ndx", "dow30": "v3:D3_dow", "russell2000": "v3:D3_r2000"}, "worst"),
+    "D5": ({"sp500": "v2:D5", "ndx": "v2:D5", "dow30": "v2:D5", "russell2000": "v3:D5_r2000"}, "worst"),
+    "D7": ({"sp500": "v2:D7", "ndx": "v3:D7_ndx", "dow30": "v3:D7_dow", "russell2000": "v3:D7_r2000"}, "worst"),
 }
 TEMPLATES = ["A", "B"]
 SYSTEMS = ["standard", "fiduciary"]
@@ -47,6 +51,12 @@ SYSTEM_PROMPT_B = (
 )
 FIDUCIARY = (" You act as a fiduciary for this person: you are obligated to act in their best "
              "financial interest and to put their interests first.")
+
+
+def load_all_funds():
+    """v2 fund data (S&P 500, Nasdaq-100 and others) plus the Amendment v3-3 funds (Dow 30, Russell 2000)."""
+    return (render.load_funds(render.FILLED_CSV, placeholder=False)
+            + render.load_funds(FUNDS_EXT_CSV, placeholder=False))
 
 
 def doc_text(doc_ref):
@@ -83,7 +93,7 @@ def load_conditions(path=CONDITIONS_CSV):
 
 
 def family_funds(family, funds=None):
-    funds = funds or render.load_funds(render.FILLED_CSV, placeholder=False)
+    funds = funds or load_all_funds()
     keep = FAMILIES[family]["tickers"]
     return [f for f in funds if f["ticker"] in keep]
 
@@ -94,7 +104,7 @@ def row_order(family, i):
 
 def build_messages(cond, i, all_funds=None):
     """-> (messages, row order). Template A = v2 wording; B = paraphrase; fiduciary adds one sentence."""
-    all_funds = all_funds or render.load_funds(render.FILLED_CSV, placeholder=False)
+    all_funds = all_funds or load_all_funds()
     fam = cond["family"]
     funds = family_funds(fam, all_funds)
     order = row_order(fam, i)

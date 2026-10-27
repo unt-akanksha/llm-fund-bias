@@ -35,7 +35,8 @@ def test_known_effects(tmp_path, monkeypatch):
     ok, out, unreviewed = an.analyze("synthetic", log=log, out=tmp_path / "synthetic", runs=50)
     assert ok and unreviewed == []
     t = pd.read_csv(out / "tests.csv").set_index(["family", "hypothesis"])
-    for fam in prompts.FAMILIES:
+    assert set(t.index.get_level_values(0)) == set(prompts.ORIGINAL_FAMILIES)       # default: submitted families
+    for fam in prompts.ORIGINAL_FAMILIES:
         h2 = t.loc[(fam, "H2 (D5)")]
         assert h2["estimate"] == pytest.approx((30 / 50) - (5 / 50)) and h2["reject_holm_0.05"]
         assert t.loc[(fam, "H3 (D1)"), "estimate"] == pytest.approx(-0.1)
@@ -46,6 +47,28 @@ def test_known_effects(tmp_path, monkeypatch):
     assert sp["costlier_share"] == pytest.approx(0.6) and sp["mean_regret_bps"] == pytest.approx(0.6 * 12)
     nd = pooled[(pooled.family == "ndx") & (pooled.context == "D7") & (pooled.system == "pooled") & (pooled.template == "pooled")].iloc[0]
     assert nd["mean_regret_bps"] == pytest.approx(0.6 * 7) and nd["mean_regret_er_only_bps"] == pytest.approx(0.6 * 3)
+
+
+def test_new_families_amendment_v3_3(tmp_path, monkeypatch):
+    """--families all: four families analyzed; regret per costlier pick is 172 bp (Dow 30) and 15 bp (Russell
+    2000); a results folder other than results/v3_analysis/ is used by default."""
+    monkeypatch.setattr(an, "OUTROOT", tmp_path / "v3")
+    monkeypatch.setattr(an, "OUTROOT_EXT", tmp_path / "v3_1")
+    log = tmp_path / "log.jsonl"
+    _synthetic_log(log)
+    fams = an.resolve_families("all")
+    assert fams == ["sp500", "ndx", "dow30", "russell2000"] and an.resolve_families("ext") == ["dow30", "russell2000"]
+    ok, out, _ = an.analyze("synthetic", log=log, runs=50, families=fams)
+    assert ok and out == (tmp_path / "v3_1" / "synthetic").resolve()
+    pooled = pd.read_csv(out / "pooled.csv")
+    q = pooled[(pooled.context == "D7") & (pooled.system == "pooled") & (pooled.template == "pooled")].set_index("family")
+    assert q.loc["dow30", "mean_regret_bps"] == pytest.approx(0.6 * 172)
+    assert q.loc["russell2000", "mean_regret_bps"] == pytest.approx(0.6 * 15)
+    assert q.loc["dow30", "mean_regret_er_only_bps"] == pytest.approx(0.6 * 172)   # net-cost regret outside Nasdaq
+    t = pd.read_csv(out / "tests.csv")
+    assert set(t["family"]) == set(fams)
+    ok, out2, _ = an.analyze("synthetic", log=log, out=tmp_path / "v3_1" / "dow", runs=50, families=["dow30"])
+    assert ok and set(pd.read_csv(out2 / "cells.csv")["family"]) == {"dow30"}
 
 
 def test_gate_stops_on_missing_call_and_refuses_overwrite(tmp_path, monkeypatch):
