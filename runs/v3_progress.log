@@ -89,3 +89,134 @@
 2026-10-22T04:37:23+00:00 STATUS main qwen2.5-14b: 1902/2000, failed-or-invalid 0, vendor spend $0.0000
 2026-10-22T04:52:24+00:00 STATUS main qwen2.5-14b: 1976/2000, failed-or-invalid 0, vendor spend $0.0000
 2026-10-22T04:56:25+00:00 main qwen2.5-14b: 2000 calls this run, failed-or-invalid 0, vendor spend so far $0.0000
+2026-10-27T21:49:25+00:00 START pilot_ext claude-haiku-5.5: 4 calls to run (0 already done)
+2026-10-27T21:49:29+00:00 pilot_ext claude-haiku-5.5: 4 calls this run, failed-or-invalid 0, vendor spend so far $13.5008
+2026-10-27T21:49:29+00:00 START pilot_ext claude-sonnet-5.5: 4 calls to run (0 already done)
+2026-10-27T21:49:34+00:00 pilot_ext claude-sonnet-5.5: 4 calls this run, failed-or-invalid 0, vendor spend so far $13.5154
+2026-10-27T21:49:34+00:00 START pilot_ext claude-opus-5.5: 4 calls to run (0 already done)
+2026-10-27T21:49:41+00:00 pilot_ext claude-opus-5.5: 4 calls this run, failed-or-invalid 0, vendor spend so far $13.5446
+2026-10-27T21:49:54+00:00 START pilot_ext qwen2.5-7b: 4 calls to run (0 already done)
+2026-10-27T21:50:24+00:00 pilot_ext qwen2.5-7b: 4 calls this run, failed-or-invalid 0, vendor spend so far $0.0000
+2026-10-27T21:50:24+00:00 START pilot_ext qwen2.5-14b: 4 calls to run (0 already done)
+2026-10-27T21:51:25+00:00 pilot_ext qwen2.5-14b: 4 calls this run, failed-or-invalid 0, vendor spend so far $0.0000
+2026-10-27T21:51:38+00:00 START main claude-haiku-5.5: 1200 calls to run (1200 already done)
+2026-10-27T21:51:38+00:00 START main qwen2.5-7b: 2000 calls to run (2000 already done)
+2026-10-27T21:51:55+00:00 START pilot_ext gpt-5.4-nano: 4 calls to run (0 already done)
+2026-10-27T21:51:59+00:00 pilot_ext gpt-5.4-nano: 4 calls this run, failed-or-invalid 0, vendor spend so far $5.0016
+2026-10-27T21:51:59+00:00 START pilot_ext gpt-5.4-mini: 4 calls to run (0 already done)
+2026-10-27T21:52:04+00:00 pilot_ext gpt-5.4-mini: 4 calls this run, failed-or-invalid 0, vendor spend so far $5.0047
+2026-10-27T21:52:04+00:00 START pilot_ext gpt-5.4: 4 calls to run (0 already done)
+2026-10-27T21:52:09+00:00 pilot_ext gpt-5.4: 4 calls this run, failed-or-invalid 0, vendor spend so far $5.0164
+2026-10-27T21:52:09+00:00 START pilot gpt-6-luna: 4 calls to run (0 already done)
+2026-10-27T21:52:13+00:00 pilot gpt-6-luna: 4 calls this run, failed-or-invalid 0, vendor spend so far $5.0168
+2026-10-27T21:52:13+00:00 START pilot gpt-6-sol: 4 calls to run (0 already done)
+2026-10-27T21:52:18+00:00 pilot gpt-6-sol: 4 calls this run, failed-or-invalid 0, vendor spend so far $5.0246
+2026-10-27T21:52:18+00:00 START pilot gpt-6-astra: 4 calls to run (0 already done)
+2026-10-27T21:52:28+00:00 pilot gpt-6-astra: 4 calls this run, failed-or-invalid 0, vendor spend so far $5.0685
+2026-10-27T21:52:38+00:00 START main gpt-5.4-nano: 1200 calls to run (1556 already done)
+2026-10-27T22:01:25+00:00 main gpt-5.4-nano: 1200 calls this run, failed-or-invalid 1, vendor spend so far $5.3516
+2026-10-27T22:01:25+00:00 START main gpt-5.4-mini: 1200 calls to run (1200 already done)
+2026-10-27T22:02:05+00:00 main claude-haiku-5.5: 1200 calls this run, failed-or-invalid 0, vendor spend so far $13.7399
+2026-10-27T22:02:05+00:00 START main claude-sonnet-5.5: 1200 calls to run (1200 already done)
+2026-10-27T22:23:30+00:00 STATUS main qwen2.5-7b: 139/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-27T22:41:47+00:00 STATUS main qwen2.5-7b: 142/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-27T22:53:17+00:00 STATUS main claude-sonnet-5.5: 209/1200, failed-or-invalid 0, vendor spend $14.5003
+2026-10-27T22:53:18+00:00 STATUS main gpt-5.4-mini: 455/1200, failed-or-invalid 0, vendor spend $5.7160
+2026-10-27T22:56:56+00:00 STATUS main qwen2.5-7b: 169/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-27T22:58:34+00:00 main gpt-5.4-mini: 1200 calls this run, failed-or-invalid 0, vendor spend so far $6.3093
+2026-10-27T22:58:34+00:00 START main gpt-5.4: 1200 calls to run (1200 already done)
+2026-10-27T23:08:20+00:00 STATUS main claude-sonnet-5.5: 1156/1200, failed-or-invalid 0, vendor spend $17.9850
+2026-10-27T23:09:03+00:00 main claude-sonnet-5.5: 1200 calls this run, failed-or-invalid 0, vendor spend so far $18.1477
+2026-10-27T23:09:03+00:00 START main claude-opus-5.5: 1200 calls to run (1200 already done)
+2026-10-27T23:12:00+00:00 STATUS main qwen2.5-7b: 235/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-27T23:13:35+00:00 STATUS main gpt-5.4: 1169/1200, failed-or-invalid 0, vendor spend $9.7573
+2026-10-27T23:13:59+00:00 main gpt-5.4: 1200 calls this run, failed-or-invalid 0, vendor spend so far $9.8491
+2026-10-27T23:14:01+00:00 START main gpt-6-luna: 2400 calls to run (0 already done)
+2026-10-27T23:24:05+00:00 STATUS main claude-opus-5.5: 700/1200, failed-or-invalid 2, vendor spend $22.8574
+2026-10-27T23:27:06+00:00 STATUS main qwen2.5-7b: 303/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-27T23:29:02+00:00 STATUS main gpt-6-luna: 1619/2400, failed-or-invalid 1, vendor spend $10.0094
+2026-10-27T23:34:18+00:00 main claude-opus-5.5: 1200 calls this run, failed-or-invalid 2, vendor spend so far $26.2147
+2026-10-27T23:36:31+00:00 main gpt-6-luna: 2400 calls this run, failed-or-invalid 3, vendor spend so far $10.0865
+2026-10-27T23:36:31+00:00 START main gpt-6-sol: 2400 calls to run (0 already done)
+2026-10-27T23:42:07+00:00 STATUS main qwen2.5-7b: 392/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-27T23:51:32+00:00 STATUS main gpt-6-sol: 1275/2400, failed-or-invalid 0, vendor spend $12.5842
+2026-10-27T23:57:14+00:00 STATUS main qwen2.5-7b: 554/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T00:02:43+00:00 main gpt-6-sol: 2400 calls this run, failed-or-invalid 0, vendor spend so far $14.7956
+2026-10-28T00:02:43+00:00 START main gpt-6-astra: 2400 calls to run (0 already done)
+2026-10-28T00:12:15+00:00 STATUS main qwen2.5-7b: 686/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T00:17:46+00:00 STATUS main gpt-6-astra: 811/2400, failed-or-invalid 0, vendor spend $23.5905
+2026-10-28T00:27:17+00:00 STATUS main qwen2.5-7b: 823/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T00:30:06+00:00 main gpt-6-astra: 1260 calls this run, failed-or-invalid 5, vendor spend so far $28.4023; AUTO-STOP: 3 consecutive errors; last: HTTP Error 429: Too Many Requests
+2026-10-28T00:54:21+00:00 STATUS main qwen2.5-7b: 937/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T01:10:17+00:00 STATUS main qwen2.5-7b: 941/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T01:26:05+00:00 STATUS main qwen2.5-7b: 945/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T01:44:47+00:00 STATUS main qwen2.5-7b: 962/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T01:59:52+00:00 STATUS main qwen2.5-7b: 1026/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T02:14:52+00:00 STATUS main qwen2.5-7b: 1119/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T02:29:59+00:00 STATUS main qwen2.5-7b: 1201/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T02:45:11+00:00 STATUS main qwen2.5-7b: 1275/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T03:09:03+00:00 STATUS main qwen2.5-7b: 1312/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T03:24:13+00:00 STATUS main qwen2.5-7b: 1406/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T03:39:17+00:00 STATUS main qwen2.5-7b: 1479/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T03:54:26+00:00 STATUS main qwen2.5-7b: 1552/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T04:09:34+00:00 STATUS main qwen2.5-7b: 1625/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T04:27:20+00:00 STATUS main qwen2.5-7b: 1633/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T04:42:24+00:00 STATUS main qwen2.5-7b: 1707/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T04:57:31+00:00 STATUS main qwen2.5-7b: 1790/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T05:12:42+00:00 STATUS main qwen2.5-7b: 1864/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T05:27:42+00:00 STATUS main qwen2.5-7b: 1948/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T05:42:53+00:00 STATUS main qwen2.5-7b: 1982/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T05:45:39+00:00 main qwen2.5-7b: 2000 calls this run, failed-or-invalid 0, vendor spend so far $0.0000
+2026-10-28T05:45:40+00:00 START main qwen2.5-14b: 2000 calls to run (2000 already done)
+2026-10-28T06:00:52+00:00 STATUS main qwen2.5-14b: 27/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T06:16:11+00:00 STATUS main qwen2.5-14b: 56/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T06:31:26+00:00 STATUS main qwen2.5-14b: 96/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T06:58:21+00:00 STATUS main qwen2.5-14b: 128/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T07:13:37+00:00 STATUS main qwen2.5-14b: 177/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T07:28:54+00:00 STATUS main qwen2.5-14b: 218/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T07:44:05+00:00 STATUS main qwen2.5-14b: 257/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T08:01:41+00:00 STATUS main qwen2.5-14b: 264/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T08:16:49+00:00 STATUS main qwen2.5-14b: 301/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T08:31:52+00:00 STATUS main qwen2.5-14b: 340/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T08:46:53+00:00 STATUS main qwen2.5-14b: 384/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T09:01:54+00:00 STATUS main qwen2.5-14b: 422/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T09:21:52+00:00 STATUS main qwen2.5-14b: 429/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T09:37:04+00:00 STATUS main qwen2.5-14b: 472/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T09:52:16+00:00 STATUS main qwen2.5-14b: 516/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T10:07:35+00:00 STATUS main qwen2.5-14b: 553/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T10:37:36+00:00 STATUS main qwen2.5-14b: 595/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T10:48:56+00:00 START main gpt-6-astra: 1145 calls to run (1255 already done)
+2026-10-28T10:52:37+00:00 STATUS main qwen2.5-14b: 642/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T11:03:58+00:00 STATUS main gpt-6-astra: 552/1145, failed-or-invalid 0, vendor spend $34.3749
+2026-10-28T11:07:38+00:00 STATUS main qwen2.5-14b: 694/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T11:30:27+00:00 STATUS main qwen2.5-14b: 710/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T11:30:50+00:00 STATUS main gpt-6-astra: 716/1145, failed-or-invalid 0, vendor spend $36.1547
+2026-10-28T11:38:50+00:00 main gpt-6-astra: 1145 calls this run, failed-or-invalid 0, vendor spend so far $40.8181
+2026-10-28T11:45:29+00:00 STATUS main qwen2.5-14b: 750/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T12:00:50+00:00 STATUS main qwen2.5-14b: 795/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T12:15:55+00:00 STATUS main qwen2.5-14b: 840/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T12:31:18+00:00 STATUS main qwen2.5-14b: 886/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T12:50:16+00:00 STATUS main qwen2.5-14b: 893/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T13:05:18+00:00 STATUS main qwen2.5-14b: 934/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T13:20:21+00:00 STATUS main qwen2.5-14b: 972/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T13:35:22+00:00 STATUS main qwen2.5-14b: 1013/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T13:50:32+00:00 STATUS main qwen2.5-14b: 1052/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T14:12:23+00:00 STATUS main qwen2.5-14b: 1080/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T14:27:38+00:00 STATUS main qwen2.5-14b: 1125/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T14:42:54+00:00 STATUS main qwen2.5-14b: 1170/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T14:58:17+00:00 STATUS main qwen2.5-14b: 1205/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T15:25:00+00:00 STATUS main qwen2.5-14b: 1240/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T16:19:35+00:00 STATUS main qwen2.5-14b: 1258/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T17:07:03+00:00 STATUS main qwen2.5-14b: 1259/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T17:22:03+00:00 STATUS main qwen2.5-14b: 1326/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T17:37:04+00:00 STATUS main qwen2.5-14b: 1398/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T17:52:13+00:00 STATUS main qwen2.5-14b: 1464/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T18:07:14+00:00 STATUS main qwen2.5-14b: 1526/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T18:22:17+00:00 STATUS main qwen2.5-14b: 1586/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T18:37:23+00:00 STATUS main qwen2.5-14b: 1649/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T18:52:26+00:00 STATUS main qwen2.5-14b: 1711/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T19:07:35+00:00 STATUS main qwen2.5-14b: 1783/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T19:22:44+00:00 STATUS main qwen2.5-14b: 1849/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T19:37:49+00:00 STATUS main qwen2.5-14b: 1919/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T19:52:53+00:00 STATUS main qwen2.5-14b: 1989/2000, failed-or-invalid 0, vendor spend $0.0000
+2026-10-28T19:55:19+00:00 main qwen2.5-14b: 2000 calls this run, failed-or-invalid 0, vendor spend so far $0.0000

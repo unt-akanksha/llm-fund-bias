@@ -1,0 +1,30 @@
+Study 1 v3 analysis: qwen2.5-14b
+quality gate: original FAIL: family dow30: name-vs-ID<=2%; after manual review PASS; 51 flagged response(s) cleared as false positives by manual review (gate_reviews_v3.csv); 1 reviewed and confirmed as real mismatches: main|dow30|D3|A|standard|0030|qwen2.5-14b; runs per cell analyzed: 50; families: sp500, ndx, dow30, russell2000
+
+Costlier-fund share by context (pooled over templates and system prompts; valid picks):
+  sp500: baseline 0% (n=200)  D1 0% (n=200)  D3 63% (n=200)  D5 100% (n=200)  D7 46% (n=200)
+  ndx: baseline 58% (n=200)  D1 0% (n=200)  D3 100% (n=200)  D5 100% (n=200)  D7 98% (n=200)
+  dow30: baseline 0% (n=200)  D1 0% (n=200)  D3 12% (n=200)  D5 76% (n=200)  D7 14% (n=200)
+  russell2000: baseline 0% (n=200)  D1 0% (n=200)  D3 46% (n=200)  D5 94% (n=200)  D7 28% (n=200)
+
+Tests (risk difference in costlier-fund share, Newcombe 95% CI, one-sided Fisher, Holm per family):
+  sp500  H2 (D3)         +0.630 [+0.559, +0.694] p=1.368e-51 holm=5.471e-51
+  sp500  H2 (D5)         +1.000 [+0.973, +1.000] p=9.713e-120 holm=4.857e-119
+  sp500  H2 (D7)         +0.460 [+0.390, +0.529] p=2.103e-34 holm=6.308e-34
+  sp500  H3 (D1)         +0.000 [-0.019, +0.019] p=1 holm=1
+  sp500  HF (fiduciary)  -0.407 [-0.470, -0.338] p=6.204e-29 holm=1.241e-28
+  ndx    H2 (D3)         +0.420 [+0.351, +0.489] p=7.464e-31 holm=2.986e-30
+  ndx    H2 (D5)         +0.420 [+0.351, +0.489] p=7.464e-31 holm=2.986e-30
+  ndx    H2 (D7)         +0.400 [+0.327, +0.470] p=2.84e-25 holm=5.68e-25
+  ndx    H3 (D1)         -0.580 [-0.646, -0.508] p=3.97e-46 holm=1.985e-45
+  ndx    HF (fiduciary)  -0.013 [-0.034, +0.002] p=0.06187 holm=0.06187
+  dow30  H2 (D3)         +0.120 [+0.078, +0.172] p=2.862e-08 holm=5.724e-08
+  dow30  H2 (D5)         +0.760 [+0.694, +0.814] p=5.152e-68 holm=2.576e-67
+  dow30  H2 (D7)         +0.135 [+0.090, +0.189] p=2.909e-09 holm=8.726e-09
+  dow30  H3 (D1)         +0.000 [-0.019, +0.019] p=1 holm=1
+  dow30  HF (fiduciary)  -0.270 [-0.340, -0.196] p=1.562e-12 holm=6.247e-12
+  russell2000 H2 (D3)         +0.465 [+0.395, +0.534] p=7.373e-35 holm=2.949e-34
+  russell2000 H2 (D5)         +0.945 [+0.900, +0.969] p=6.889e-102 holm=3.445e-101
+  russell2000 H2 (D7)         +0.280 [+0.219, +0.346] p=1.558e-19 holm=3.115e-19
+  russell2000 H3 (D1)         +0.000 [-0.019, +0.019] p=1 holm=1
+  russell2000 HF (fiduciary)  -0.460 [-0.526, -0.386] p=5.992e-31 holm=1.798e-30

@@ -1,0 +1,96 @@
+Gate rules: Amendment v3-2 (docs/design_v3.md)
+
+sp500|baseline|A|standard    planned 50 completed 50 | name/ID flagged 0/45 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|baseline|A|fiduciary   planned 50 completed 50 | name/ID flagged 0/39 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|baseline|B|standard    planned 50 completed 50 | name/ID flagged 0/41 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|baseline|B|fiduciary   planned 50 completed 50 | name/ID flagged 0/45 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D1|A|standard          planned 50 completed 50 | name/ID flagged 0/48 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D1|A|fiduciary         planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D1|B|standard          planned 50 completed 50 | name/ID flagged 0/45 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D1|B|fiduciary         planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D3|A|standard          planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D3|A|fiduciary         planned 50 completed 50 | name/ID flagged 0/39 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D3|B|standard          planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D3|B|fiduciary         planned 50 completed 50 | name/ID flagged 0/34 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D5|A|standard          planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D5|A|fiduciary         planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D5|B|standard          planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D5|B|fiduciary         planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D7|A|standard          planned 50 completed 50 | name/ID flagged 0/47 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D7|A|fiduciary         planned 50 completed 50 | name/ID flagged 0/37 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D7|B|standard          planned 50 completed 50 | name/ID flagged 1/39 (cleared 1) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+sp500|D7|B|fiduciary         planned 50 completed 50 | name/ID flagged 0/31 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|baseline|A|standard      planned 50 completed 50 | name/ID flagged 0/45 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|baseline|A|fiduciary     planned 50 completed 50 | name/ID flagged 0/46 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|baseline|B|standard      planned 50 completed 50 | name/ID flagged 1/46 (cleared 1) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|baseline|B|fiduciary     planned 50 completed 50 | name/ID flagged 0/43 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D1|A|standard            planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D1|A|fiduciary           planned 50 completed 50 | name/ID flagged 0/48 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D1|B|standard            planned 50 completed 50 | name/ID flagged 0/47 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D1|B|fiduciary           planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D3|A|standard            planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D3|A|fiduciary           planned 50 completed 50 | name/ID flagged 0/45 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D3|B|standard            planned 50 completed 50 | name/ID flagged 0/46 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D3|B|fiduciary           planned 50 completed 50 | name/ID flagged 0/47 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D5|A|standard            planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D5|A|fiduciary           planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D5|B|standard            planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D5|B|fiduciary           planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D7|A|standard            planned 50 completed 50 | name/ID flagged 0/45 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D7|A|fiduciary           planned 50 completed 50 | name/ID flagged 0/46 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D7|B|standard            planned 50 completed 50 | name/ID flagged 0/45 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+ndx|D7|B|fiduciary           planned 50 completed 50 | name/ID flagged 0/43 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|baseline|A|standard    planned 50 completed 50 | name/ID flagged 0/40 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|baseline|A|fiduciary   planned 50 completed 50 | name/ID flagged 0/39 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|baseline|B|standard    planned 50 completed 50 | name/ID flagged 0/44 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|baseline|B|fiduciary   planned 50 completed 50 | name/ID flagged 0/44 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D1|A|standard          planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D1|A|fiduciary         planned 50 completed 50 | name/ID flagged 0/39 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D1|B|standard          planned 50 completed 50 | name/ID flagged 1/45 (cleared 1) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D1|B|fiduciary         planned 50 completed 50 | name/ID flagged 0/42 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D3|A|standard          planned 50 completed 50 | name/ID flagged 4/43 (cleared 3) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D3|A|fiduciary         planned 50 completed 50 | name/ID flagged 1/44 (cleared 1) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D3|B|standard          planned 50 completed 50 | name/ID flagged 5/47 (cleared 5) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D3|B|fiduciary         planned 50 completed 50 | name/ID flagged 0/39 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D5|A|standard          planned 50 completed 50 | name/ID flagged 4/50 (cleared 4) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D5|A|fiduciary         planned 50 completed 50 | name/ID flagged 9/49 (cleared 9) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D5|B|standard          planned 50 completed 50 | name/ID flagged 3/50 (cleared 3) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D5|B|fiduciary         planned 50 completed 50 | name/ID flagged 7/48 (cleared 7) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D7|A|standard          planned 50 completed 50 | name/ID flagged 1/46 (cleared 1) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D7|A|fiduciary         planned 50 completed 50 | name/ID flagged 0/42 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D7|B|standard          planned 50 completed 50 | name/ID flagged 0/44 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+dow30|D7|B|fiduciary         planned 50 completed 50 | name/ID flagged 0/42 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|baseline|A|standard planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|baseline|A|fiduciary planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|baseline|B|standard planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|baseline|B|fiduciary planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D1|A|standard    planned 50 completed 50 | name/ID flagged 1/34 (cleared 1) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D1|A|fiduciary   planned 50 completed 50 | name/ID flagged 1/33 (cleared 1) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D1|B|standard    planned 50 completed 50 | name/ID flagged 1/31 (cleared 1) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D1|B|fiduciary   planned 50 completed 50 | name/ID flagged 0/36 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D3|A|standard    planned 50 completed 50 | name/ID flagged 0/50 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D3|A|fiduciary   planned 50 completed 50 | name/ID flagged 2/43 (cleared 2) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D3|B|standard    planned 50 completed 50 | name/ID flagged 0/48 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D3|B|fiduciary   planned 50 completed 50 | name/ID flagged 1/48 (cleared 1) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D5|A|standard    planned 50 completed 50 | name/ID flagged 2/50 (cleared 2) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D5|A|fiduciary   planned 50 completed 50 | name/ID flagged 2/49 (cleared 2) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D5|B|standard    planned 50 completed 50 | name/ID flagged 1/49 (cleared 1) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D5|B|fiduciary   planned 50 completed 50 | name/ID flagged 0/47 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D7|A|standard    planned 50 completed 50 | name/ID flagged 4/46 (cleared 4) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D7|A|fiduciary   planned 50 completed 50 | name/ID flagged 0/45 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D7|B|standard    planned 50 completed 50 | name/ID flagged 0/46 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+russell2000|D7|B|fiduciary   planned 50 completed 50 | name/ID flagged 0/49 (cleared 0) | cut-off 0 | invalid (flagged) 0 | planned=completed:PASS
+
+family sp500  [original] name/ID 1/886 = 0.1% (PASS) | cut-off 0/1000 = 0.0% (PASS)
+family sp500  [after manual review] name/ID 0/886 = 0.0% (PASS) | cut-off 0/1000 = 0.0% (PASS)
+family ndx    [original] name/ID 1/939 = 0.1% (PASS) | cut-off 0/1000 = 0.0% (PASS)
+family ndx    [after manual review] name/ID 0/939 = 0.0% (PASS) | cut-off 0/1000 = 0.0% (PASS)
+family dow30  [original] name/ID 35/886 = 4.0% (FAIL) | cut-off 0/1000 = 0.0% (PASS)
+family dow30  [after manual review] name/ID 1/886 = 0.1% (PASS) | cut-off 0/1000 = 0.0% (PASS)
+family russell2000 [original] name/ID 15/902 = 1.7% (PASS) | cut-off 0/1000 = 0.0% (PASS)
+family russell2000 [after manual review] name/ID 0/902 = 0.0% (PASS) | cut-off 0/1000 = 0.0% (PASS)
+
+GATE: FAIL: family dow30: name-vs-ID<=2%
+GATE (after manual review): PASS
+51 flagged response(s) cleared as false positives by manual review (gate_reviews_v3.csv); 1 reviewed and confirmed as real mismatches: main|dow30|D3|A|standard|0030|qwen2.5-14b
+unreviewed flagged responses: none
