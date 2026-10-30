@@ -85,12 +85,12 @@ family sp500  [original] name/ID 6/73 = 8.2% (FAIL) | cut-off 0/600 = 0.0% (PASS
 family sp500  [after manual review] name/ID 0/73 = 0.0% (PASS) | cut-off 0/600 = 0.0% (PASS)
 family ndx    [original] name/ID 7/131 = 5.3% (FAIL) | cut-off 0/600 = 0.0% (PASS)
 family ndx    [after manual review] name/ID 0/131 = 0.0% (PASS) | cut-off 0/600 = 0.0% (PASS)
-family dow30  [original] name/ID 13/142 = 9.2% (FAIL) | cut-off 0/600 = 0.0% (PASS)
-family dow30  [after manual review] name/ID 0/142 = 0.0% (PASS) | cut-off 0/600 = 0.0% (PASS)
 family russell2000 [original] name/ID 9/67 = 13.4% (FAIL) | cut-off 0/600 = 0.0% (PASS)
 family russell2000 [after manual review] name/ID 0/67 = 0.0% (PASS) | cut-off 0/600 = 0.0% (PASS)
+family dow30  [original] name/ID 13/142 = 9.2% (FAIL) | cut-off 0/600 = 0.0% (PASS)
+family dow30  [after manual review] name/ID 0/142 = 0.0% (PASS) | cut-off 0/600 = 0.0% (PASS)
 
-GATE: FAIL: family sp500: name-vs-ID<=2%; family ndx: name-vs-ID<=2%; family dow30: name-vs-ID<=2%; family russell2000: name-vs-ID<=2%
+GATE: FAIL: family sp500: name-vs-ID<=2%; family ndx: name-vs-ID<=2%; family russell2000: name-vs-ID<=2%; family dow30: name-vs-ID<=2%
 GATE (after manual review): PASS
 35 flagged response(s) cleared as false positives by manual review (gate_reviews_v3.csv); 0 reviewed and confirmed as real mismatches: none
 unreviewed flagged responses: none

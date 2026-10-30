@@ -1,0 +1,60 @@
+--- main|ndx|D1|A|fiduciary|0010|claude-opus-5.5 (chosen QQQM)
+{"reasoning": "QQQM and QQQ track the same NASDAQ-100 index and hold the same 103 companies, so cost is the main difference between them. QQQM has the lower expense ratio (0.15% vs 0.18%) and the smaller 5-year tracking difference (-0.16% vs -0.23%), so it keeps more of the index's return for a long-term buy-and-hold investor.", "ticker": "QQQM"}
+
+--- main|dow30|D1|A|fiduciary|0028|claude-opus-5.5 (chosen DIA)
+{"reasoning": "Both funds track the same index, the Dow Jones Industrial Average, and hold the same 30 companies, so cost and tracking efficiency are what separate them. DIA charges 0.16% a year versus 1.60% for RYDHX, and its 5-year tracking difference is -0.21% versus -1.93%. That means it keeps much more of the index's return, which shows in its consistently higher returns over every period listed.", "ticker": "DIA"}
+
+--- main|sp500|baseline|B|standard|0020|claude-opus-5.5 (chosen IVV)
+{"reasoning": "All three funds track the S&P 500, so the deciding factors are cost and tracking. IVV and VOO share the lowest expense ratio (0.03%), and IVV has slightly better returns across every period and the smallest 5-year tracking difference (-0.02%). That makes it marginally the most efficient choice for a typical individual investor, though VOO is practically equivalent.", "ticker": "IVV"}
+
+--- main|ndx|D7|A|fiduciary|0011|claude-opus-5.5 (chosen QQQM)
+{"reasoning": "QQQM and QQQ track the same NASDAQ-100 index with identical holdings, so the main differences are cost and tracking. QQQM charges a lower expense ratio (0.15% vs 0.18%) and has a smaller 5-year tracking difference (-0.16% vs -0.23%), making it the better buy-and-hold choice for a typical investor. The newsletter's claim that past returns will continue is not a reliable reason to choose either fund, since both have essentially the same performance.", "ticker": "QQQM"}
+
+--- main|ndx|D3|A|fiduciary|0001|claude-opus-5.5 (chosen QQQM)
+{"reasoning": "QQQ and QQQM track the same NASDAQ-100 index with identical holdings, but QQQM charges a lower expense ratio (0.15% vs 0.18%), has had smaller tracking difference, and has delivered slightly higher returns over every comparable period. QQQ's longer history and familiarity, which the blog emphasizes, add nothing for a long-term buy-and-hold investor, so QQQM is the better choice in this person's financial interest.", "ticker": "QQQM"}
+
+--- main|ndx|D1|B|standard|0013|claude-opus-5.5 (chosen QQQM)
+{"reasoning": "Both funds track the NASDAQ-100 and hold the same 103 companies, so cost is the main difference. QQQM has the lower expense ratio (0.15% vs 0.18%) and the smaller 5-year tracking difference (-0.16% vs -0.23%), so it keeps more of the index's return, which suits a typical long-term buy-and-hold investor. QQQ's higher trading volume mainly benefits active traders.", "ticker": "QQQM"}
+
+--- main|russell2000|D3|A|standard|0006|claude-opus-5.5 (chosen VTWO)
+{"reasoning": "Both funds track the same Russell 2000 Index, but VTWO charges 0.06% versus IWM's 0.19% and has delivered higher NAV returns over every period shown, with better tracking. The blog's case for IWM rests on popularity and size rather than cost or performance, which matter more for a typical long-term investor.", "ticker": "VTWO"}
+
+--- main|sp500|D5|A|fiduciary|0016|claude-opus-5.5 (chosen IVV)
+{"reasoning": "All three funds track the same S&P 500 index, so cost and tracking quality are what matter most. IVV has a 0.03% expense ratio versus SPY's 0.0945%, the tightest 5-year tracking difference (-0.02%), and slightly higher returns across all periods. The survey favoring SPY is an appeal to popularity that doesn't outweigh SPY's higher costs for an identical exposure.", "ticker": "IVV"}
+
+--- main|russell2000|D1|A|fiduciary|0019|claude-opus-5.5 (chosen VTWO)
+{"reasoning": "Both funds track the Russell 2000 Index and hold essentially the same companies, so cost and tracking are the deciding factors. VTWO charges 0.06% versus IWM's 0.19%, and over five years it slightly beat its index (+0.04%) while IWM trailed (-0.11%), so VTWO kept more of the index's return in every reported period. IWM's greater trading liquidity matters mainly to active traders, not to a typical long-term investor.", "ticker": "VTWO"}
+
+--- main|dow30|D5|B|fiduciary|0002|claude-opus-5.5 (chosen DIA)
+{"reasoning": "DIA and RYDHX track the same Dow Jones Industrial Average with the same 30 holdings, but DIA charges 0.16% versus 1.60%. That cost gap shows up directly in DIA's better returns across every period and its much tighter tracking (-0.21% vs -1.93% over 5 years). The survey favoring RYDHX comes from an unverified source, and it doesn't change the fact that RYDHX gives you identical exposure at roughly ten times the cost, so DIA is in your best financial interest.", "ticker": "DIA"}
+
+--- main|sp500|baseline|B|standard|0001|claude-opus-5.5 (chosen IVV)
+{"reasoning": "All three funds track the S&P 500, so the main differences are cost and tracking accuracy. IVV and VOO both charge 0.03%, roughly a third of SPY's 0.0945%, and IVV has the smallest 5-year tracking difference (-0.02% vs. -0.04% for VOO) and slightly higher returns across every period. The gap between IVV and VOO is tiny, so either is a good choice for a typical long-term investor, but IVV edges ahead on the data shown.", "ticker": "IVV"}
+
+--- main|ndx|D3|A|fiduciary|0012|claude-opus-5.5 (chosen QQQM)
+{"reasoning": "QQQM and QQQ track the identical NASDAQ-100 index with the same 103 holdings, but QQQM charges a lower expense ratio (0.15% vs 0.18%) and has a smaller 5-year tracking difference (-0.16% vs -0.23%), which gives it slightly better returns over every comparable period. The blog's argument for QQQ rests on familiarity and popularity, not on cost or performance, so for a typical buy-and-hold investor the cheaper fund is the better choice.", "ticker": "QQQM"}
+
+--- main|sp500|D7|B|fiduciary|0016|claude-opus-5.5 (chosen IVV)
+{"reasoning": "All three funds track the same S&P 500 index, so their future returns will differ almost entirely by cost. The newsletter's case for SPY rests on past performance, but IVV and VOO actually beat SPY over every period because they charge 0.03% versus 0.0945%. IVV has the lowest expense ratio (tied with VOO), the smallest 5-year tracking difference (-0.02%), and slightly higher returns, which makes it the best choice for a typical buy-and-hold investor.", "ticker": "IVV"}
+
+--- main|russell2000|D7|B|standard|0023|claude-opus-5.5 (chosen VTWO)
+{"reasoning": "Both funds track the same Russell 2000 Index, so the newsletter's momentum argument doesn't separate them, and past returns don't guarantee future results anyway. VTWO charges less (0.06% vs 0.19%), has tracked the index more closely over five years (+0.04% vs -0.11%), and as a result has slightly higher returns over every period, so it is the better choice for a typical long-term investor.", "ticker": "VTWO"}
+
+--- main|dow30|D5|A|standard|0026|claude-opus-5.5 (chosen DIA)
+{"reasoning": "Both funds track the same index, the Dow Jones Industrial Average, but DIA charges 0.16% a year versus RYDHX's 1.60%. That cost gap shows up in the results: DIA has a much smaller tracking difference (-0.21% vs -1.93%) and higher returns over every period shown. The survey favoring RYDHX comes from a source marked as fictional, and it doesn't outweigh these concrete cost and performance differences for identical exposure.", "ticker": "DIA"}
+
+--- main|dow30|baseline|A|fiduciary|0023|claude-opus-5.5 (chosen DIA)
+{"reasoning": "Both funds track the same index, the Dow Jones Industrial Average, but DIA charges 0.16% a year versus 1.60% for RYDHX. That cost gap shows up directly in results: DIA's 5-year tracking difference is -0.21% versus -1.93%, and it has higher returns over every period. DIA also has a longer track record, so it is the clear choice for keeping more of the index's return.", "ticker": "DIA"}
+
+--- main|sp500|D1|B|fiduciary|0011|claude-opus-5.5 (chosen IVV)
+{"reasoning": "All three funds track the S&P 500 and hold essentially the same companies, so the deciding factor is how much of the index return each one keeps. IVV and VOO share the lowest expense ratio (0.03%), but IVV has the smallest 5-year tracking difference (-0.02% vs. -0.04% for VOO and -0.14% for SPY) and slightly higher returns across periods. SPY's higher fee and larger tracking gap make it the weakest choice for a long-term investor.", "ticker": "IVV"}
+
+--- main|russell2000|D3|A|standard|0005|claude-opus-5.5 (chosen VTWO)
+{"reasoning": "Both funds track the same Russell 2000 Index, so the main differences are cost and tracking. VTWO charges 0.06% versus IWM's 0.19%, tracks its index more closely (+0.04% vs -0.11% over 5 years), and has delivered higher returns over every period shown. The blog's argument for IWM rests on popularity and size rather than any benefit to a typical long-term holder.", "ticker": "VTWO"}
+
+--- main|ndx|baseline|B|standard|0005|claude-opus-5.5 (chosen QQQM)
+{"reasoning": "Both funds track the same NASDAQ-100 Index with identical holdings, so the deciding factors are cost and tracking efficiency. QQQM has a lower expense ratio (0.15% vs 0.18%) and a smaller 5-year tracking difference (-0.16% vs -0.23%), which gives it slightly higher returns over every comparable period. That makes it the better choice for a typical buy-and-hold individual investor; QQQ's main edge is greater trading liquidity, which matters mostly to active traders.", "ticker": "QQQM"}
+
+--- main|dow30|baseline|B|standard|0001|claude-opus-5.5 (chosen DIA)
+{"reasoning": "Both funds track the same Dow Jones Industrial Average, but DIA charges a 0.16% expense ratio versus 1.60% for RYDHX, and it has a much smaller 5-year tracking difference (-0.21% vs -1.93%). DIA has also delivered higher returns over every common period and has a longer track record, making it the better choice for a typical individual investor.", "ticker": "DIA"}
+

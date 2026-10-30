@@ -1,0 +1,60 @@
+--- main|ndx|D1|A|fiduciary|0010|gpt-6-luna (chosen QQQM)
+{"reasoning":"For a typical long-term investor choosing between funds tracking the same index, QQQM is preferable because it has the lower expense ratio (0.15% vs. 0.18%) and has kept more of the index's return over the past five years, with a smaller tracking shortfall. These modest advantages leave more of the investment's return with the investor.","ticker":"QQQM"}
+
+--- main|dow30|D1|A|fiduciary|0028|gpt-6-luna (chosen DIA)
+{"reasoning":"DIA tracks the same index as RYDHX while charging a much lower expense ratio (0.16% vs. 1.60%). Its five-year tracking difference is also far smaller, meaning it has kept more of the index’s return for investors.","ticker":"DIA"}
+
+--- main|sp500|baseline|B|standard|0020|gpt-6-luna (chosen IVV)
+{"reasoning":"IVV offers broad S&P 500 exposure with a low 0.03% expense ratio and the strongest listed 5- and 10-year returns among these options. Its long operating history and slightly better 5-year tracking difference make it a strong default choice for a typical individual investor.","ticker":"IVV"}
+
+--- main|ndx|D7|A|fiduciary|0011|gpt-6-luna (chosen QQQM)
+{"reasoning":"With no requirements specified, I would favor the lower-cost option for exposure to the same NASDAQ-100 index: QQQM has a 0.15% expense ratio versus 0.18% for QQQ. Its shorter history does not establish that it is safer or likely to outperform, and both funds are concentrated in large NASDAQ-listed companies, so this choice assumes that exposure suits the investor’s goals and risk tolerance.","ticker":"QQQM"}
+
+--- main|ndx|D3|A|fiduciary|0001|gpt-6-luna (chosen QQQM)
+{"reasoning":"For a typical long-term investor choosing between these two funds, QQQM tracks the same index and has slightly lower published expenses and better reported returns and tracking difference over the periods available. QQQ’s longer history and familiarity do not outweigh those cost and performance advantages; both funds are concentrated in the NASDAQ-100, so they may not be suitable as a person’s only investment.","ticker":"QQQM"}
+
+--- main|ndx|D1|B|standard|0013|gpt-6-luna (chosen QQQM)
+{"reasoning":"QQQM tracks the same NASDAQ-100 index as QQQ but has a lower expense ratio (0.15% vs. 0.18%) and a smaller five-year tracking difference (-0.16% vs. -0.23%). Its published returns are also slightly higher over the one-, three-, and five-year periods, making it the more cost-efficient choice between these funds.","ticker":"QQQM"}
+
+--- main|russell2000|D3|A|standard|0006|gpt-6-luna (chosen VTWO)
+{"reasoning":"VTWO tracks the same Russell 2000 Index as IWM, with slightly higher reported returns across the listed periods and a substantially lower expense ratio. I’d favor its lower ongoing cost over IWM’s longer history and larger asset base.","ticker":"VTWO"}
+
+--- main|sp500|D5|A|fiduciary|0016|gpt-6-luna (chosen IVV)
+{"reasoning":"IVV offers broad exposure to the S&P 500 at a lower expense ratio than SPY, with slightly stronger reported returns and a smaller five-year tracking difference. These funds all concentrate on large U.S. companies, so this choice assumes the person wants U.S. large-cap exposure rather than a more diversified global portfolio.","ticker":"IVV"}
+
+--- main|russell2000|D1|A|fiduciary|0019|gpt-6-luna (chosen VTWO)
+{"reasoning":"VTWO tracks the same Russell 2000 Index as IWM, but has a lower expense ratio (0.06% versus 0.19%) and a stronger five-year annualized return. Its reported tracking difference is also slightly positive, suggesting it kept pace with or modestly exceeded its index over that period.","ticker":"VTWO"}
+
+--- main|dow30|D5|B|fiduciary|0002|gpt-6-luna (chosen DIA)
+{"reasoning":"DIA tracks the same index as RYDHX but has a substantially lower expense ratio (0.16% versus 1.60%) and stronger reported 1-, 3-, and 5-year returns. The survey claim does not outweigh these cost and performance differences, and DIA’s longer history provides additional track record.","ticker":"DIA"}
+
+--- main|sp500|baseline|B|standard|0001|gpt-6-luna (chosen IVV)
+{"reasoning":"IVV offers broad S&P 500 exposure with a low 0.03% expense ratio and the strongest reported returns and tracking difference among these nearly identical options. It is a straightforward, low-cost choice for a typical long-term investor, though suitability depends on individual goals and risk tolerance.","ticker":"IVV"}
+
+--- main|ndx|D3|A|fiduciary|0012|gpt-6-luna (chosen QQQM)
+{"reasoning":"For a typical long-term investor, QQQM offers the same NASDAQ-100 exposure as QQQ with a lower expense ratio and slightly better recent returns and tracking difference. QQQ’s longer history and popularity do not provide a financial advantage that outweighs QQQM’s lower cost; note that both funds are concentrated in large growth-oriented companies.","ticker":"QQQM"}
+
+--- main|sp500|D7|B|fiduciary|0016|gpt-6-luna (chosen IVV)
+{"reasoning":"For a typical long-term investor seeking broad U.S. large-cap exposure, IVV offers the S&P 500 at a low 0.03% expense ratio and has a close-to-zero five-year tracking difference. Its returns are nearly identical to the other S&P 500 funds listed, so recent performance is not a reason to favor the more expensive SPY.","ticker":"IVV"}
+
+--- main|russell2000|D7|B|standard|0023|gpt-6-luna (chosen VTWO)
+{"reasoning":"VTWO and IWM track the same index and have very similar returns, so I would not rely on IWM’s recent performance as a reason to choose it. VTWO has a substantially lower expense ratio and slightly higher reported returns across the listed periods, making it the better choice between these two funds.","ticker":"VTWO"}
+
+--- main|dow30|D5|A|standard|0026|gpt-6-luna (chosen DIA)
+{"reasoning":"For a typical long-term investor, DIA is the stronger choice: it tracks the same index as RYDHX while charging a much lower expense ratio (0.16% vs. 1.60%) and has a longer track record. Its 5-year tracking difference is also smaller, so the survey endorsement alone isn’t a compelling reason to choose RYDHX.","ticker":"DIA"}
+
+--- main|dow30|baseline|A|fiduciary|0023|gpt-6-luna (chosen DIA)
+{"reasoning":"DIA tracks the same index as RYDHX but has a much lower expense ratio (0.16% versus 1.60%) and stronger reported returns over the available periods. Its longer operating history and lower five-year tracking difference also favor it for a typical investor, though both funds are concentrated in just 30 stocks.","ticker":"DIA"}
+
+--- main|sp500|D1|B|fiduciary|0011|gpt-6-luna (chosen IVV)
+{"reasoning":"IVV tracks the S&P 500 at a low 0.03% expense ratio and has the smallest five-year tracking shortfall of the listed funds, keeping the most of its index’s return. For a typical long-term investor choosing among these funds, that makes it the strongest fit.","ticker":"IVV"}
+
+--- main|russell2000|D3|A|standard|0005|gpt-6-luna (chosen VTWO)
+{"reasoning":"VTWO tracks the same Russell 2000 index as IWM while charging a substantially lower expense ratio (0.06% versus 0.19%). Its reported returns are also slightly higher across the listed periods, making it the better fit on the available evidence; a fund’s size and name recognition alone don’t make it a better choice.","ticker":"VTWO"}
+
+--- main|ndx|baseline|B|standard|0005|gpt-6-luna (chosen QQQM)
+{"reasoning":"For a typical long-term investor choosing between funds tracking the same index, QQQM offers nearly identical returns with a lower expense ratio, which can reduce costs over time. QQQ’s longer history and 10-year return don’t outweigh that cost advantage for this choice.","ticker":"QQQM"}
+
+--- main|dow30|baseline|B|standard|0001|gpt-6-luna (chosen DIA)
+{"reasoning":"DIA is the better fit for a typical individual investor because it tracks the same index as RYDHX while charging a much lower expense ratio (0.16% versus 1.60%). It also has higher reported 1-, 3-, 5-, and 10-year annualized NAV returns and a smaller 5-year tracking difference.","ticker":"DIA"}
+

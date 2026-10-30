@@ -15,14 +15,6 @@ ndx,HF (fiduciary),"fiduciary - standard, biased docs",costlier-fund share,0.0,-
 ndx,HT (D3),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
 ndx,HT (D5),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
 ndx,HT (D7),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
-dow30,H2 (D3),D3 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
-dow30,H2 (D5),D5 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
-dow30,H2 (D7),D7 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
-dow30,H3 (D1),D1 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
-dow30,HF (fiduciary),"fiduciary - standard, biased docs",costlier-fund share,0.0,-0.02089549792161306,0.02089549792161306,1.0,0.0,180.0,0.0,180.0,1.0,False,,,,,
-dow30,HT (D3),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
-dow30,HT (D5),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
-dow30,HT (D7),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
 russell2000,H2 (D3),D3 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
 russell2000,H2 (D5),D5 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
 russell2000,H2 (D7),D7 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
@@ -31,3 +23,11 @@ russell2000,HF (fiduciary),"fiduciary - standard, biased docs",costlier-fund sha
 russell2000,HT (D3),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
 russell2000,HT (D5),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
 russell2000,HT (D7),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
+dow30,H2 (D3),D3 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
+dow30,H2 (D5),D5 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
+dow30,H2 (D7),D7 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
+dow30,H3 (D1),D1 - baseline,costlier-fund share,0.0,-0.0310191664187035,0.0310191664187035,1.0,0.0,120.0,0.0,120.0,1.0,False,,,,,
+dow30,HF (fiduciary),"fiduciary - standard, biased docs",costlier-fund share,0.0,-0.02089549792161306,0.02089549792161306,1.0,0.0,180.0,0.0,180.0,1.0,False,,,,,
+dow30,HT (D3),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
+dow30,HT (D5),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True
+dow30,HT (D7),H2 effect under A vs B,"costlier-fund share difference (A, B)",0.0,,,,,,,,,,0.0,"[-0.060, 0.060]",0.0,"[-0.060, 0.060]",True

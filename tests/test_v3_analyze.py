@@ -140,3 +140,14 @@ def test_gate_family_level_rule_amendment_v3_2(tmp_path, monkeypatch):
     (tmp_path / "reviews.csv").write_text(f"run_id,reviewer,verdict,note\n{r['run_id']},test,real_mismatch,x\n")
     ok, out, unreviewed = an.analyze("synthetic", log=log, out=tmp_path / "m2", runs=50)
     assert ok and unreviewed == [] and "1 reviewed and confirmed as real mismatches" in (out / "gate.txt").read_text()
+
+
+def test_report_families_amendment_v3_3():
+    from v3 import report
+    fams, root, cfg = report.setup()
+    assert fams == ["sp500", "ndx"] and root is None and not set(report.GPT6) & set(cfg)
+    fams, root, cfg = report.setup("all")
+    assert fams == ["sp500", "ndx", "russell2000", "dow30"] and root == an.OUTROOT_EXT
+    assert set(report.GPT6) <= set(cfg) and report.line_of("gpt-6-sol", cfg["gpt-6-sol"]) == "openai-gpt6"
+    assert report.costlier_note(fams) == ("Costlier fund = SPY (S&P 500), QQQ (Nasdaq-100), IWM (Russell 2000), "
+                                          "RYDHX (Dow 30).")

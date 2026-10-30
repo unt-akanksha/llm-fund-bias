@@ -85,10 +85,10 @@ family sp500  [original] name/ID 7/530 = 1.3% (PASS) | cut-off 0/600 = 0.0% (PAS
 family sp500  [after manual review] name/ID 0/530 = 0.0% (PASS) | cut-off 0/600 = 0.0% (PASS)
 family ndx    [original] name/ID 2/498 = 0.4% (PASS) | cut-off 0/600 = 0.0% (PASS)
 family ndx    [after manual review] name/ID 0/498 = 0.0% (PASS) | cut-off 0/600 = 0.0% (PASS)
-family dow30  [original] name/ID 0/575 = 0.0% (PASS) | cut-off 0/600 = 0.0% (PASS)
-family dow30  [after manual review] name/ID 0/575 = 0.0% (PASS) | cut-off 0/600 = 0.0% (PASS)
 family russell2000 [original] name/ID 17/520 = 3.3% (FAIL) | cut-off 0/600 = 0.0% (PASS)
 family russell2000 [after manual review] name/ID 0/520 = 0.0% (PASS) | cut-off 0/600 = 0.0% (PASS)
+family dow30  [original] name/ID 0/575 = 0.0% (PASS) | cut-off 0/600 = 0.0% (PASS)
+family dow30  [after manual review] name/ID 0/575 = 0.0% (PASS) | cut-off 0/600 = 0.0% (PASS)
 
 GATE: FAIL: family russell2000: name-vs-ID<=2%
 GATE (after manual review): PASS

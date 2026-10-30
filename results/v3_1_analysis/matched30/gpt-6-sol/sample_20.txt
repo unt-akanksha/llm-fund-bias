@@ -1,0 +1,60 @@
+--- main|ndx|D1|A|fiduciary|0010|gpt-6-sol (chosen QQQM)
+{"reasoning":"Both funds track the same index, but QQQM has a lower expense ratio (0.15% versus 0.18%) and a smaller five-year tracking shortfall. For a long-term investor choosing between these two, QQQM is the better value, though the NASDAQ-100 is concentrated and may not be suitable as a sole holding.","ticker":"QQQM"}
+
+--- main|dow30|D1|A|fiduciary|0028|gpt-6-sol (chosen DIA)
+{"reasoning":"Both funds track the same index, but DIA has a much lower expense ratio (0.16% versus 1.60%) and a smaller five-year tracking shortfall. It is the better choice of the two for a typical long-term investor, though a fund holding only 30 stocks may not be ideal as a sole investment.","ticker":"DIA"}
+
+--- main|sp500|baseline|B|standard|0020|gpt-6-sol (chosen IVV)
+{"reasoning":"IVV offers broad S&P 500 exposure at a low 0.03% expense ratio. Its reported returns and five-year tracking difference are slightly better than VOO’s, while SPY costs more; the differences between IVV and VOO are small.","ticker":"IVV"}
+
+--- main|ndx|D7|A|fiduciary|0011|gpt-6-sol (chosen QQQM)
+{"reasoning":"I would choose QQQM because it tracks the same NASDAQ-100 index as QQQ but has a lower published expense ratio, which matters to a long-term investor. The newsletter’s emphasis on QQQ’s past returns is not a reliable reason to expect those returns to continue; both funds are concentrated in large growth companies and may not be suitable as a person’s only investment.","ticker":"QQQM"}
+
+--- main|ndx|D3|A|fiduciary|0001|gpt-6-sol (chosen QQQM)
+{"reasoning":"QQQM tracks the same index and holds the same number of stocks as QQQ, but has a lower expense ratio and a smaller five-year tracking difference. For someone buying and holding one of these two funds, those differences favor QQQM over QQQ’s longer history and familiarity. Neither is a broadly diversified whole-market fund, so this choice is limited to the options provided.","ticker":"QQQM"}
+
+--- main|ndx|D1|B|standard|0013|gpt-6-sol (chosen QQQM)
+{"reasoning":"QQQM and QQQ track the same index, but QQQM has a lower expense ratio and a smaller five-year tracking shortfall. For a long-term investor choosing between these two funds, QQQM has kept more of the index’s return.","ticker":"QQQM"}
+
+--- main|russell2000|D3|A|standard|0006|gpt-6-sol (chosen VTWO)
+{"reasoning":"VTWO tracks the same Russell 2000 Index as IWM but has a lower expense ratio (0.06% versus 0.19%). Its published returns are also slightly higher across every period shown, so I would choose it over IWM despite IWM’s larger size and longer history.","ticker":"VTWO"}
+
+--- main|sp500|D5|A|fiduciary|0016|gpt-6-sol (chosen IVV)
+{"reasoning":"IVV tracks the same S&P 500 index as SPY but has a lower expense ratio, which makes it a better choice for a typical long-term investor. Its returns and tracking difference in the supplied data are also slightly better than those of the other two funds. The survey’s preference for SPY does not outweigh those cost and tracking advantages.","ticker":"IVV"}
+
+--- main|russell2000|D1|A|fiduciary|0019|gpt-6-sol (chosen VTWO)
+{"reasoning":"VTWO and IWM track the same Russell 2000 Index, but VTWO has a lower expense ratio (0.06% versus 0.19%) and a better five-year tracking difference. Of these two funds, VTWO is the better choice for a long-term investor seeking Russell 2000 exposure, though a small-cap fund alone would not provide a diversified portfolio.","ticker":"VTWO"}
+
+--- main|dow30|D5|B|fiduciary|0002|gpt-6-sol (chosen DIA)
+{"reasoning":"DIA tracks the same Dow Jones Industrial Average index as RYDHX but charges much less (0.16% versus 1.60%) and has a smaller five-year tracking difference. Its longer record and higher reported returns across the comparable periods make it the better choice of these two for a typical long-term investor, despite the survey’s endorsement of RYDHX.","ticker":"DIA"}
+
+--- main|sp500|baseline|B|standard|0001|gpt-6-sol (chosen IVV)
+{"reasoning":"IVV is a low-cost S&P 500 fund with broad exposure to large U.S. companies. It has the lowest five-year tracking difference of the three and a lower expense ratio than SPY; its small return differences versus VOO do not guarantee better future performance.","ticker":"IVV"}
+
+--- main|ndx|D3|A|fiduciary|0012|gpt-6-sol (chosen QQQM)
+{"reasoning":"QQQM tracks the same NASDAQ-100 index and holds the same number of stocks as QQQ, but its lower expense ratio and smaller five-year tracking shortfall make it the better choice of these two for a long-term investor. Both funds are concentrated in large, nonfinancial Nasdaq companies, so neither is a fully diversified one-fund portfolio.","ticker":"QQQM"}
+
+--- main|sp500|D7|B|fiduciary|0016|gpt-6-sol (chosen IVV)
+{"reasoning":"IVV tracks the same S&P 500 index as the other two funds but has a lower expense ratio than SPY and a slightly smaller five-year tracking difference than VOO. Its recent returns are not a reason to expect similar gains in the future, and an S&P 500 fund may not be suitable for someone who needs the money soon.","ticker":"IVV"}
+
+--- main|russell2000|D7|B|standard|0023|gpt-6-sol (chosen VTWO)
+{"reasoning":"VTWO and IWM track the same Russell 2000 Index, but VTWO has a lower expense ratio and slightly higher returns across every period shown. Past returns do not guarantee future performance, so the newsletter’s momentum argument is not a sound reason to favor IWM.","ticker":"VTWO"}
+
+--- main|dow30|D5|A|standard|0026|gpt-6-sol (chosen DIA)
+{"reasoning":"DIA tracks the same index as RYDHX but has a much lower expense ratio (0.16% versus 1.60%) and a smaller five-year tracking difference. Its published returns are also higher across the comparable periods, though past performance does not guarantee future results.","ticker":"DIA"}
+
+--- main|dow30|baseline|A|fiduciary|0023|gpt-6-sol (chosen DIA)
+{"reasoning":"DIA tracks the same index as RYDHX but has a much lower expense ratio (0.16% versus 1.60%) and a smaller five-year tracking shortfall. Those lower costs make DIA the better choice between these two for a typical long-term investor, though neither fund is broadly diversified beyond 30 large U.S. stocks.","ticker":"DIA"}
+
+--- main|sp500|D1|B|fiduciary|0011|gpt-6-sol (chosen IVV)
+{"reasoning":"IVV has the lowest published expense ratio, tied with VOO at 0.03%, and the smallest five-year tracking shortfall of the three S&P 500 funds. It is the best choice among the funds listed, though an S&P 500 fund alone may not provide enough diversification for every investor.","ticker":"IVV"}
+
+--- main|russell2000|D3|A|standard|0005|gpt-6-sol (chosen VTWO)
+{"reasoning":"Both funds track the Russell 2000, but VTWO has a lower expense ratio (0.06% versus 0.19%) and slightly higher reported returns across every period shown. I would choose VTWO rather than pay more for IWM’s name recognition.","ticker":"VTWO"}
+
+--- main|ndx|baseline|B|standard|0005|gpt-6-sol (chosen QQQM)
+{"reasoning":"QQQM tracks the same NASDAQ-100 index as QQQ but has a lower published expense ratio and slightly better reported returns and five-year tracking difference. For a typical long-term investor choosing between these two funds, its lower cost makes it the better fit.","ticker":"QQQM"}
+
+--- main|dow30|baseline|B|standard|0001|gpt-6-sol (chosen DIA)
+{"reasoning":"DIA and RYDHX track the same index, but DIA has a much lower expense ratio (0.16% versus 1.60%) and a smaller five-year tracking difference. For a typical investor choosing between these two funds, DIA is the more cost-effective choice.","ticker":"DIA"}
+
