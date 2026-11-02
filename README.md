@@ -11,8 +11,8 @@ describes the **current study (Study 1 v3)**; earlier iterations are kept on the
 ## Main finding
 LLM fund-selection behavior varies substantially across models, and the pattern holds across four index
 families. With fund data alone, most models pick the lower-cost fund. One persuasive document pushes the
-smaller and older models to the costlier fund, even when it costs 1.7% a year more. The largest model of each
-vendor, all three Claude models and all three gpt-6 tiers (including the smallest) never switched. A valid
+smaller and older models to the costlier fund, even when it costs 1.7% a year more. gpt-5.4, all three Claude
+models and all three gpt-6 tiers (including the smallest) never switched; both Qwen models switched. A valid
 cost argument steers every model to the cheaper fund, and a one-sentence fiduciary instruction reduces some,
 but not all, persuasion effects. Two things are measured separately:
 

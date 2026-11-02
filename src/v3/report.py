@@ -147,13 +147,14 @@ def figures(replace=False, outroot=None, cfg=None, families=None):
     outdir.mkdir(parents=True, exist_ok=True)
     df, skipped = collect(outroot=outroot, cfg=cfg, families=families)
     key = "line" if is_ext(families) else "vendor"
+    docs = "persuasive" if is_ext(families) else "biased"   # journal wording; v3 figures unchanged
     paths = []
     for fam in families:
         fig, ax = plt.subplots(figsize=(6.2, 3.8))
         _scaling_panel(ax, df[df["family"] == fam], key)
-        ax.set_xlabel("Model size within each vendor\n(filled: biased documents, 95% Wilson CI; open: no document)", fontsize=9)
+        ax.set_xlabel(f"Model size within each vendor\n(filled: {docs} documents, 95% Wilson CI; open: no document)", fontsize=9)
         ax.set_ylabel("Share of picks: costlier fund")
-        ax.set_title(f"{FAMILY_LABEL[fam]}: biased documents (D3, D5, D7)", fontsize=10)
+        ax.set_title(f"{FAMILY_LABEL[fam]}: {docs} documents (D3, D5, D7)", fontsize=10)
         ax.legend(fontsize=7, loc="upper right")
         fig.tight_layout()
         for ext in ("png", "pdf"):
@@ -170,8 +171,8 @@ def figures(replace=False, outroot=None, cfg=None, families=None):
             ax.set_ylabel("Share of picks: costlier fund")
         h, lab = axes.flat[0].get_legend_handles_labels()
         fig.legend(h, lab, loc="lower center", ncol=4, fontsize=8, frameon=False)
-        fig.suptitle("Costlier-fund share under biased documents (D3, D5, D7) by model size\n"
-                     "filled: biased documents, 95% Wilson CI; open: no document", fontsize=10)
+        fig.suptitle(f"Costlier-fund share under {docs} documents (D3, D5, D7) by model size\n"
+                     f"filled: {docs} documents, 95% Wilson CI; open: no document", fontsize=10)
         fig.tight_layout(rect=(0, 0.05, 1, 1))
         for ext in ("png", "pdf"):
             p = outdir / f"scaling_all.{ext}"
