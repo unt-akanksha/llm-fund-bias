@@ -83,7 +83,8 @@ calls; with a biased document it picked IWM in 45% of calls.
   A large cost gap does not protect them: on the Dow (172 bp) nano still picked the mutual fund in 35% and
   Qwen 7B in 97% of calls. gpt-5.4, all three Claude models and all three gpt-6 tiers never switched in any
   family (0 of 2,400 calls each).
-- **Model size and generation:** within each vendor the larger model is at least as robust. The newer
+- **Model size and generation:** within each vendor the larger model is at least as robust, with one
+  exception: in the S&P 500, gpt-5.4-mini switched in 14% of calls vs nano's 11% (overlapping intervals). The newer
   generation is robust at every size: gpt-6 Luna (small) has 0% where gpt-5.4-nano has 11-68%.
 - **Valid cost argument (D1):** 0% costlier picks for every model in every family.
 - **Fiduciary sentence:** large cuts for nano (19-58 points), Qwen 14B (27-46 points, not on Nasdaq-100) and
