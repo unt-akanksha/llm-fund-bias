@@ -2,8 +2,9 @@
 
 A controlled experiment on how LLM agents choose between real exchange-traded funds that track the same index,
 and whether a short persuasive document moves them from the cheaper fund to a costlier one. This README
-describes the **current study (Study 1 v3)**; earlier iterations are kept on their own branches (see
-[Where everything lives](#where-everything-lives)).
+covers **Study 1 v3/v3.1 only**: the code, data, model responses and results behind the journal manuscript
+"When AI Knows Better but Chooses Worse: Persuasion in Investment Recommendations" (see
+[About this archive](#about-this-archive)).
 
 > **Not financial advice.** This project measures model behavior. The persuasive documents are synthetic
 > stimuli (the expert survey is fictional and labeled as such), and nothing here recommends any fund.
@@ -116,14 +117,26 @@ that cost alone decides the best fund in every real-world case. Three documented
 freeze: 30 runs per cell for API models (budget), manual review of flagged responses, and the two new
 families plus gpt-6 (`docs/design_v3.md`, section 5c).
 
-## Where everything lives
+## About this archive
 
-| Iteration | Branch | Contents |
-|---|---|---|
-| **Study 1 v3 / v3.1 (current)**: one index family per test, 4 families, 11 models, fiduciary prompt | `study1-v3` (also on `main`) | Design `docs/design_v3.md` (tags `v3.0-frozen-design`, `v3.1-frozen-design`), code `src/v3/`, logs `runs/raw_v3/`, results `results/v3_analysis/` (submitted, S&P 500 and Nasdaq-100) and `results/v3_1_analysis/` (all four families, `RESULTS_SUMMARY.md`), literature `docs/literature_v3.md`, methods `docs/methods_v3.md` |
-| Study 1 v2: 13 real ETFs, local Llama/Qwen + GPT extension | `study1-v2-real-funds` | Design `docs/design_v2.md` (tag `v2.0-frozen-design`), results `results/v2_analysis/`, write-up `docs/GPT_EXTENSION.md` |
-| Study 1 v1: eight fictional funds, documents and user memory, order test | `study1-v1` | Original README and results (tags `v0.1`–`v0.6`) |
-| Own-maker study | `own-maker` | Separate study |
+This archive (release tag `v3.1-journal`) holds only the files used for Study 1 v3/v3.1:
+
+- code: `src/v3/`, plus the modules it reuses from the previous iteration (`src/common.py`, `src/name_id_check.py`,
+  `src/build_clean.py`, `src/providers.py` and parts of `src/v2/`: fund table, regret rule, document checker);
+- data: fund data (`data/funds_v2.csv` for the S&P 500 and Nasdaq-100 sets, `data/v3/funds_v3_ext.csv` for the
+  Russell 2000 and Dow 30 sets, with their verification logs), documents (`data/sources_v2/` D1, D3, D5, D7 and
+  `data/v3/sources/`), conditions, model settings (`config/models_v3.yaml`) and the manual gate reviews;
+- every model response of this study (`runs/raw_v3/`, main runs and pilots) and the run logs;
+- results: `results/v3_analysis/` (the conference version, S&P 500 and Nasdaq-100, as submitted to SWDSI 2027) and
+  `results/v3_1_analysis/` (all four families and eleven models, used in the journal manuscript);
+- documentation: design and amendments (`docs/design_v3.md`, frozen at tags `v3.0-frozen-design` and
+  `v3.1-frozen-design`), methods, literature, and `docs/REPLICATION.md`, which maps every table, figure and number
+  in the manuscript to its file and script.
+
+Earlier iterations of the project (v1 with fictional funds, and v2 with real ETFs, local models and a GPT
+extension) and a separate study are not part of this archive; they are on other branches of the GitHub
+repository. The manuscript itself is not included. Issuer fact sheets are not redistributed; their URLs and as-of
+dates are in the fund data files.
 
 Reproduce v3: `pip install -r requirements.txt`, put API keys in `.env` (never committed), then
 `python src/v3/run.py --models <model> --runs 30` and `python src/v3/analyze.py --model <model>` (add

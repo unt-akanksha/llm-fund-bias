@@ -1,0 +1,26 @@
+{
+  "title": "Replication package for \"When AI Knows Better but Chooses Worse: Persuasion in Investment Recommendations\" (Study 1 v3/v3.1)",
+  "description": "Code, prompts, persuasive documents, verified fund data, all model responses (29,600 analyzed calls from eleven models, plus pilot calls), manual quality-gate reviews and analysis outputs (tables, figures, results summaries) for Study 1 v3/v3.1 of an experiment on whether large language model agents choose the lower-cost fund among funds tracking the same index, and whether one persuasive document changes that choice. docs/REPLICATION.md maps each table, figure and number in the manuscript to its data and script. Issuer fact sheets are not redistributed; their URLs and as-of dates are in the fund data files. Earlier iterations of the project are not included.",
+  "upload_type": "dataset",
+  "access_right": "open",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Tiwari, Akanksha",
+      "affiliation": "University of North Texas"
+    },
+    {
+      "name": "Erdem, Orhan",
+      "affiliation": "University of North Texas"
+    }
+  ],
+  "keywords": [
+    "large language models",
+    "AI agents",
+    "index funds",
+    "fees",
+    "persuasion",
+    "fiduciary duty",
+    "robo-advice"
+  ]
+}

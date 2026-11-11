@@ -1,8 +1,7 @@
 # Replication guide: "When AI Knows Better but Chooses Worse" (Study 1 v3 / v3.1)
 
 This maps every table, figure and in-text number in the journal draft to the data, code and command that
-produce it. Everything below is in this repository on branch `study1-v3`; the same files are archived from the
-release tag `v3.1-journal`.
+produce it. Everything below is in this archive (release tag `v3.1-journal` of the GitHub repository).
 
 ## 1. Setup
 
