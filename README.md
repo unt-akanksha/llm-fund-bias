@@ -100,8 +100,8 @@ calls; with a biased document it picked IWM in 45% of calls.
 - Robustness: effect direction agrees across the two templates in 128 of 132 contrasts (sizes vary with
   wording); a re-analysis on the first 30 runs of every model gives the same results.
 - Quality gate before analysis: all planned calls completed, no answers cut off, 10 invalid picks out of
-  29,600. A rule-based check compared the fund named in the reasoning with the ticker; of 404 flagged
-  responses, a manual read found 401 false positives and 3 real mismatches (recorded in
+  29,600. A rule-based check compared the fund named in the reasoning with the ticker; of 401 flagged
+  responses, a manual read found 398 false positives and 3 real mismatches (recorded in
   `data/gate_reviews_v3.csv`; all within the 2% limit per model and family).
 - Cost: $67.03 of API calls in total (OpenAI $40.82, Anthropic $26.21; v3.1 alone $48.53, of which
   gpt-6-astra $26.02). Local runs on a Mac M4: 3.4 h (7B) and 7.6 h (14B) for v3; 7.9 h and 14.2 h for v3.1
