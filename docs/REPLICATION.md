@@ -1,7 +1,8 @@
 # Replication guide: "When AI Knows Better but Chooses Worse" (Study 1 v3 / v3.1)
 
 This maps every table, figure and in-text number in the journal draft to the data, code and command that
-produce it. Everything below is in this repository on branch `study1-v3` (also on `main`).
+produce it. Everything below is in this repository on branch `study1-v3`; the same files are archived from the
+release tag `v3.1-journal`.
 
 ## 1. Setup
 
@@ -74,5 +75,9 @@ in `results/v3_analysis/`.
 - Analyzed runs are run_index 0-29 for API models and 0-49 for the local models; any extra rows in a log are
   not analyzed.
 - Families are never pooled; the Dow 30 (ETF vs mutual fund) is reported separately.
+- The conference results (`results/v3_analysis/`) are kept exactly as submitted to SWDSI 2027. Three name-vs-ticker
+  flags in Qwen answers (S&P 500 and Nasdaq-100) were reviewed and cleared only later, for v3.1
+  (`data/gate_reviews_v3.csv`), so re-running the conference analysis now reports them as cleared in `gate.txt`
+  and `summary.txt`; every share, test and figure is unchanged.
 - The journal manuscript itself is kept outside git, in `paper/`: `paper/journal_draft.md` is the source text
   and `paper/out/` holds the Word versions.
