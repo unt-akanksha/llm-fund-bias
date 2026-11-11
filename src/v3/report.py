@@ -6,6 +6,9 @@
   python src/v3/report.py --summary [--replace]       results/v3_analysis/RESULTS_SUMMARY.md
   python src/v3/report.py --families all --analyze-all --figures --summary [--replace]
         Amendment v3-3 (four families, gpt-6 added) -> results/v3_1_analysis/
+  python src/v3/report.py --families all --journal-figure [--replace]
+        Figure 1 of the journal manuscript: figures/figure1_journal.pdf/.png (no title in the image,
+        percent axis, colour-blind-safe colours with distinct markers and line styles)
 
 Reads only the analysis outputs (pooled.csv, tests.csv, gate.txt); writes only under results/v3_analysis/ or,
 with --families, results/v3_1_analysis/. The default (original families sp500, ndx, the 8 v3 models) reproduces
@@ -183,6 +186,57 @@ def figures(replace=False, outroot=None, cfg=None, families=None):
     return paths, skipped
 
 
+# Okabe-Ito colours, each with its own marker and line style, so the lines stay distinct without colour
+JOURNAL_STYLE = {"ollama": ("#D55E00", "s", "-"), "openai": ("#0072B2", "o", "--"),
+                 "openai-gpt6": ("#009E73", "^", "-."), "anthropic": ("#CC79A7", "D", ":")}
+
+
+def journal_figure(replace=False, outroot=None, cfg=None, families=None):
+    """Figure 1 of the journal manuscript: the four-family scaling overview without a title in the image (the
+    caption carries it), percent axis, colour-blind-safe styles. Same data as figures/scaling_all."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from matplotlib.ticker import PercentFormatter
+    matplotlib.rcParams["pdf.fonttype"] = 42          # embed TrueType fonts in the PDF
+    outdir = Path(outroot or an.OUTROOT) / "figures"
+    outs = [outdir / f"figure1_journal.{ext}" for ext in ("pdf", "png")]
+    if any(p.exists() for p in outs) and not replace:
+        sys.exit(f"REFUSED: {outs[0].name} exists (pass --replace)")
+    outdir.mkdir(parents=True, exist_ok=True)
+    df, skipped = collect(outroot=outroot, cfg=cfg, families=families)
+    fig, axes = plt.subplots(2, 2, figsize=(7.0, 5.6), sharey=True)
+    for ax, fam in zip(axes.flat, families):
+        d = df[df["family"] == fam]
+        nlines = d["line"].nunique()
+        for j, (line, g) in enumerate(d.groupby("line", sort=False)):
+            color, marker, ls = JOURNAL_STYLE[line]
+            g = g.assign(x=g["size"].map({s: i for i, s in enumerate(SIZES)})).sort_values("x")
+            x = g["x"] + (j - (nlines - 1) / 2) * 0.07
+            ax.errorbar(x, g["share"], yerr=[(g["share"] - g["lo"]).clip(lower=0), (g["hi"] - g["share"]).clip(lower=0)],
+                        color=color, marker=marker, linestyle=ls, markersize=5, capsize=2.5, linewidth=1.3,
+                        label=VENDOR_LABEL.get(line, line))
+            ax.scatter(x, g["baseline_share"], marker=marker, s=26, facecolors="none", edgecolors=color,
+                       linewidths=1.0, zorder=3)
+        ax.set_xticks(range(len(SIZES)), SIZES)
+        ax.set_ylim(-0.03, 1.03)
+        ax.yaxis.set_major_formatter(PercentFormatter(xmax=1, decimals=0))
+        ax.set_title(FAMILY_LABEL[fam], fontsize=9)
+        ax.tick_params(labelsize=8)
+        ax.grid(axis="y", linewidth=0.4, alpha=0.4)
+    for ax in axes[:, 0]:
+        ax.set_ylabel("Costlier-fund share", fontsize=9)
+    for ax in axes[1, :]:
+        ax.set_xlabel("Model size", fontsize=9)
+    h, lab = axes.flat[0].get_legend_handles_labels()
+    fig.legend(h, lab, loc="lower center", ncol=2, fontsize=8, frameon=False)
+    fig.tight_layout(rect=(0, 0.08, 1, 1))
+    for p in outs:
+        fig.savefig(p, dpi=600)
+    plt.close(fig)
+    return outs, skipped
+
+
 def pct(x):
     return "-" if pd.isna(x) else f"{x:.0%}"
 
@@ -304,6 +358,7 @@ def main():
     ap.add_argument("--analyze-all", action="store_true")
     ap.add_argument("--figures", action="store_true")
     ap.add_argument("--summary", action="store_true")
+    ap.add_argument("--journal-figure", action="store_true", help="Figure 1 of the journal manuscript (needs --families all)")
     ap.add_argument("--replace", action="store_true")
     ap.add_argument("--runs", action="append", default=[], help="MODEL=N override, e.g. claude-sonnet-5.5=20")
     ap.add_argument("--families", default=None,
@@ -319,6 +374,11 @@ def main():
         print("figures:", ", ".join(p.name for p in paths), "| skipped:", ", ".join(skipped) or "none")
     if a.summary:
         print("summary:", summary(a.replace, outroot, cfg, fams))
+    if a.journal_figure:
+        if not is_ext(fams):
+            sys.exit("--journal-figure needs --families all (the journal figure shows all four families)")
+        paths, skipped = journal_figure(a.replace, outroot, cfg, fams)
+        print("journal figure:", ", ".join(p.name for p in paths), "| skipped:", ", ".join(skipped) or "none")
 
 
 if __name__ == "__main__":
